@@ -1,0 +1,132 @@
+\documentclass[
+	a4paper,
+	english,
+	twoside,
+	openright,               
+	11pt                            
+	]{report}
+
+\usepackage{textcomp}
+\usepackage{listings}
+\usepackage{pgfplots}
+
+\usepackage[T1,OT1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{subcaption}
+\captionsetup{compatibility=false}
+\usepackage{float}
+\usepackage{chngcntr}
+\usepackage{placeins}
+\usepackage[ngerman,american]{babel}
+\usepackage[toc,page]{appendix}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{blindtext}
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage[justification=centering]{caption}
+\usepackage{glossaries}
+\graphicspath{ {./img/} }
+\PassOptionsToPackage{hyphens}{url}\usepackage{hyperref}
+\setcounter{tocdepth}{3}
+\pgfplotsset{compat=newest}
+
+\begin{document}
+\input{titlepage/titlepage}
+\input{start/acknowledgements}
+
+\pagenumbering{gobble}
+
+\tableofcontents
+ \cleardoublepage
+%
+%
+% list of figures
+\listoffigures
+%\protect addcontentsline{toc}{chapter}{Abbildungsverzeichnis}
+\cleardoublepage
+
+% list of tables
+\listoftables
+%\protect addcontentsline{toc}{chapter}{Tabellenverzeichnis}
+\cleardoublepage
+
+% list of algorithms
+%\listofalgorithmsLeMATo
+%\protect addcontentsline{toc}{chapter}{Algorithmenverzeichnis}
+\cleardoublepage
+
+ \part{Introduction and Preliminaries}
+ \pagenumbering{arabic}
+   \setcounter{page}{1}
+ \include{start/introduction}
+
+ \part{Main Work}
+\chapter{Abstract} % (fold)
+\label{cha:abstract}
+
+\section{English abstract} % (fold)
+\label{sec:english_abstract}
+
+\input{start/english}
+
+% chapter english_abstract (end)
+\newpage
+
+\section{Deutsche Zusammenfassung} % (fold)
+\label{sec:deutsche_zusammenfassung}
+
+\input{start/german}
+
+
+
+\chapter{Future Work}\label{sec:futurework}
+
+bla
+
+\chapter{Conclusion}\label{sec:conclusion}
+
+bla \cite{survey1}
+
+\begin{appendices}
+
+\chapter{Abstract} % (fold)
+\label{cha:abstract}
+
+\section{English abstract} % (fold)
+\label{sec:english_abstract}
+
+\input{start/english}
+
+% section english_abstract (end)
+\newpage
+
+\section{Deutsche Zusammenfassung} % (fold)
+\label{sec:deutsche_zusammenfassung}
+
+\input{start/german}
+
+% section deutsche_zusammenfassung (end)
+
+% section abstract (end)
+
+
+% chapter abstract (end)
+
+
+% \include{appendix/acronyms}
+% \include{appendix/userGuide}
+% \include{appendix/supplementary}
+
+\end{appendices}
+
+\cleardoublepage
+
+\bibliographystyle{acm} 
+
+\bibliography{references}
+
+\printglossaries
+
+
+\end{document}

@@ -1,0 +1,144 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%  Titelseite fuer eine Diplomarbeit/Dissertation an der Uni Wien  %%
+%%                     zur Benutzung mit LaTeX                      %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%  Erstellt anhand der Vorlagendefinition von
+%%  http://www.univie.ac.at/Psychologie/cgi-bin/dbman/uploads/download/
+%%      51_infoblatt__titelblatt_wissenschaftliche_arbeit.pdf
+%%
+%% Einzubinden in der eigenen document-Umgebung mittels \input{thesistitle}
+%%
+%% Ueberschriften wie "Titel der Diplomarbeit" oder "Verfasserin" (etc.)
+%% muessen genau so stehen bleiben. Nur der Titel der Arbeit oder die Namen
+%% sind entsprechend beliebig.
+
+% Stephan Paukner, 14.08.2007
+% Obige Vorlagendefinition schlaegt Arial oder eine vergleichbare serifenlose
+% Schriftart vor. Der serifenlose Font von LaTeX, CMSS, hat leider keine
+% fette (bold) Variante. Arial ist allerdings ein kommerzieller Font und unter
+% LaTeX standardmaessig nicht verfuegbar. Am naehesten kommt dem der Font
+% Helvetica, einzubinden via \usepackage[scaled=0.90]{helvet} in der Praeambel.
+
+\begin{titlepage}
+\vspace*{-2cm}  % bei Verwendung von vmargin.sty
+\begin{flushright}
+	\includegraphics[width=.5\textwidth]{titlepage/RZ_Logo_Uni_sw_01.jpg}
+\end{flushright}
+\vspace{1cm}
+
+\begin{center}  % Diplomarbeit ODER Magisterarbeit ODER Dissertation
+    \huge{\textbf{\textsf{\MakeUppercase{
+        MASTERARBEIT / MASTER'S THESIS
+    }}}}
+    \vspace{2cm}
+
+    \large{\textsf{  % Diplomarbeit ODER Magisterarbeit ODER Dissertation
+                     % (Dies ist erst die Ueberschrift!)
+        Titel der Masterarbeit / Title of the Master's Thesis
+    }}
+    \vspace{.1cm}
+
+    \LARGE{\textsf{  % Hier kommt der eigentliche Titel, bei Bedarf mit \\
+                     % ACHTUNG: Deutsche Anfuehrungszeichen: ,,Titel``
+                     %          English quotes:              ``title''
+        % >>>>> BEGINN TITEL >>>>>
+        {\glqq}My Thesis Title\grqq
+        %``The Creation of a Title Page''
+        % <<<<< ENDE TITEL <<<<<
+    }}
+    \vspace{2cm}
+
+    \large{\textsf{  % Verfasserin ODER Verfasser (Ueberschrift)
+        verfasst von / submitted by
+    }}
+
+    \Large{\textsf{  % Vorname Nachname
+        % >>>>> BEGINN VORNAME NACHNAME >>>>>
+        Christian Permann, BSc.
+        % <<<<< ENDE VORNAME NACHNAME <<<<<
+    }}
+    \vspace{2cm}
+
+    \large{\textsf{
+        angestrebter akademischer Grad / in partial fulfilment of the requirements for the degree  % (Ueberschrift)
+    }}
+
+    \Large{\textsf{  % Magistra ODER Magister ODER Doktorin ODER Doktor
+                     % ACHTUNG: Kuerzel "Mag.a" oder "Dr.in" nicht zulaessig
+				MSc.
+    }}
+\end{center}
+\vspace{2cm}
+
+\noindent\textsf{Wien, 2020 / Vienna, 2020}  % <<<<< ORT, MONAT UND JAHR EINTRAGEN
+\vfill
+
+\noindent\begin{tabular}{@{}p{8cm}p{8cm}}
+\textsf{Studienkennzahl lt. Studienblatt / }
+&
+\textsf{A 066 921} % <<<<< STUDIENKENNZAHL LT. CURRICULUM EINTRAGEN
+\\
+\textsf{degree programme code as it appears on}
+&
+\\
+\textsf{the student record sheet}
+&
+\\
+\end{tabular}
+
+\vspace{0.2cm}
+    % BEI DISSERTATIONEN:
+%\textsf{Dissertationsgebiet lt. Studienblatt:}
+    % ANSONSTEN:
+\noindent\begin{tabular}{@{}p{8cm}p{8cm}}
+\textsf{Studienrichtung lt.\ Studienblatt:/}
+&
+\textsf{Masterstudium Scientific Computing}  % <<<<< DISSGEBIET/STUDIENRICHTUNG EINTRAGEN
+\\
+\textsf{degree programme as it appears on}
+&
+\\
+\textsf{the student record sheet}
+&
+\\
+\end{tabular}
+
+\vspace{0.2cm}
+
+\noindent\begin{tabular}{@{}p{8cm}p{8cm}}
+% Betreuerin ODER Betreuer:
+\textsf{Betreut von / Supervisor:}
+&
+\textsf{Univ.-Prof. Dipl.-Inform.Univ. Dr. Claudia Plant}  % <<<<< NAME EINTRAGEN
+\\
+%&
+%\textsf{2. Betreuer mit Titel}  % <<<<< NAME EINTRAGEN
+%\textsf{degree(s) first name family name}
+\end{tabular}
+
+\end{titlepage}
+
+
+% \newpage
+%
+% \thispagestyle{empty}
+% \text{ }
+% \vspace{13.5cm}
+%
+%
+% Martin Perdacher\\
+% Teybergasse 4/5\\
+% 1140 Wien\\
+%
+% Hiermit versichere ich, dass ich die von mir vorgelegte Arbeit selbstständig verfasst habe, dass ich die verwendeten Quellen, Internet-Quellen und Hilfsmittel vollständig angegeben habe und dass ich die Stellen der Arbeit -- einschließlich Tabellen, Karten und Abbildungen~--, die anderen Werken oder dem Internet im Wortlaut oder dem Sinn nach entnommen sind, auf jeden Fall unter Angabe der Quelle als Entlehnung kenntlich gemacht habe.\\
+
+% Wien, den 1. Dezember 2020\\
+% \medskip
+% \medskip
+%
+% (Unterschrift)\\
+% \underline{~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~}\\
+% Martin Perdacher\\
+
+%\newpage
