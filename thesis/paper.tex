@@ -61,32 +61,101 @@
    \setcounter{page}{1}
  \include{start/introduction}
 
- \part{Main Work}
-\chapter{Abstract} % (fold)
-\label{cha:abstract}
 
-\section{English abstract} % (fold)
-\label{sec:english_abstract}
+\part{Theory}
 
-\input{start/english}
+\chapter{Related Work}\label{cha:related_work}
+\section{Clustering Algorithms}
 
-% chapter english_abstract (end)
-\newpage
+A lot of research as been put toward the topic of clustering, resulting in a large number of different methods. \cite{surveyclustering}
 
-\section{Deutsche Zusammenfassung} % (fold)
-\label{sec:deutsche_zusammenfassung}
+\section{Visual Clustering Frameworks}
 
-\input{start/german}
+Clustervision \cite{Kwon2018ClustervisionVS}
+
+VISTA \cite{VISTA} ClusterMap and user result evaluation
+
+iVIBRATE \cite{10.1145/1148020.1148024} extension VISTA?
+
+simple visualizations ELKI implementation \cite{10.14778/2824032.2824115}
 
 
+Frameworks with specific data-sets in mind:
 
-\chapter{Future Work}\label{sec:futurework}
+Propose: ``An Evolutionary and Visual Framework for Clustering of DNA Microarray Data'' \cite{DNAVis}, tool for clustering DNA data with visualization
+
+Even Memes \cite{Dang2017}
+
+\section{Consensus Clustering}
+
+consensus cluster plus \cite{10.1093/bioinformatics/btq170}
+
+\chapter{Methods}
+
+\section{Clustering}
+\subsection{OPTICS}
+
+\section{Consensus Clustering}
+\subsection{DICLENS}
+
+\section{Other Methods}
+\subsection{Hungarians Method}
+
+\part{Implementation}
+
+\chapter{Implementation Remarks}
+
+\section{Programming Language and Tools}
+
+For this implementation my language of choice was Java. With Java there are lots of available implementations for different clustering methods available, including the Frameworks ELKI [CITATION] and WEKA [CITATION]. Additionally, it is easy to create custom visualizations using the low level draw() method of JComponents in Swing. To improve the performance in some parts of the tool Java 1.8 was chosen as lowest required version, as it allows to use of parallel streams to easily implement parallelism.
+
+\section{Interfaces and Extendability}
+
+\section{Clustering Algorithms}
+
+\section{Meta-Clustering}
+
+\section{Consensus Clustering}
+
+\chapter{The Tool}\label{cha:Tool}
+
+\section{I/O and Data Visualization}
+bla
+
+\section{Selection of Algorithms and Parameters}
+bla
+
+\section{Meta-View and Consensus Clustering}
+bla
+
+\part{Testing}
+\chapter{Experiments}\label{cha:experiments}
+bla
+
+\part{Concluding Thoughts}
+
+\chapter{Future Work}\label{cha:futurework}
+
+\section{Improvements for Tool}
 
 bla
 
-\chapter{Conclusion}\label{sec:conclusion}
+\section{Research Consensus Clustering}
 
-bla \cite{survey1}
+bla
+
+\section{Visual Frameworks}
+
+bla
+
+
+\chapter{Conclusion}\label{cha:conclusion}
+
+\section{Lessons learned}
+bla 
+
+\section{Reflection of Work}
+bla
 
 \begin{appendices}
 
