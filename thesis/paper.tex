@@ -119,7 +119,14 @@ bla
 \section{Programming Language and Tools}
 For the implementation of my tool my language of choice was Java. With Java there are lots of available implementations for different clustering methods available, including the Frameworks ELKI \cite{10.1007/978-3-540-69497-7_41} and WEKA \cite{10.1145/1656274.1656278}, as well as the machine learning library Smile \cite{javasmile}. To improve the performance in some parts of the tool Java 1.8 was chosen, making it the lowest required Java version to run it.This was done, as it enables the use of parallel streams which make it simple to parallelize functions. Additionally, it is easy to create custom visualizations using the low level draw() method of JComponents in Swing \cite{javaswing}. All graphs and plots were created using a custom draw() method as this leads to much better performance than using small components for the graphs.
 
-\section{Class Interfaces and Implementations}
+\section{File Input and Output}
+\subsection{Clustering Data}
+
+\subsection{Clustering Workflows}
+
+\subsection{Pre-Clustered Data}
+
+\section{Methods and Interfaces}
 To ensure that new or missing methods can easily be added to the tool, all methods where a selection can be made from within the tool can be added to by implementing onto the corresponding interface. To add methods one needs to first implement it and if needed it's OptionsPanel and then add it to the corresponding static method found in the view using it.
 
 The following sections describe which interfaces and standard methods are implemented, as well as which functions and classes must be edited to add a new custom methods.
