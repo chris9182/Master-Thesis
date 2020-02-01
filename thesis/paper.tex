@@ -107,11 +107,58 @@ consensus cluster plus \cite{10.1093/bioinformatics/btq170}
 
 \section{Programming Language and Tools}
 
-For this implementation my language of choice was Java. With Java there are lots of available implementations for different clustering methods available, including the Frameworks ELKI [CITATION] and WEKA [CITATION]. Additionally, it is easy to create custom visualizations using the low level draw() method of JComponents in Swing. To improve the performance in some parts of the tool Java 1.8 was chosen as lowest required version, as it allows to use of parallel streams to easily implement parallelism.
+For the implementation of my tool my language of choice was Java. With Java there are lots of available implementations for different clustering methods available, including the Frameworks ELKI \cite{10.1007/978-3-540-69497-7_41} and WEKA \cite{10.1145/1656274.1656278}, as well as the machine learning library Smile \cite{javasmile}. To improve the performance in some parts of the tool Java 1.8 was chosen as lowest required version, as it allows to use of parallel streams to easily implement parallelism. Additionally, it is easy to create custom visualizations using the low level draw() method of JComponents in Swing. All visualizations were created using a custom draw() method as this leads to much better performance than using small components for the graphs.
 
-\section{Interfaces and Extendability}
+\section{Interfaces and implementing Classes}
+To ensure that new or missing methods can easily be added to the tool, all methods where a selection can be made from within the tools can be added to by implementing onto the corresponding interface. To add methods one needs to first implement it and if needed it's OptionsPanel and then add it to the corresponding static method found in the view using it.
+
+The following sections describe which interfaces and standard implementations are available, as well as which methods and classes must be edited to add a new method.
+
+\subsection{Data Manipulation}
+
+Data manipulation can be performed as a first step in the starting window to create data-sets or modify them such that they can be used for clustering or visualization. It is also of relevance when loading clustering results back into the starting view to analyze results using dimensionality reduction techniques. For this step three interfaces are of interest:
+
+\begin{itemize}
+  \item Generators: IGenerator
+  \item Reducers: IReducer
+  \item Normalizers: INormalizer
+\end{itemize}
+
+%maybe show interface definitions?
+\subsubsection{Generators}
+Generators allow the user to add or replace data points. Two initial implementations for generators are available, firstly the SinglePointGenerator which allows adding points to the data by clicking the scatter plot. When a point is added this way its coordinates are set to where the user clicked on the screen translated into the coordinates of the data space, such that the point appears below the cursor. Secondly, the ELKIGenerator is available which uses an XML-style input, defining how the clusters should be generated. This class uses the GeneratorXMLDatabaseConnection of ELKI \cite{10.1007/978-3-540-69497-7_41} an is able to create data points according to different random distributions. The definitions file for this input can be found in ELKIs JAR file, their GIT repository \cite{elkixml} or in the /lib folder of the implementation.
+%more on this
+
+%implement SamplingReducer?
+\subsubsection{Reducers}
+Reducers allow the user to manipulate the data such that the dimensionality or potentially (in the future) the number of points can be reduced. Per default three dimensionality reduction techniques are available. The simplest one, DimensionRemover, enables the user to just define a dimension by its index and delete it. This can be useful, if the data is not well cleaned beforehand and irrelevant or possibly disrupting columns are present in the data. For more advanced dimensionality reduction, the PCAReducer and tSNEReducer are available. The PCAReducer, which is adapted from the implementation from Smiles \cite{javasmile} uses Principal Component Analysis [CITATION] to reduce the dimensionality of the data to what the user defined. In contrast the tSNEReducer adapted from Jonsson \cite{javatsne} uses t-Distributed Stochastic Neighbor Embedding [CITATION] and also requires a perplexity parameter.
+%perplexity???????
+
+\subsubsection{Normalizers}
+Normalizers provide functionality for normalizing the data points. This may be useful whenever different dimensions contain values in strongly differing ranges, while their concrete values do not have any direct relation to the other dimensions. Here, two default implementations are available, Normalize and Standardize. The Normalize class adapts the values such that in each dimension the range is set to the interval $[0,1]$ while preserving relative distances. The Standardize class adapts these ranges such that the average is $0$ and the standard deviation is $1$.
+%cite normalize standardize?
+
+\subsubsection{Adding Methods}
+To additional Methods they must be implemented using the corresponding interface and added to the class StartWindow. To add them to this class the static methods initGenerators(), initReducers() and initNormalizers() must add the new method to the list of methods. As an example adding a new generator (newGeneratorX) would require adding ``generators.add(new newGeneratorX());'' to the function initGenerators().
 
 \section{Clustering Algorithms}
+Clustering Algorithms can be selected and tuned in the clustering workflow window such that the algorithm is used to create base clustering results for the meta view. For this the following interfaces are relevant:
+
+\begin{itemize}
+  \item Clustering Algorithms: IClusterer
+  \item ELKI Clustering Algorithms: IELKIClusterer
+  \item Custom Clustering Algorithms: ICustomClusterer
+\end{itemize}
+
+\subsubsection{Clustering Algorithms}
+The interface IClusterer is used as helper interface such that all clustering algorithms can use the same high level calls for compatibility. The actual implementations implement either IELKIClusterer if they use the ELKI database objects in their logic or ICustomClusterer if they use a data matrix. To further help not needing to re-implement generally needed methods the class AbstractClustering should also be extended by the actual implementation. With these class and interfaces the actual implementations can focus more on just the clustering logic.
+
+\subsubsection{ELKI Clustering Algorithms}
+
+\subsubsection{Custom Clustering Algorithms}
+
+\subsubsection{Adding Methods}
+
 
 \section{Meta-Clustering}
 
