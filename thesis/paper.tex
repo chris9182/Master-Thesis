@@ -101,18 +101,28 @@ consensus cluster plus \cite{10.1093/bioinformatics/btq170}
 \section{Other Methods}
 \subsection{Hungarians Method}
 
-\part{Implementation}
 
-\chapter{Implementation Remarks}
+\part{Implemented Tool}
+\chapter{Using the Tool}\label{cha:usingtool}
+This chapter describes what a user can do with the newly implemented tool. 
 
+\section{I/O and Data Visualization}
+bla
+
+\section{Selection of Algorithms and Parameters}
+bla
+
+\section{Meta-View and Consensus Clustering}
+bla
+
+\chapter{Implementation}
 \section{Programming Language and Tools}
+For the implementation of my tool my language of choice was Java. With Java there are lots of available implementations for different clustering methods available, including the Frameworks ELKI \cite{10.1007/978-3-540-69497-7_41} and WEKA \cite{10.1145/1656274.1656278}, as well as the machine learning library Smile \cite{javasmile}. To improve the performance in some parts of the tool Java 1.8 was chosen, making it the lowest required Java version to run it.This was done, as it enables the use of parallel streams which make it simple to parallelize functions. Additionally, it is easy to create custom visualizations using the low level draw() method of JComponents in Swing \cite{javaswing}. All graphs and plots were created using a custom draw() method as this leads to much better performance than using small components for the graphs.
 
-For the implementation of my tool my language of choice was Java. With Java there are lots of available implementations for different clustering methods available, including the Frameworks ELKI \cite{10.1007/978-3-540-69497-7_41} and WEKA \cite{10.1145/1656274.1656278}, as well as the machine learning library Smile \cite{javasmile}. To improve the performance in some parts of the tool Java 1.8 was chosen as lowest required version, as it allows to use of parallel streams to easily implement parallelism. Additionally, it is easy to create custom visualizations using the low level draw() method of JComponents in Swing. All visualizations were created using a custom draw() method as this leads to much better performance than using small components for the graphs.
+\section{Class Interfaces and Implementations}
+To ensure that new or missing methods can easily be added to the tool, all methods where a selection can be made from within the tool can be added to by implementing onto the corresponding interface. To add methods one needs to first implement it and if needed it's OptionsPanel and then add it to the corresponding static method found in the view using it.
 
-\section{Interfaces and implementing Classes}
-To ensure that new or missing methods can easily be added to the tool, all methods where a selection can be made from within the tools can be added to by implementing onto the corresponding interface. To add methods one needs to first implement it and if needed it's OptionsPanel and then add it to the corresponding static method found in the view using it.
-
-The following sections describe which interfaces and standard implementations are available, as well as which methods and classes must be edited to add a new method.
+The following sections describe which interfaces and standard methods are implemented, as well as which functions and classes must be edited to add a new custom methods.
 
 \subsection{Data Manipulation}
 
@@ -141,8 +151,8 @@ Normalizers provide functionality for normalizing the data points. This may be u
 \subsubsection{Adding Methods}
 To additional Methods they must be implemented using the corresponding interface and added to the class StartWindow. To add them to this class the static methods initGenerators(), initReducers() and initNormalizers() must add the new method to the list of methods. As an example adding a new generator (newGeneratorX) would require adding ``generators.add(new newGeneratorX());'' to the function initGenerators().
 
-\section{Clustering Algorithms}
-Clustering Algorithms can be selected and tuned in the clustering workflow window such that the algorithm is used to create base clustering results for the meta view. For this the following interfaces are relevant:
+\subsection{Clustering Algorithms}
+Clustering Algorithms can be selected and tuned in the clustering workflow window such that the algorithm is used to create base clustering results for the meta view. For additional information on the algorithms themselves, see Section [REFERENCE] The following interfaces are relevant for clustering:
 
 \begin{itemize}
   \item Clustering Algorithms: IClusterer
@@ -155,25 +165,56 @@ The interface IClusterer is used as helper interface such that all clustering al
 
 \subsubsection{ELKI Clustering Algorithms}
 
+bla bla bla
+
 \subsubsection{Custom Clustering Algorithms}
+
+bla bla bla
 
 \subsubsection{Adding Methods}
 
+bla bla bla
 
-\section{Meta-Clustering}
 
-\section{Consensus Clustering}
+\subsection{Meta-Clustering}
 
-\chapter{The Tool}\label{cha:Tool}
+bla bla bla
 
-\section{I/O and Data Visualization}
-bla
+\subsection{Consensus Clustering}
 
-\section{Selection of Algorithms and Parameters}
-bla
+bla bla bla
 
-\section{Meta-View and Consensus Clustering}
-bla
+\section{Visualization}
+
+To visualize the data in different ways and provide a functional Graphical User Interface (GUI) the Java Swing \cite{javaswing} Toolkit was used. It allows for both high level calls creating objects withing windows, e.g. panels, buttons or combo-boxes, as well as low level calls by directly changing the behavior of the draw() function. For the basic GUI the panels and buttons of the tool were created with high level calls, while the different graphs and plots were implemented by overriding the draw() function. Overriding the draw() function immensely improved performance as the already available high level objects are computationally costly, when needing many of them, by comparison.
+
+\subsection{Scatter Plot}
+
+bla bla bla
+
+\subsection{Switching between Clusterings}
+
+bla bla bla
+
+\subsection{Scatter Plot Matrix}
+
+bla bla bla
+
+\subsection{OPTICS Plot}
+
+bla bla bla
+
+\subsection{Heat Map}
+
+bla bla bla
+
+\subsection{Filter Panel}
+
+bla bla bla
+
+\subsection{Cluster comparison}
+
+bla bla bla
 
 \part{Testing}
 \chapter{Experiments}\label{cha:experiments}
@@ -202,7 +243,7 @@ bla
 bla 
 
 \section{Reflection of Work}
-bla
+In this article I showed 
 
 \begin{appendices}
 
