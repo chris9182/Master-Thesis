@@ -193,12 +193,22 @@ bla bla bla
 
 \subsection{Meta-Clustering}
 %info on OPTICS?
-The algorithm used for meta clustering is OPTICS [CITATION]. One of the requirements for this methods is that the used distance measure must be metric, otherwise the algorithm can only produce an approximate clustering at best. The distance measure used by the algorithm can be changed and other distance measures can also be added. For this, the following interface is of interest:
+The algorithm used for meta clustering is OPTICS [CITATION]. One of the requirements for this methods is that the used distance measure must be metric, otherwise the algorithm can only produce an approximate clustering at best. The distance measure used by the algorithm can be changed and additional distance measures can also be added. For this, the following interface is of interest:
 
 \begin{itemize}
   \item Clustering Distance Measure: IMetaDistanceMeasure
 \end{itemize}
 \subsubsection{Clustering Distance Measure}
+The interface IMetaDistanceMeasure is used to define distance measures that can be used for OPTICS for meta clustering. These distance measures should represent how different two clustering solutions are from each other while needing to fulfill the requirements of a metric. For a measure (indicated with $d(x,y)$) to be considered metric the following conditions must be met:
+\begin{itemize}
+  \item $d(x,y)\geq0$: distances must be non-negative
+  \item $d(x,y)=0$ iff $x=y$: the distance between two objects is zero if and only if both objects are equal
+  \item $d(x,y)=d(x,y)$: the distance must fulfill the symmetry condition
+  \item $d(x,z)\leq d(x,y)+d(y,z)$: the triangle inequality must hold
+\end{itemize}
+
+The default implemented distance measures are Variation of Information and Clustering Error. 
+%%more
 
 \subsection{Consensus Clustering}
 
@@ -238,6 +248,10 @@ bla bla bla
 
 \part{Testing}
 \chapter{Experiments}\label{cha:experiments}
+\section{Solutions unattainable from simple Clustering}
+bla
+
+\section{Multiple Solutions}
 bla
 
 \part{Concluding Thoughts}
