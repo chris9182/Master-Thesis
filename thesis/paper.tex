@@ -103,7 +103,7 @@ consensus cluster plus \cite{10.1093/bioinformatics/btq170}
 
 
 \part{Implemented Tool}
-\chapter{Using the Tool}\label{cha:usingtool}
+\chapter{Using the Tool}\label{cha:Tool}
 This chapter describes what a user can do with the newly implemented tool. 
 
 \section{I/O and Data Visualization}
@@ -120,6 +120,7 @@ bla
 For the implementation of my tool my language of choice was Java. With Java there are lots of available implementations for different clustering methods available, including the Frameworks ELKI \cite{10.1007/978-3-540-69497-7_41} and WEKA \cite{10.1145/1656274.1656278}, as well as the machine learning library Smile \cite{javasmile}. To improve the performance in some parts of the tool Java 1.8 was chosen, making it the lowest required Java version to run it.This was done, as it enables the use of parallel streams which make it simple to parallelize functions. Additionally, it is easy to create custom visualizations using the low level draw() method of JComponents in Swing \cite{javaswing}. All graphs and plots were created using a custom draw() method as this leads to much better performance than using small components for the graphs.
 
 \section{File Input and Output}
+Loading and saving data is needed for the tool to make it more usable. For this reason it is possible to not only import data for clustering but also to save workflows and whole groups of clustering results for later reuse.
 \subsection{Clustering Data}
 
 \subsection{Clustering Workflows}
