@@ -199,7 +199,7 @@ The algorithm used for meta clustering is OPTICS [CITATION]. One of the requirem
   \item Clustering Distance Measure: IMetaDistanceMeasure
 \end{itemize}
 \subsubsection{Clustering Distance Measure}
-The interface IMetaDistanceMeasure is used to define distance measures that can be used for OPTICS for meta clustering. These distance measures should represent how different two clustering solutions are from each other while needing to fulfill the requirements of a metric. For a measure (indicated with $d(x,y)$) to be considered metric the following conditions must be met:
+The interface IMetaDistanceMeasure is used to define distance measures that can be used for OPTICS for meta clustering. These distance measures should represent how different two clustering solutions are from each other while needing to fulfill the requirements of a metric. For a distance measure, here indicated with $d(x,y)$ where $x$ and $y$ are objects, to be considered metric the following conditions must hold:
 \begin{itemize}
   \item $d(x,y)\geq0$: distances must be non-negative
   \item $d(x,y)=0$ iff $x=y$: the distance between two objects is zero if and only if both objects are equal
