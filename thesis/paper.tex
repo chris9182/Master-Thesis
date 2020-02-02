@@ -121,7 +121,7 @@ For the implementation of my tool my language of choice was Java. With Java ther
 
 \section{File Input and Output}
 Loading and saving data is needed for the tool to make it more usable. For this reason it is possible to not only import data for clustering but also to save workflows and whole groups of clustering results for later reuse.
-\subsection{Clustering Data}
+\subsection{Clustering and Point Data}
 Besides being able to create new data sets from within the tool, importing data from CSV or ARFF files is possible. Those file types are supported as they are very common, especially CSV is usually used to store such information. ARFF is commonly used, as it is also the preferred data type of WEKA \cite{10.1145/1656274.1656278}. For this reason the ARFF importer of WEKA was adapted to load in these files such that they can be used with this tool. 
 
 When importing data, it is also possible to define an index of where the cluster labels are located. When this is done the tool will not load the specified column as data but use it to define clusters for the ground truth, which is then also handled differently by the different views of the tool.
@@ -129,9 +129,10 @@ When importing data, it is also possible to define an index of where the cluster
 The starting window, in which clusterings can also be loaded back into from the meta-view, also allows for exporting data to CSV. When doing this, the first column in the resulting file will contain the cluster identifiers starting with one. This way computed results can be exported and used in other tools or saved for later.
 
 \subsection{Clustering Workflows}
-
+As many runs of clustering algorithms with different parameter ranges can be performed and repeatedly defining this workflow can be tedious, the tool allows exporting and importing these workflows from the cluster workflow window. For this the underlying clustering objects are serialized and saved into .CWF (Cluster Workflow Files). It is important to note, that these files do not include the parameter settings for random seed or the meta clustering. This is intentional as I do not consider them to be part of the workflow and they should be set by the user for every run, if the default values are not satisfactory.
 
 \subsection{Pre-Clustered Data}
+Due to the clustering algorithms possibly being time consuming, either because of their complexity or just sheer number of runs, the results of these algorithms can be saved from the meta-view. To do this, the clustering results are serialized and saved as .CRF (Clustering Result Files). To load those files one can define the different parameters of the meta clustering and then import the .CRF. This way, only the meta clustering is computed again. The meta clustering is not saved in this file such that the user can more easily try different settings for it, by just saving the result and running the meta clustering again. As this is usually much faster than the clustering algorithms that generate the base clusterings, using this may save a considerable amount of time.
 
 \section{Methods and Interfaces}
 To ensure that new or missing methods can easily be added to the tool, all methods where a selection can be made from within the tool can be added to by implementing onto the corresponding interface. To add methods one needs to first implement it and if needed it's OptionsPanel and then add it to the corresponding static method found in the view using it.
@@ -191,8 +192,13 @@ bla bla bla
 
 
 \subsection{Meta-Clustering}
+%info on OPTICS?
+The algorithm used for meta clustering is OPTICS [CITATION]. One of the requirements for this methods is that the used distance measure must be metric, otherwise the algorithm can only produce an approximate clustering at best. The distance measure used by the algorithm can be changed and other distance measures can also be added. For this, the following interface is of interest:
 
-bla bla bla
+\begin{itemize}
+  \item Clustering Distance Measure: IMetaDistanceMeasure
+\end{itemize}
+\subsubsection{Clustering Distance Measure}
 
 \subsection{Consensus Clustering}
 
