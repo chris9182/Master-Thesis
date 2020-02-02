@@ -163,7 +163,7 @@ Reducers allow the user to manipulate the data such that the dimensionality or p
 Normalizers provide functionality for normalizing the data points. This may be useful whenever different dimensions contain values in strongly differing ranges, while their concrete values do not have any direct relation to the other dimensions. Here, two default implementations are available, Normalize and Standardize. The Normalize class adapts the values such that in each dimension the range is set to the interval $[0,1]$ while preserving relative distances. The Standardize class adapts these ranges such that the average is $0$ and the standard deviation is $1$.
 %cite normalize standardize?
 
-\subsubsection{Adding Methods}
+\subsubsection*{Adding Data Manipulation Methods}
 To additional Methods they must be implemented using the corresponding interface and added to the class StartWindow. To add them to this class the static methods initGenerators(), initReducers() and initNormalizers() must add the new method to the list of methods. As an example adding a new generator (newGeneratorX) would require adding ``generators.add(new newGeneratorX());'' to the function initGenerators().
 
 \subsection{Clustering Algorithms}
@@ -186,7 +186,7 @@ bla bla bla
 
 bla bla bla
 
-\subsubsection{Adding Methods}
+\subsubsection*{Adding Clustering Algorithms}
 
 bla bla bla
 
@@ -198,7 +198,7 @@ The algorithm used for meta clustering is OPTICS [CITATION]. One of the requirem
 \begin{itemize}
   \item Clustering Distance Measure: IMetaDistanceMeasure
 \end{itemize}
-\subsubsection{Clustering Distance Measure}
+\subsubsection{Clustering Distance Measures}
 The interface IMetaDistanceMeasure is used to define distance measures that can be used for OPTICS for meta clustering. These distance measures should represent how different two clustering solutions are from each other while needing to fulfill the requirements of a metric. For a distance measure, here indicated with $d(x,y)$ where $x$ and $y$ are objects, to be considered metric the following conditions must hold:
 \begin{itemize}
   \item $d(x,y)\geq0$: distances must be non-negative
@@ -209,10 +209,18 @@ The interface IMetaDistanceMeasure is used to define distance measures that can 
 
 The default implemented distance measures are Variation of Information and Clustering Error. 
 %%more
+\subsubsection*{Adding Distance Measures}
+bla
 
 \subsection{Consensus Clustering}
 
 bla bla bla
+
+\subsubsection{Consensus Functions}
+bla
+
+\subsubsection*{Adding Consensus Functions}
+bla
 
 \section{Visualization}
 
@@ -248,7 +256,7 @@ bla bla bla
 
 \part{Testing}
 \chapter{Experiments}\label{cha:experiments}
-\section{Solutions unattainable from simple Clustering}
+\section{Solutions better than Base-Clusterings}
 bla
 
 \section{Multiple Solutions}
