@@ -122,8 +122,14 @@ For the implementation of my tool my language of choice was Java. With Java ther
 \section{File Input and Output}
 Loading and saving data is needed for the tool to make it more usable. For this reason it is possible to not only import data for clustering but also to save workflows and whole groups of clustering results for later reuse.
 \subsection{Clustering Data}
+Besides being able to create new data sets from within the tool, importing data from CSV or ARFF files is possible. Those file types are supported as they are very common, especially CSV is usually used to store such information. ARFF is commonly used, as it is also the preferred data type of WEKA \cite{10.1145/1656274.1656278}. For this reason the ARFF importer of WEKA was adapted to load in these files such that they can be used with this tool. 
+
+When importing data, it is also possible to define an index of where the cluster labels are located. When this is done the tool will not load the specified column as data but use it to define clusters for the ground truth, which is then also handled differently by the different views of the tool.
+
+The starting window, in which clusterings can also be loaded back into from the meta-view, also allows for exporting data to CSV. When doing this, the first column in the resulting file will contain the cluster identifiers starting with one. This way computed results can be exported and used in other tools or saved for later.
 
 \subsection{Clustering Workflows}
+
 
 \subsection{Pre-Clustered Data}
 
@@ -160,7 +166,7 @@ Normalizers provide functionality for normalizing the data points. This may be u
 To additional Methods they must be implemented using the corresponding interface and added to the class StartWindow. To add them to this class the static methods initGenerators(), initReducers() and initNormalizers() must add the new method to the list of methods. As an example adding a new generator (newGeneratorX) would require adding ``generators.add(new newGeneratorX());'' to the function initGenerators().
 
 \subsection{Clustering Algorithms}
-Clustering Algorithms can be selected and tuned in the clustering workflow window such that the algorithm is used to create base clustering results for the meta view. For additional information on the algorithms themselves, see Section [REFERENCE] The following interfaces are relevant for clustering:
+Clustering Algorithms can be selected and tuned in the clustering workflow window such that the algorithm is used to create base clustering results for the meta-view. For additional information on the algorithms themselves, see Section [REFERENCE] The following interfaces are relevant for clustering:
 
 \begin{itemize}
   \item Clustering Algorithms: IClusterer
