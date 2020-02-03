@@ -171,7 +171,7 @@ Normalizers provide functionality for normalizing the data points. This may be u
 To additional Methods they must be implemented using the corresponding interface and added to the class StartWindow. To add them to this class the static methods initGenerators(), initReducers() and initNormalizers() must add the new method to the list of methods. As an example adding a new generator (newGeneratorX) would require adding ``generators.add(new newGeneratorX());'' to the function initGenerators().
 
 \subsection{Clustering Algorithms}
-Clustering Algorithms can be selected and tuned in the clustering workflow window such that the algorithm is used to create base clustering results for the meta-view. For additional information on the algorithms themselves, see Section [REFERENCE] The following interfaces are relevant for clustering:
+Clustering algorithms can be selected and tuned in the clustering workflow window such that the algorithm is used to create base clustering results for the meta-view. For additional information on the algorithms themselves, see Section [REFERENCE] The following interfaces are relevant for clustering:
 
 \begin{itemize}
   \item Clustering Algorithms: IClusterer
@@ -180,19 +180,16 @@ Clustering Algorithms can be selected and tuned in the clustering workflow windo
 \end{itemize}
 
 \subsubsection{Clustering Algorithms}
-The interface IClusterer is used as helper interface such that all clustering algorithms can use the same high level calls for compatibility. The actual implementations implement either IELKIClusterer if they use the ELKI database objects in their logic or ICustomClusterer if they use a data matrix. To further help not needing to re-implement generally needed methods the class AbstractClustering should also be extended by the actual implementation. With these class and interfaces the actual implementations can focus more on just the clustering logic.
+Clustering algorithms can be used in the workflow-view to generate base clusterings for meta clustering and visualization in the meta-view. The interface IClusterer is used as helper interface such that all clustering algorithms can use the same high level calls for compatibility. The actual implementations implement either IELKIClusterer if they use the ELKI database objects in their logic or ICustomClusterer if they use a data matrix. To further help not needing to re-implement generally needed methods the class AbstractClustering should also be extended by the actual implementation. With these class and interfaces the actual implementations can focus more on just the clustering logic. Additionally options panels should be created for each new algorithm allowing the user to set parameters or parameter ranges from the tool.
 
 \subsubsection{ELKI Clustering Algorithms}
-
-bla bla bla
+IELKIClusterer is used for clustering algorithms that use ELKIs database object to store the data. To run algorithms from ELKI this interface must be implemented and the database object can be used with ELKIs algorithms. The pre-implemented methods include three variants of KMeans, DBScan and EM clustering. All of these methods use ELKIs high level initialization with ``ClassGenericsUtil.parameterizeOrAbort(AlgorithmClass.class, params);'' and other than this only require the logic for managing parameters, random sampling and collection of the result.
 
 \subsubsection{Custom Clustering Algorithms}
-
-bla bla bla
-
+To enable other clustering algorithms than the ones implemented in ELKI the interface ICustomClusterer can be used. It receives the two-dimensional data array and the headers as input and allows for the use of any custom clustering logic. One implementation is already available here, namely Spectral Clustering which is implemented with the Smile library \cite{javasmile}.
+ 
 \subsubsection*{Adding Clustering Algorithms}
-
-bla bla bla
+To add new clustering algorithms for creating base clusterings, first one must choose IELKIClusterer if the method uses ELKIs database object or ICustomClusterer otherwise. This interface then needs to be extended, the AbstractClustering class can help here with utility functions. When extending the corresponding interface an option panel must be implemented and the parameters must be manages within the cluster function. These interfaces also provide functionality for seeded randomness and progress indicators. To properly calculate progress, getCount() must return the proper number of needed executions and cluster() must call addProgress() whenever progress is made. Finally, the newly implemented class must be added to the initClusterers() function in ClusterWorkflow.
 
 
 \subsection{Meta-Clustering}
@@ -214,21 +211,24 @@ The interface IMetaDistanceMeasure is used to define distance measures that can 
 The default implemented distance measures are Variation of Information and Clustering Error. 
 %%more
 \subsubsection*{Adding Distance Measures}
-bla
+To add distance measures for OPTICS the interface IMetaDistanceMeasure must be extended and the above mentioned conditions on the distance measure must be fulfilled for the algorithm to produce a satisfying result. After implementing the distance it must be added to initDistances() within ClusterWorkflow, for it to be usable from within the tool.
 
 \subsection{Consensus Clustering}
+Consensus Clustering can combine the results form different base clusterings to a common clustering. This can be done in the meta-view and different algorithms can be used for this step. When run, the algorithm computes a consensus result for all base clusterings that are in a common meta cluster in the OPTICS reachability plot and are not filtered out. This means that if the used defined three meta clusters with some cut-off value in the reachability plot, there will be three resulting consensus clusterings, one created from each group. The interface of interest for consensus functions is:
 
-bla bla bla
+\begin{itemize}
+  \item Consensus Functions: IConsensusFunction
+\end{itemize}
 
 \subsubsection{Consensus Functions}
-bla
+The consensus functions implement the logic for combining the base clusterings. For this the interface IConsensusFunction is of interest and can be extended to add new functions. Per default two main implementations are available. Both implementations allow for the user to either define a target value for the number of resulting clusters $k$ within each result, or for the algorithm to guess this parameter itself. Firstly, CoAssociationMatrixAverageLink can be used, which computes a Co-Association (CA) Matrix and combines objects via the average link strategy. When $k$ is defined the algorithm joins together sets of points until only $k$ sets remain, which is used as final answer. If no $k$ is defined the algorithm performs two runs, calculating the lifetime \cite{lifetime} of the resulting tree and choosing the level to cut as the one resulting with maximum lifetime. As second method DICLENS is available, which was generously provided by Mimaroglu and Aksehirl i\cite{DISCLENS}.
 
 \subsubsection*{Adding Consensus Functions}
-bla
+To add consensus functions the interface IConsensusFunction must be extended. It is also important to note that weights may be supported by the function if implemented, although at this point there is no way for the user to set weights. As for the two default implementations the function may either allow defining the number of resulting clusters per consensus result or not. To add the newly created function to the tool, within MetaViewer the function initConsensusFunctions() must include the new method.
 
 \section{Visualization}
 
-To visualize the data in different ways and provide a functional Graphical User Interface (GUI) the Java Swing \cite{javaswing} Toolkit was used. It allows for both high level calls creating objects withing windows, e.g. panels, buttons or combo-boxes, as well as low level calls by directly changing the behavior of the draw() function. For the basic GUI the panels and buttons of the tool were created with high level calls, while the different graphs and plots were implemented by overriding the draw() function. Overriding the draw() function immensely improved performance as the already available high level objects are computationally costly, when needing many of them, by comparison.
+To visualize the data in different ways and provide a functional Graphical User Interface (GUI) the Java Swing \cite{javaswing} Toolkit was used. It allows for both high level calls creating objects withing windows, e.g. panels, buttons or combo-boxes, as well as low level calls by directly changing the behavior of the draw() function. For the basic GUI the panels and buttons of the tool were created with high level calls, while the different graphs and plots were implemented by overriding the draw() function. Overriding the draw() function immensely improved performance as the already available high level objects are computationally costly by comparison, when many of them are needed .
 
 \subsection{Scatter Plot}
 
