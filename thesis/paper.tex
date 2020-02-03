@@ -108,14 +108,34 @@ The newly created tool uses a large amount of existing methods which are describ
 \part{Implemented Tool}
 \chapter{Using the Tool}\label{cha:Tool}
 %maybe not "this chapter..."
-The implemented tool aims to facilitate the computation and selection of good clustering solutions for a given data-set. To do this both powerful visualizations and algorithms are needed, which is combined in this tool. The usual workflow using the tool can be described with three steps, each with its own view. 
+The implemented tool aims to facilitate the computation and selection of good clustering solutions for a given data-set. To do this both powerful visualizations and algorithms are needed, which are combined here. When working with the created application the user can first import and edit point data, then select clustering algorithms and parameters for meta-clustering and finally use the meta-view to analyze the results or create a consensus results. The final goal after all of this is either having found a clustering solution that is satisfactory or created one using consensus clustering in the final step. This simple workflow can be described with three steps, each with its own view and functionality. In the following sections the views and possibilities within each view are described. For more details on implementation details see Chapter \ref{cha:impl}
 
 \section{Data Visualization and Manipulation}
-Firstly the user needs to import or create a data-set on which the clustering should be performed. When the application is started a scatter plot without data is shown, as well as a side menu with different buttons.
+To start with the tool, the user needs to import or create a data-set on which the clustering should be performed. As the data may have too many dimensions or include unnecessary columns, it needs to be sanitized as well. For this reason, the first window shown implements functionality for both of this steps. When the application is started a scatter plot without data is shown, as well as a side menu with different buttons. This starting window will further on also be called data-view as it visualizes point data, it can be seen in Figure \ref{fig:data-view}. 
 
-%%image
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=.45]{data-view}
+	\caption{Data-View, the starting window of the application}
+	\label{fig:data-view}
+\end{figure}
 
- To import a data-set 
+The scatter plot in the center left shows data that was imported or created and allows for changing the shown dimensions by clicking on the center of the corresponding axis. The range of values may also be adjusted this way, clicking on the upper or lower bound of the range on any axis opens a small input box. To automatically set this range, such that the minimum and maximum values of the shown data are just at the border, the small square button in the bottom left can be clicked. This is also a useful button to return to a full view of the data if the range was made smaller to have a zoomed view of the data. The right part of the tool contains the functionality for importing/exporting data, manipulating the data, showing it in a scatter plot matrix and opening the workflow-view which will be explained in the next step.
+
+ Firstly, to import a data-set for visualization and later use the import button in the bottom right can be selected, opening a file dialog which can load either CSV or ARFF files. These formats are supported as they are most commonly used to store such data. This file dialog can be seen in Figure \ref{fig:data-import}. 
+
+\begin{figure}[h]
+	\centering 
+	\includegraphics[scale=.45]{data-import}%[width=.5\textwidth]
+	\caption{Import Window}
+	\label{fig:data-import}
+\end{figure}
+
+After selecting a file the index of cluster labels can be defined, if labels should be loaded from the file. Otherwise the value can be left at $-1$ indicating that no columns should be used for label information. ``$-2$'' may be also be specified, it is used as a shortcut for selecting the last column as cluster labels, removing the need to count columns if it is the last one. The chosen column is then not inserted as a dimension in the data space but used as the cluster labels, which the color of the loaded points will reflect in the scatter plot of the data-view. 
+
+To export data the export button can be used. If will open a similar dialog as for importing, though the index of the labels does not need to be defined, as data with cluster labels will be stored such that the labels for all points will be included in the first column. If the data does not contain label information, this first column is completely omitted. The supported format for exporting data is CSV.
+
+In the top right the ``Matrix'' button will open a new window showing the current data in a scatter plot matrix. As the plots on the diagonal of this view are not useful, they were replaced with a kernel density estimation plot.
 
 \section{Selection of Algorithms and Parameters}
 bla
@@ -123,7 +143,7 @@ bla
 \section{Meta-View and Consensus Clustering}
 bla
 
-\chapter{Implementation}
+\chapter{Implementation}\label{cha:impl}
 \section{Programming Language and Tools}
 For the implementation of my tool my language of choice was Java. With Java there are lots of available implementations for different clustering methods available, including the Frameworks ELKI \cite{10.1007/978-3-540-69497-7_41} and WEKA \cite{10.1145/1656274.1656278}, as well as the machine learning library Smile \cite{javasmile}. To improve the performance in some parts of the tool Java 1.8 was chosen, making it the lowest required Java version to run it.This was done, as it enables the use of parallel streams which make it simple to parallelize functions. Additionally, it is easy to create custom visualizations using the low level draw() method of JComponents in Swing \cite{javaswing}. All graphs and plots were created using a custom draw() method as this leads to much better performance than using small components for the graphs.
 
