@@ -108,10 +108,14 @@ The newly created tool uses a large amount of existing methods which are describ
 \part{Implemented Tool}
 \chapter{Using the Tool}\label{cha:Tool}
 %maybe not "this chapter..."
-This chapter describes what a user can do with the newly implemented tool. 
+The implemented tool aims to facilitate the computation and selection of good clustering solutions for a given data-set. To do this both powerful visualizations and algorithms are needed, which is combined in this tool. The usual workflow using the tool can be described with three steps, each with its own view. 
 
-\section{I/O and Data Visualization}
-bla
+\section{Data Visualization and Manipulation}
+Firstly the user needs to import or create a data-set on which the clustering should be performed. When the application is started a scatter plot without data is shown, as well as a side menu with different buttons.
+
+%%image
+
+ To import a data-set 
 
 \section{Selection of Algorithms and Parameters}
 bla
@@ -130,7 +134,7 @@ Besides being able to create new data sets from within the tool, importing data 
 
 When importing data, it is also possible to define an index of where the cluster labels are located. When this is done the tool will not load the specified column as data but use it to define clusters for the ground truth, which is then also handled differently by the different views of the tool.
 
-The starting window, in which clusterings can also be loaded back into from the meta-view, also allows for exporting data to CSV. When doing this, the first column in the resulting file will contain the cluster identifiers starting with one. This way computed results can be exported and used in other tools or saved for later.
+The starting window or data-view, in which clusterings can also be loaded back into from the meta-view, also allows for exporting data to CSV. When doing this, the first column in the resulting file will contain the cluster identifiers starting with one. This way computed results can be exported and used in other tools or saved for later.
 
 \subsection{Clustering Workflows}
 As many runs of clustering algorithms with different parameter ranges can be performed and repeatedly defining this workflow can be tedious, the tool allows exporting and importing these workflows from the cluster workflow window. For this the underlying clustering objects are serialized and saved into .CWF (Cluster Workflow Files). It is important to note, that these files do not include the parameter settings for random seed or the meta clustering. This is intentional as I do not consider them to be part of the workflow and they should be set by the user for every run, if the default values are not satisfactory.
@@ -145,7 +149,7 @@ The following sections describe which interfaces and standard methods are implem
 
 \subsection{Data Manipulation}
 
-Data manipulation can be performed as a first step in the starting window to create data-sets or modify them such that they can be used for clustering or visualization. It is also of relevance when loading clustering results back into the starting view to analyze results using dimensionality reduction techniques. For this step three interfaces are of interest:
+Data manipulation can be performed as a first step in the data-view to create data-sets or modify them such that they can be used for clustering or visualization. It is also of relevance when loading clustering results back into the data-view to analyze results using dimensionality reduction techniques. For this step three interfaces are of interest:
 
 \begin{itemize}
   \item Generators: IGenerator
@@ -168,7 +172,7 @@ Normalizers provide functionality for normalizing the data points. This may be u
 %cite normalize standardize?
 
 \subsubsection*{Adding Data Manipulation Methods}
-To additional Methods they must be implemented using the corresponding interface and added to the class StartWindow. To add them to this class the static methods initGenerators(), initReducers() and initNormalizers() must add the new method to the list of methods. As an example adding a new generator (newGeneratorX) would require adding ``generators.add(new newGeneratorX());'' to the function initGenerators().
+To additional Methods they must be implemented using the corresponding interface and added to the class DataView. To add them to this class the static methods initGenerators(), initReducers() and initNormalizers() must add the new method to the list of methods. As an example adding a new generator (newGeneratorX) would require adding ``generators.add(new newGeneratorX());'' to the function initGenerators().
 
 \subsection{Clustering Algorithms}
 Clustering algorithms can be selected and tuned in the clustering workflow window such that the algorithm is used to create base clustering results for the meta-view. For additional information on the algorithms themselves, see Section [REFERENCE] The following interfaces are relevant for clustering:
@@ -221,18 +225,18 @@ Consensus Clustering can combine the results form different base clusterings to 
 \end{itemize}
 
 \subsubsection{Consensus Functions}
-The consensus functions implement the logic for combining the base clusterings. For this the interface IConsensusFunction is of interest and can be extended to add new functions. Per default two main implementations are available. Both implementations allow for the user to either define a target value for the number of resulting clusters $k$ within each result, or for the algorithm to guess this parameter itself. Firstly, CoAssociationMatrixAverageLink can be used, which computes a Co-Association (CA) Matrix and combines objects via the average link strategy. When $k$ is defined the algorithm joins together sets of points until only $k$ sets remain, which is used as final answer. If no $k$ is defined the algorithm performs two runs, calculating the lifetime \cite{lifetime} of the resulting tree and choosing the level to cut as the one resulting with maximum lifetime. As second method DICLENS is available, which was generously provided by Mimaroglu and Aksehirl i\cite{DISCLENS}.
+The consensus functions implement the logic for combining the base clusterings. For this the interface IConsensusFunction is of interest and can be extended to add new functions. Per default two main implementations are available. Both implementations allow for the user to either define a target value for the number of resulting clusters $k$ within each result, or for the algorithm to guess this parameter itself. Firstly, CoAssociationMatrixAverageLink can be used, which computes a Co-Association (CA) Matrix and combines objects via the average link strategy. When $k$ is defined the algorithm joins together sets of points until only $k$ sets remain, which is used as final answer. If no $k$ is defined the algorithm performs two runs, calculating the lifetime \cite{lifetime} of the resulting tree and choosing the level to cut as the one resulting with maximum lifetime. As second method DICLENS is available, which was generously provided by Mimaroglu and Aksehirl \cite{DICLENS}.
 
 \subsubsection*{Adding Consensus Functions}
 To add consensus functions the interface IConsensusFunction must be extended. It is also important to note that weights may be supported by the function if implemented, although at this point there is no way for the user to set weights. As for the two default implementations the function may either allow defining the number of resulting clusters per consensus result or not. To add the newly created function to the tool, within MetaViewer the function initConsensusFunctions() must include the new method.
 
 \section{Visualization}
 
-To visualize the data in different ways and provide a functional Graphical User Interface (GUI) the Java Swing \cite{javaswing} Toolkit was used. It allows for both high level calls creating objects withing windows, e.g. panels, buttons or combo-boxes, as well as low level calls by directly changing the behavior of the draw() function. For the basic GUI the panels and buttons of the tool were created with high level calls, while the different graphs and plots were implemented by overriding the draw() function. Overriding the draw() function immensely improved performance as the already available high level objects are computationally costly by comparison, when many of them are needed .
+To visualize the data in different ways and provide a functional Graphical User Interface (GUI) the Java Swing \cite{javaswing} Toolkit was used. It allows for both high level calls creating objects withing windows, e.g. panels, buttons or combo-boxes, as well as low level calls by directly changing the behavior of the draw() function. For the basic GUI the panels and buttons of the tool were created with high level calls, while the different graphs and plots were implemented by overriding the draw() function. Overriding the draw() function immensely improved performance as the already available high level objects are computationally costly by comparison, when many of them are needed. This section only includes additional information on the implementation and functionality, information on the usage of the visual elements in the tool can be found in Section [REFERENCE].
 
 \subsection{Scatter Plot}
-
-bla bla bla
+The scatter plot is the simplest visualization of the data within the tool. It is implemented though two axis and a canvas object. The axis include logic for the draw the value range and selected dimension, including the mouse listeners for modifying it, as well as the translation from model coordinates to viewer coordinates. The canvas implements the drawing of data points, including different shapes and colors depending on their cluster identifier, whether or not they are filtered out or if they represent special objects like the ground truth in the meta-view. Additionally the canvas can support mouse listeners enabling interactivity with the points.
+%more?
 
 \subsection{Switching between Clusterings}
 
