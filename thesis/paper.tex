@@ -65,7 +65,24 @@
 \chapter{Related Work}\label{cha:related_work}
 \section{Clustering Algorithms}
 
-A lot of research as been put toward the topic of clustering, resulting in a large number of different methods. \cite{surveyclustering}
+Clustering is the task of finding groups of points in data such that points within a group have some kind of relationship, while points in different groups do not relate. Defining how such a relationship can be expressed and how these groupings can be found are non-trivial tasks, for which reason a lot of research as been put towards this topic. Different ways of thinking about this problem, the expected results and the performance aspects of the algorithms resulted in a large number of different methods. To summarize which methods are available many surveys were written over time \cite{7154919,1427769,7414675,surveyclustering}. Another aspect of clustering is which kinds of data can be clustered and even for more specific tasks like text clustering many methods are available \cite{5982288}, though these will no be mentioned further on as this paper only works with numeric data. Also, work has been put into optimizing clustering algorithms for different types of architectures and machines, e.g. for distributed systems \cite{6322592} or optimized for energy consumption and load balancing \cite{7586361}. Such aspects will also not be further considered as this paper and the created tool do not aim to beat existing methods in run-time or energy efficiency.
+
+To give an overview over existing clustering algorithms Xu and Tian \cite{surveyclustering} generalize the idea of algorithms to nine categories. These categories are defined by which ideas the algorithms are based on, which are the following:
+\begin{itemize}
+  \item Partition
+  \item Hierarchy
+  \item Fuzzy Theory
+  \item Distribution
+  \item Density
+  \item Graph Theory
+  \item Grid
+  \item Fractal Theory
+  \item Model
+\end{itemize}
+
+Partition based methods aim to find central points in the data to represent clusters. Data points are then assigned to the central point closes to them and each central point forms a cluster. The most famous method in this group is K-Means which has been implemented in different ways, an example for a newer way for this was proposed by Kanungo et al. \cite{1017616}.
+Hierarchy based methods ..
+
 %only brief explanation on the development of clustering algorithms and groups
 \section{Visual Clustering Frameworks}
 
@@ -162,6 +179,22 @@ By clicking the ``Clustering'' button in the data-view the window managing clust
 
 \section{Meta-View and Consensus Clustering}
 bla
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \chapter{Implementation}\label{cha:impl}
 \section{Programming Language and Tools}
