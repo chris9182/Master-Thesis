@@ -135,7 +135,7 @@ After selecting a file the index of cluster labels can be defined, if labels sho
 
 To export data the export button can be used. If will open a similar dialog as for importing, though the index of the labels does not need to be defined, as data with cluster labels will be stored such that the labels for all points will be included in the first column. If the data does not contain label information, this first column is completely omitted. The supported format for exporting data is CSV.
 
-Alternatively, the user can also create a data-set himself from within the tool. It is possible to draw points onto the canvas when the ``SinglePoint'' option is selected in the top right, as in Figure \ref{fig:data-view}. For this, the user only needs to click wherever he wants points placed. It is important to note that if there are more than two dimensions all values for the not shown dimensions will not be set, which may cause a problem for the clustering algorithms later on. Another possibility is the use of the ELKIGenerator, which accepts a XML-style input for defining how to generate data. The definition for this format can be found in corresponding definitions file on the ELKI Github repository \cite{elkixml} or in the tools lib folder. This generator allows defining distributions on dimensions, the number of points for each generated distribution and many additional things like plane rotations. This can be quite useful when wanting to work with a quick sample data-set.
+Alternatively, the user can also create a data-set himself from within the tool. It is possible to draw points onto the canvas when the ``SinglePoint'' option is selected in the top right, as in Figure \ref{fig:data-view}. For this, the user only needs to click wherever he wants points placed. It is important to note that if there are more than two dimensions all values for the not shown dimensions will not be set, which may cause a problem for the clustering algorithms later on. Another possibility is the use of the ELKIGenerator, which accepts a XML-style input for defining how to generate data. The definition for this format can be found in corresponding definitions file on the ELKI Github repository \cite{elkixml} or in the tools lib folder. This generator allows defining distributions on dimensions, the number of points for each generated distribution and many additional things like plane rotations. This can be quite useful when wanting to work with a quick sample data-set. In Figure \ref{fig:loaded-data} one can see how the data-view looks when data with cluster labels is shown. 
 
 %%%%%%%%%%%change figure
 \begin{figure}[h]
@@ -145,10 +145,9 @@ Alternatively, the user can also create a data-set himself from within the tool.
 	\label{fig:loaded-data}
 \end{figure}
 
-In Figure \ref{fig:loaded-data} one can see how the data-view looks when data with cluster labels is shown.
-[Figure] loaded data and selector on PCA
+In the top right the ``Matrix'' button can be used to display all dimensions at once, as it will open a new window showing the current data in a scatter plot matrix. Each scatter plot visualizes a different combination of dimensions and since the plots on the diagonal of this view are not useful, they were replaced with kernel density estimation plots. These kernel density estimation plots show how the values of the points in the corresponding dimension are distributed, overlapping the total distribution with the distribution of points with different labels. This may also allow seeing how clusters differ in each dimension.
 
-In the top right the ``Matrix'' button will open a new window showing the current data in a scatter plot matrix. As the plots on the diagonal of this view are not useful, they were replaced with a kernel density estimation plot.
+
 
 \section{Selection of Algorithms and Parameters}
 bla
