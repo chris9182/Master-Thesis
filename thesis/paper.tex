@@ -81,9 +81,48 @@ To give an overview over existing clustering algorithms Xu and Tian \cite{survey
 \end{itemize}
 
 Partition based methods aim to find central points in the data to represent clusters. Data points are then assigned to the central point closes to them and each central point forms a cluster. The most famous method in this group is K-Means which has been implemented in different ways, an example for a newer way for this was proposed by Kanungo et al. \cite{1017616}.
-Hierarchy based methods ..
 
-%only brief explanation on the development of clustering algorithms and groups
+Hierarchy based methods assume at first that each point represents a cluster and merges points to new clusters according to some logic. The opposite can also be done, first assuming all points belong to one cluster and the spiting them into multiple clusters. When starting with each point in one cluster typical linking strategies are single link, joining clusters according to the distance between the closest points, average link, joining according to the average distance of all points from one cluster to the other, or maximum link, whereby the maximum distance between points of the clusters is considered.
+
+Fuzzy Theory based methods do unlike other methods not produce a discrete value of label ownership but a value in the interval $[0,1]$ representing how strongly a point belongs to a cluster. The usual method to compute such an ownership value is to optimize toward an objective function and seeing the values as likelihood of belonging to a given cluster.
+
+Distribution based methods aim to find clusters with the idea that any cluster should have its own mathematical distribution. In other words, each distribution found in the data should have a cluster with its generated points assigned to it. In most cases Gaussian distributions are assumed, reducing the complexity of the search.
+
+Density based methods assume that points with a dense neighborhood should belong to a common cluster. Typical parameters for such clustering algorithms include the size of the neighborhood to consider and the number of points that should be found in their, such that the points are considered densely connected. Example algorithms for this are DBSCAN \cite{10.5555/3001460.3001507} and OPTICS \cite{10.1145/304181.304187}, which was introduced as an improvement of DBSCAN.
+
+Graph Theory based methods work by regarding each point in the data as a vertex of a graph with their distances represent the edges. The algorithms then aim to partition the graph into $k$ sub-graphs each representing a cluster, whereby the edges connecting sub-graphs should have a large sum (of the distances) or small sum (of similarities).
+
+Grid based methods look at the data space as a multidimensional grid. The resulting rectangular spaces are then used in combination with hierarchical and density based methods to bothe improve the result and the computational performance of the algorithms.
+
+Fractal Theory based methods aim to optimize the intrinsic quality of the fractal dimension \cite{surveyclustering}. In this context fractal represents the geometry divisible into multiple parts with common characters with the whole \cite{surveyclustering}.
+
+Model based methods work by first assuming a model for the data and then optimizing the clustering to reflect the choice of model. Many of those are based on statistical learning methods whereby a classification tree is built hierarchically under the assumption that the distribution for each attribute is independent \cite{surveyclustering}.
+
+\subsection{New Clustering Algorithms}
+
+Newer methods for clustering have also been proposed, either with completely novel ideas or by combining ideas from the previous section. To briefly summarize \cite{surveyclustering}, those algorithms are for example based on:
+
+\begin{itemize}
+  \item Kernel
+  \item Ensemble (more on this in Section \ref{sec:consensus})
+  \item Swarm Intelligence
+  \item Quantum Theory
+  \item Spectral Graph Theory
+  \item Affinity Propagation
+  \item Density and Distance
+\end{itemize}
+
+Additionally algorithms where developed for special data structures \cite{surveyclustering}. These include:
+
+\begin{itemize}
+  \item Spatial Data
+  \item Data Streams
+  \item Large-Scale Data
+\end{itemize}
+
+For a more in depth overview Xu and Tian \cite{surveyclustering} published a survey paper, on which the categories in this paper were based on.
+
+%more on current development?
 \section{Visual Clustering Frameworks}
 
 Clustervision \cite{Kwon2018ClustervisionVS}
@@ -101,7 +140,7 @@ Propose: ``An Evolutionary and Visual Framework for Clustering of DNA Microarray
 
 Even Memes \cite{Dang2017}
 
-\section{Consensus Clustering}
+\section{Consensus Clustering}\label{sec:consensus}
 %eplanation of consensus clustering and groups 
 bla
 
@@ -110,9 +149,10 @@ consensus cluster plus \cite{10.1093/bioinformatics/btq170}
 
 \part{Theory}
 \chapter{Methods}
-The newly created tool uses a large amount of existing methods which are described in this chapter.
+The newly created tool uses a large amount of existing methods which are described in this chapter. This description aims to give an overview of what exact methods were used, the theory behind them and in which scenarios they can be applied.
 
 \section{Clustering}
+The clustering algorithms implemented were used to create base clusterings for meta-clustering. The algorithms described in this section are the ones used, except for OPTICS which was used for meta-clustering. For additional information on why OPTICS was used on a meta level, see Section [REFFERENCE].
 \subsection{OPTICS}
 
 \section{Consensus Clustering}
