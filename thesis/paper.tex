@@ -65,7 +65,9 @@
 \chapter{Related Work}\label{cha:related_work}
 \section{Clustering Algorithms}
 
-Clustering is the task of finding groups of points in data such that points within a group have some kind of relationship, while points in different groups do not relate. Defining how such a relationship can be expressed and how these groupings can be found are non-trivial tasks, for which reason a lot of research as been put towards this topic. Different ways of thinking about this problem, the expected results and the performance aspects of the algorithms resulted in a large number of different methods. To summarize which methods are available many surveys were written over time \cite{7154919,1427769,7414675,surveyclustering}. Another aspect of clustering is which kinds of data can be clustered and even for more specific tasks like text clustering many methods are available \cite{5982288}, though these will no be mentioned further on as this paper only works with numeric data. Also, work has been put into optimizing clustering algorithms for different types of architectures and machines, e.g. for distributed systems \cite{6322592} or optimized for energy consumption and load balancing \cite{7586361}. Such aspects will also not be further considered as this paper and the created tool do not aim to beat existing methods in run-time or energy efficiency.
+Clustering is the task of finding groups of points in data such that points within a group have some kind of relationship, while points in different groups do not relate. Defining how such a relationship can be expressed and how these groupings can be found are non-trivial tasks, for which reason a lot of research as been put towards this topic. Different ways of thinking about this problem, the expected results and the performance aspects of the algorithms resulted in a large number of different methods. 
+
+ To summarize which methods are available many surveys were written over time \cite{7154919,1427769,7414675,surveyclustering}. Another aspect of clustering is which kinds of data can be clustered and even for more specific tasks like text clustering many methods are available \cite{5982288}, though these will no be mentioned further on as this paper only works with numeric data. Also, work has been put into optimizing clustering algorithms for different types of architectures and machines, e.g. for distributed systems \cite{6322592} or optimized for energy consumption and load balancing \cite{7586361}. Such aspects will also not be further considered as this paper and the created tool do not aim to beat existing methods in run-time or energy efficiency.
 
 To give an overview over existing clustering algorithms Xu and Tian \cite{surveyclustering} generalize the idea of algorithms to nine categories. These categories are defined by which ideas the algorithms are based on, which are the following:
 \begin{itemize}
@@ -80,7 +82,7 @@ To give an overview over existing clustering algorithms Xu and Tian \cite{survey
   \item Model
 \end{itemize}
 
-Partition based methods aim to find central points in the data to represent clusters. Data points are then assigned to the central point closes to them and each central point forms a cluster. The most famous method in this group is K-Means which has been implemented in different ways, an example for a newer way for this was proposed by Kanungo et al. \cite{1017616}.
+Partition based methods aim to find central points in the data to represent clusters. Data points are then assigned to the central point closes to them and each central point forms a cluster. The most famous method in this group is k-Means which has been implemented in different ways, an example for a newer way for this was proposed by Kanungo et al. \cite{1017616}.
 
 Hierarchy based methods assume at first that each point represents a cluster and merges points to new clusters according to some logic. The opposite can also be done, first assuming all points belong to one cluster and the spiting them into multiple clusters. When starting with each point in one cluster typical linking strategies are single link, joining clusters according to the distance between the closest points, average link, joining according to the average distance of all points from one cluster to the other, or maximum link, whereby the maximum distance between points of the clusters is considered.
 
@@ -123,11 +125,13 @@ Additionally algorithms where developed for special data structures \cite{survey
 For a more in depth overview Xu and Tian \cite{surveyclustering} published a survey paper, on which the categories in this paper were based on.
 
 %more on current development?
-\section{Visual Clustering Frameworks}
+\section{Visual Frameworks}
+Visual Frameworks are used to both allow the user to analyze data and empower him to produce better results. Often, when tackling a data analysis problem, the issue is not that there are no good methods for the problem, but just that the choice of which method produces a satisfying result is difficult. As looking at quality values and data tables does often not reveal the necessary information visualizations are needed.
 
-Visual clustering frameworks and tools aim to help users to perform clustering in a simpler way and to visualize results, such that they can make more educated decisions on which algorithms to use and to analyze the quality of their result. 
+\subsection{Visual Clustering Frameworks}
+Visual clustering frameworks and tools aim to help users to perform clustering in a simpler way and to visualize results, such that they can make more educated decisions on which algorithms to use. The visualizations also make it easier to grasp how clusters are structured and how good the computed result is.
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Clustervision \cite{Kwon2018ClustervisionVS}
 
@@ -143,21 +147,77 @@ Frameworks with specific data-sets in mind:
 Propose: ``An Evolutionary and Visual Framework for Clustering of DNA Microarray Data'' \cite{DNAVis}, tool for clustering DNA data with visualization
 
 Even Memes \cite{Dang2017}
+%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{other Visual Frameworks}
 
 In addition to visual frameworks for clustering, visual parameter space analysis is also relevant, as finding the best parameters for a clustering algorithm may be difficult. For such use-cases Sedlmair et al. \cite{6876043} propose a framework which can help in finding parameters.
 
+There are also few tools that implement additional visualizations for consensus clustering. An example for this is ConsensusClusterPlus \cite{10.1093/bioinformatics/btq170} which visualizes the co-association matrix created from the base clusterings. This matrix represents how often two points occur in a common cluster relative to the number of base clusterings. Looking at this as a heat map a clear block structure is supposed to indicate a good choice for the parameter $k$ which defines the number of clusters in the result partitioning. It also implements Consensus Cumulative Distribution Function (CDF) Plots and Delta Area Plots, showing the CDF of the consensus matrix for each parameter $k$ and relative change for consecutive values of $k$. This Delta Area Plot is supposed to allow the user to determine a value $k$ at which the relative increase is negligible, similar to the elbow-method. Additional plots are also available, further enabling the user to compare the quality of consensus results regarding the parameter $k$.
+
 \section{Consensus Clustering}\label{sec:consensus}
-Consensus clustering aims to combine multiple clustering solutions for the same data-set into one result. This result should be representative of the combined knowledge acquired by all base clusterings and therefor be more robust and accurate than the average result at least. As the consensus result should lie in the center of the solution space spanned by the base clusterings, if there are sufficiently many good clusterings it should be able to overcome problems arising from outliers. In literature the problem of consensus clustering is often found under different names, those being cluster ensemble \cite{BOONGOEN20181}, clustering aggregation \cite{Gionis2005ClusteringA} and ensemble of partitions \cite{ensemblepartitions}.
+Consensus clustering aims to combine multiple clustering solutions for the same data-set into one result. This result should be representative of the combined knowledge acquired by all base clusterings and therefor be more robust and accurate than the average result at least. As the consensus result should lie in the center of the solution space spanned by the base clusterings, if there are sufficiently many good clusterings it should be able to overcome problems arising from outliers. In literature the problem of consensus clustering is often found under different names, those being cluster ensemble \cite{BOONGOEN20181}, clustering aggregation \cite{Gionis2005ClusteringA} and ensemble of partitions \cite{ensemblepartitions}. For the evaluation of the quality of a result five main factors can be defined \cite{Ghaemi2009ASC,survey1}:\newline
+
+\begin{table}[ht]
+
+\begin{tabular}{ll}
+	\textbf{Novelty} & finding results otherwise unattainable \\
+	\textbf{Robustness} & having better average quality than input clusterings \\
+	\textbf{Consistency}   & finding a result somehow similar to input clusterings \\
+	\textbf{Stability} & being more noise resilient than simple clustering algorithms \\
+	\textbf{Scalability} & applicability for large data-sets regarding run-time \\
+	&
+\end{tabular}
+\caption{Quality factors for consensus clustering results}
+\end{table}
 
 Consensus clustering includes two parts. Firstly base clusterings must be generated, which can be done with different strategies \cite{BOONGOEN20181}. One may choose to perform multiple runs of the same algorithm with the same parameters but different random seeds, the same algorithm with different parameters or even multiple different algorithms. All of these possibilities can be while always clustering the full data, a different sample of the data points (Bootstrapping) \cite{bootstrapping} each run (e.g. 80\%) or even different subspaces of the data. After the generation of base clusterings, the next step is to combine those with a consensus function. In general, consensus functions can be separated into two groups, Object Co-occurrence (O-Co) methods and Median Partitioning (MP) methods \cite{survey1}. There exist a large number of methods in both of those groups, which can be categorized according to what ideas they are based on.
 
 \subsection{Object Co-occurrence}
+Object Co-occurrence (O-Co) based consensus functions look at how points relate to each other and uses this information to create a consensus result. If two points often occur in a common cluster of the base clusterings intuition would suggest that they should also appear in a common cluster in the final result. The same holds for points mostly clustered apart, indicating that they should not be clustered together by the consensus function. The different O-Co based methods formulate algorithms that aim to create a result reflecting these thoughts and usually run in a deterministic way, not seeing this task as an optimization problem. This contrasts the methodology of Median Partitioning methods as can be seen in the following section. To summarize the groups of O-Co consensus functions they are categorized by their underlying computational strategy. The different methods are based on:
+
+\begin{itemize}
+  \item Relabeling and Voting
+  \item Co-association Matrix
+  \item Link Uncertainty
+  \item Dual-Similarity
+  \item Spectral Methods
+  \item Graph and Hypergraph
+  \item Minimum Spanning Tree
+  \item Locally Adaptive Clustering Algorithm
+  \item Information Theory
+  \item Finite Mixture Model
+\end{itemize}
+
+Relabeling and Voting based methods use the individual points as  ``voters'' whereby each point can vote for which cluster it should be assigned to \cite{4470298}. For this to work, the different base clusterings need to map their clusters to one another, defining which cluster is associated most closely with which cluster from another base clustering. This mapping can be performed with algorithms like Kuhn’s Hungarian method \cite{Kuhn2010}.
+
+Co-association Matrix based method create a matrix representing how often two points are in the same cluster relatively  \cite{Monti2003}. With this matrix the consensus result can be computed using linking of sets hierarchically or with a clustering algorithm seeing this matrix as a similarity matrix. The Link Uncertainty \cite{6413733} and Dual-Similarity \cite{7344797} methods expand on this idea by allowing uncertainty values in the matrix and using neighbor-neighbor relationships respectively. Spectral Methods also expand on the idea of co-association matrices by trying to remove noise from the matrix before creating the final result \cite{Tao:2016:RSE:2983323.2983745}.
+
+Graph and Hypergraph based methods create graphs from the base clusterings, representing the relationship between the points as edges and split the resulting graph into sub-graphs with graph partitioning \cite{Strehl:2003:CEK:944919.944935}. Representative methods from this group are the Cluster-based Similarity Partitioning Algorithm (CSPA), the HyperGraph-Partitioning Algorithm (HGPA) and the Meta-CLustering Algorithm (MCLA). Minimum Spanning Tree algorithms require a specific graph structure, organizing them as a minimum spanning tree with Prim's Algorithm \cite[p.~276]{10.1007/978-3-540-85033-5_27}. From this tree the final result is derived through majority voting, a prominent method of this category is Divisive Clustering Ensemble with Automatic Cluster Number (DICLENS) \cite{6035671}.
+
+Locally Adaptive Clustering Algorithm look at different subspaces of the data and computes weights from clustering results in these subspaces \cite{Domeniconi2007}. To create a result the computed clusterings and their weights are modeled as a graph, which is then partitioned.
+
+Information Theory based methods compute quality measures to define distances between clusters and use k-Means to cluster those together \cite[p.~353]{survey1}.
+
+Finite Mixture Model based methods define the consensus clustering problem similarly to the EM-Algorithm (Expectation Maximization) for clustering \cite{Goder2008ConsensusCA,Topchy2004AMM}. The labels for each point are defined as  probability distributions and the final solution is obtained by solving a maximum likelihood estimation problem.
 
 \subsection{Median Partitioning}
+The main difference of Median Partitioning in comparison to Object Co-occurrence is that methods of this group tackle consensus clustering as an optimization problem. With the distance between clusterings defined the task of finding a median partition is to look for a solution that would be in the center of the solution space spanned by the base clusterings. In other words the resulting clustering should have a minimal sum of distances to all base clusterings. As this problem has been shown to be NP-hard \cite{np_median_partition}, heuristics must be used. The different groups of methods can be roughly described as methods that are based on:
 
-\subsection{Consensus Clustering Frameworks}
-%also tools for consensus clustering
-consensus cluster plus \cite{10.1093/bioinformatics/btq170}
+\begin{itemize}
+  \item Genetic Algorithms
+  \item Mirkin Distance
+  \item Sum of Pairwise Distances
+  \item Kernel Functions
+  \item Non-negative Matrix Factorization
+  \item Binary Linear Programming
+\end{itemize}
+
+Genetic Algorithm based methods require a distance measure and a fitness function to compute a consensus result \cite{Cristofor2002FindingMP}. Through evolutionary steps different, starting with random, results are combined or modified until the fitness of the result is satisfactory or does not further improve over many iterations. Mirkin Distance is often used as a distance measure and comes with additional ideas on how genetic modifications should be applied \cite{5766165}, such that a good result is computed with higher probability. The Sum of Pairwise Distances can also be used with genetic algorithms. It proposes the idea that a good consensus result can be found by more strongly considering clusterings far apart in the solution space \cite{6694095}. The idea of using Kernel Functions was also proposed \cite{Vega-Pons:2010:WPC:1786814.1787121}, enabling faster computation regardless of the heuristic used, though mostly genetic algorithms are used with this aswell.
+
+Non-negative Matrix Factorization based methods translate the median partitioning problem to a matrix form which can be solved for by running two multiplicative update procedures \cite{Li:2007:SCS:1441428.1442121}. Running those procedures multiple times iteratively improves the result each iteration and the final result can be obtained by stopping the algorithm at any time or whenever it converged.
+
+Binary Linear Programming based methods create a compact representation of the data and model objects on an intermediate level between points and clusters \cite{HUANG2016131}. For those intermediate objects binary decisions on cluster ownership are calculated iteratively using Expectation Maximization (EM). Within the expectation step of EM the factor graph method \cite{HUANG2016131} is used for estimation. The solution is then mapped back from intermediate objects to data points, assigning them their labels for the consensus solution.
+
 
 \part{Theory}
 \chapter{Methods}
