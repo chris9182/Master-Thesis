@@ -125,6 +125,10 @@ For a more in depth overview Xu and Tian \cite{surveyclustering} published a sur
 %more on current development?
 \section{Visual Clustering Frameworks}
 
+Visual clustering frameworks and tools aim to help users to perform clustering in a simpler way and to visualize results, such that they can make more educated decisions on which algorithms to use and to analyze the quality of their result. 
+
+
+
 Clustervision \cite{Kwon2018ClustervisionVS}
 
 VISTA \cite{VISTA} ClusterMap and user result evaluation
@@ -140,10 +144,18 @@ Propose: ``An Evolutionary and Visual Framework for Clustering of DNA Microarray
 
 Even Memes \cite{Dang2017}
 
-\section{Consensus Clustering}\label{sec:consensus}
-%eplanation of consensus clustering and groups 
-bla
+In addition to visual frameworks for clustering, visual parameter space analysis is also relevant, as finding the best parameters for a clustering algorithm may be difficult. For such use-cases Sedlmair et al. \cite{6876043} propose a framework which can help in finding parameters.
 
+\section{Consensus Clustering}\label{sec:consensus}
+Consensus clustering aims to combine multiple clustering solutions for the same data-set into one result. This result should be representative of the combined knowledge acquired by all base clusterings and therefor be more robust and accurate than the average result at least. As the consensus result should lie in the center of the solution space spanned by the base clusterings, if there are sufficiently many good clusterings it should be able to overcome problems arising from outliers. In literature the problem of consensus clustering is often found under different names, those being cluster ensemble \cite{BOONGOEN20181}, clustering aggregation \cite{Gionis2005ClusteringA} and ensemble of partitions \cite{ensemblepartitions}.
+
+Consensus clustering includes two parts. Firstly base clusterings must be generated, which can be done with different strategies \cite{BOONGOEN20181}. One may choose to perform multiple runs of the same algorithm with the same parameters but different random seeds, the same algorithm with different parameters or even multiple different algorithms. All of these possibilities can be while always clustering the full data, a different sample of the data points (Bootstrapping) \cite{bootstrapping} each run (e.g. 80\%) or even different subspaces of the data. After the generation of base clusterings, the next step is to combine those with a consensus function. In general, consensus functions can be separated into two groups, Object Co-occurrence (O-Co) methods and Median Partitioning (MP) methods \cite{survey1}. There exist a large number of methods in both of those groups, which can be categorized according to what ideas they are based on.
+
+\subsection{Object Co-occurrence}
+
+\subsection{Median Partitioning}
+
+\subsection{Consensus Clustering Frameworks}
 %also tools for consensus clustering
 consensus cluster plus \cite{10.1093/bioinformatics/btq170}
 
@@ -152,7 +164,9 @@ consensus cluster plus \cite{10.1093/bioinformatics/btq170}
 The newly created tool uses a large amount of existing methods which are described in this chapter. This description aims to give an overview of what exact methods were used, the theory behind them and in which scenarios they can be applied.
 
 \section{Clustering}
-The clustering algorithms implemented were used to create base clusterings for meta-clustering. The algorithms described in this section are the ones used, except for OPTICS which was used for meta-clustering. For additional information on why OPTICS was used on a meta level, see Section [REFFERENCE].
+The clustering algorithms implemented were used to create base clusterings for meta-clustering. The algorithms described in this section are the ones used for this step, except for OPTICS which was used for meta-clustering. For additional information on why OPTICS was used on the meta level, see Section [REFFERENCE].
+
+
 \subsection{OPTICS}
 
 \section{Consensus Clustering}
