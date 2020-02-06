@@ -257,7 +257,7 @@ To start with the tool, the user needs to import or create a data-set on which t
 	\label{fig:data-view}
 \end{figure}
 
-\subsection{Plots and I/O}
+\subsection{Plots and I/O}\label{sec:plotio}
 
 The scatter plot in the center left shows data that was imported or created and allows for changing the shown dimensions by clicking on the center of the corresponding axis. The range of values may also be adjusted this way, clicking on the upper or lower bound of the range on any axis opens a small input box. To automatically set this range, such that the minimum and maximum values of the shown data are just at the border, the small square button in the bottom left can be clicked. This is also a useful button to return to a full view of the data if the range was made smaller to have a zoomed view of the data. The right part of the tool contains the functionality for importing/exporting data, manipulating the data, showing it in a scatter plot matrix and opening the workflow-view which will be explained in the next step.
 
@@ -391,7 +391,7 @@ To add new clustering algorithms for creating base clusterings, first one must c
 
 \subsection{Meta-Clustering}
 %info on OPTICS?
-The algorithm used for mata-clustering is OPTICS [CITATION]. One of the requirements for this methods is that the used distance measure must be metric, otherwise the algorithm can only produce an approximate clustering at best. The distance measure used by the algorithm can be changed and additional distance measures can also be added. For this, the following interface is of interest:
+The algorithm used for mata-clustering is OPTICS \cite{10.1145/304181.304187}. One of the requirements for this methods is that the used distance measure must be metric, otherwise the algorithm can only produce an approximate clustering at best. The distance measure used by the algorithm can be changed and additional distance measures can also be added. For this, the following interface is of interest:
 
 \begin{itemize}
   \item Clustering Distance Measure: IMetaDistanceMeasure
@@ -425,7 +425,7 @@ To add consensus functions the interface IConsensusFunction must be extended. It
 
 \section{Visualization}
 
-To visualize the data in different ways and provide a functional Graphical User Interface (GUI) the Java Swing \cite{javaswing} Toolkit was used. It allows for both high level calls creating objects withing windows, e.g. panels, buttons or combo-boxes, as well as low level calls by directly changing the behavior of the draw() function. For the basic GUI the panels and buttons of the tool were created with high level calls, while the different graphs and plots were implemented by overriding the draw() function. Overriding the draw() function immensely improved performance as the already available high level objects are computationally costly by comparison, when many of them are needed. This section only includes additional information on the implementation and functionality, information on the usage of the visual elements in the tool can be found in Section [REFERENCE].
+To visualize the data in different ways and provide a functional Graphical User Interface (GUI) the Java Swing \cite{javaswing} Toolkit was used. It allows for both high level calls creating objects withing windows, e.g. panels, buttons or combo-boxes, as well as low level calls by directly changing the behavior of the draw() function. For the basic GUI the panels and buttons of the tool were created with high level calls, while the different graphs and plots were implemented by overriding the draw() function. Overriding the draw() function immensely improved performance as the already available high level objects are computationally costly by comparison, when many of them are needed. This section only includes additional information on the implementation and functionality, information on the usage of the visual elements in the tool can be found in Chapter \ref{cha:Tool}.
 
 \subsection{Scatter Plot}
 The scatter plot is the simplest visualization of the data within the tool. It is implemented though two axis and a canvas object. The axis include logic for the draw the value range and selected dimension, including the mouse listeners for modifying it, as well as the translation from model coordinates to viewer coordinates. The canvas implements the drawing of data points, including different shapes and colors depending on their cluster identifier, whether or not they are filtered out or if they represent special objects like the ground truth in the meta-view. Additionally the canvas can support mouse listeners enabling interactivity with the points.
@@ -433,11 +433,11 @@ The scatter plot is the simplest visualization of the data within the tool. It i
 
 \subsection{Switching between Clusterings}
 
-bla bla bla
+In the meta-view the user is able to change the currently visible clustering by selecting another clustering in the drop-down menu, the heat map or the reachability plot. Whenever this happens the scatter plot showing the current clustering is exchanged and replaces with one showing the selected data. As the labels may be totally different and comparing them in this switching process is visually difficult when they are assigned different colors, Kuhn’s Hungarian method \cite{Kuhn2010} is used to color the points of the newly shown clustering according to the previously shown one. This results in visually similar choices of color for points and thereby allowing for easier comparison.
 
 \subsection{Scatter Plot Matrix}
 
-bla bla bla
+The scatter plot matrix implements a view that constructs a grid of scatter plots for each combination of dimensions in the data. For the elements on the diagonal of the grid, the plots are exchanged with kernel density estimation plots which are computed using the Java Smile \cite{javasmile} library. Kernel density estimation usually needs a bandwidth parameter to be set which influences how the resulting distributions look. The smile library implements a default value for this parameter though, which estimates a fitting value for this bandwidth. The plot then uses the maximum density for the whole data-set as the $100\% $ mark, drawing it up to the top of the grid cell. On top of this function the functions representing the density for each cluster label are overlayed with different colors and some opacity such that they are all visible. These overlayed functions are assigned their height value by multiplying the density estimation value with the percentage part of the data they contain (e.g. cluster contains $5\% $ of data points $\rightarrow$ height times $0.05$) and scaling these values to screen coordinates, just like the overall function. This results in the function for the whole data representing the sum of the functions for each cluster label.
 
 \subsection{OPTICS Plot}
 
@@ -453,7 +453,7 @@ bla bla bla
 
 \subsection{Cluster comparison}
 
-bla bla bla
+For the comparison of two clustering results, it is possible to select two clusterings in the meta-view by control-clicking a second clustering when only one is selected. Whenever two clusterings are selected a ``Difference'' button appears, clicking it opens the comparison view. Here, just like when switching between visible clusterings, they are adapted with Kuhn’s Hungarian method \cite{Kuhn2010} such that their common labels are maximal. The center view then colors all points where the labels differ in black and the ones where they are equal in white. This allows to quickly see which points differ for solutions that are at least somewhat similar. The percentage of differing points shown in the title bar of this window is computed by dividing the number of black points by the total number of points.
 
 \part{Testing}
 \chapter{Experiments}\label{cha:experiments}
