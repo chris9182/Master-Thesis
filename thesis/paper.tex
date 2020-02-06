@@ -220,13 +220,25 @@ The newly created tool uses a large amount of existing methods which are describ
 \section{Clustering}
 The clustering algorithms implemented were used to create base clusterings for meta-clustering. The algorithms described in this section are the ones used for this step, except for OPTICS which was used for meta-clustering. For additional information on why OPTICS was used on the meta level, see Section [REFFERENCE].
 
+\subsection{k-Means}
+
+\subsection{DBSCAN}
 
 \subsection{OPTICS}
 
 \section{Consensus Clustering}
 \subsection{DICLENS}
 
+\subsection{Co-association Matrix based Consensus}
+
+\subsubsection{Lifetime Criterion}
+
 \section{Other Methods}
+\subsection{Dimensionality Reduction}\label{sec:dim_reduction}
+PCA \cite{pca}
+
+ t-SNE \cite{Maaten2008VisualizingDU}
+
 \subsection{Hungarians Method}
 
 
@@ -276,7 +288,7 @@ In the top right the ``Matrix'' button can be used to display all dimensions at 
 
 \subsection{Modifying the data}
 
-As the data may still contain unwanted dimensions after loading cleanup may need to be done. To reduce the dimensionality the simplest method is to select the ``Dim. Remover'' tool in the top right and define the index of the dimension to be removed. As more sophisticated methods PCA and t-SNE [CITATION] are also available. PCA calculates the principal components of the data and projects it onto the $k$ strongest ones leaving us with $k$ dimensions. $k$ can easily be defined in the settings of PCA by filling in the dimensions field, as seen in Figure \ref{fig:loaded-data}. t-SNE works similarly to PCA, has more options though and even a parallel implementation. For more information on those methods see Section [REFERENCE].
+As the data may still contain unwanted dimensions after loading cleanup may need to be done. To reduce the dimensionality the simplest method is to select the ``Dim. Remover'' tool in the top right and define the index of the dimension to be removed. As more sophisticated methods PCA \cite{pca} and t-SNE \cite{Maaten2008VisualizingDU} are also available. PCA calculates the principal components of the data and projects it onto the $k$ strongest ones leaving us with $k$ dimensions. $k$ can easily be defined in the settings of PCA by filling in the dimensions field, as seen in Figure \ref{fig:loaded-data}. t-SNE works similarly to PCA, has more options though and even a parallel implementation. For more information on those methods see Section \ref{sec:dim_reduction}.
 
 Other than reducing the dimensionality of the data the application allows to normalize the data, such that it can be more easily used for clustering. If there are different dimensions with strongly different meaning, unit and range this normalization step can benefit the accuracy of clustering greatly [CITATION?]. The available tools are ``Normalize'' and ``Standardize''. Normalize changes the value range for each dimension to the interval $[0,1]$ while preserving relative distances, the Standardize tool adapts these ranges such that the average is $0$ and the standard deviation is $1$.
 
