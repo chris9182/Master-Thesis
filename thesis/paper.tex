@@ -229,7 +229,7 @@ bla
 \subsection{Expectation Maximization}
 bla
 
-\subsection{OPTICS}
+\subsection{OPTICS}\label{sec:opticstheory}
 bla
 
 \section{Consensus Clustering}
@@ -251,6 +251,7 @@ PCA \cite{pca}
  t-SNE \cite{Maaten2008VisualizingDU}
 
 \subsection{Hungarians Method}
+image 
 
 \subsection{Kernel Density Estimation}
 
@@ -343,7 +344,34 @@ When all setting are defined, the user can press the ``Execute Workflow'' button
 If the user has a previously saved Clustering Result File (CRF), which can be created in the meta-view, he can also omit defining a workflow and load the results in through the ``Load Result'' button. This button is only available when no clustering tasks were added to the workflow, as can be seen in Figure \ref{fig:workflow-view-tasks}. Before loading a result though, the user should make sure that the settings in the bottom left for meta-clustering are set to his liking. Only the seed field has no effect when loading a result as no clustering algorithms, except for meta-clustering which is deterministic, are run. After the data is loaded and meta-clustering is performed the meta-view opens with the chosen data.
 
 \section{Meta-View and Consensus Clustering}
-With either a clustering result loaded in or clustering algorithms run and the meta-clustering performed the meta-view is shown. This view allows the user to comparatively explore the clustering results, here interchangeably the term base clusterings is used, and thereby analyze their robustness. This should empower the used to make educated choices on which clustering to pick as result or to decide on which ones should be combined into a consensus result.
+With either a clustering result loaded in or clustering algorithms run and the meta-clustering performed the meta-view is shown. This view allows the user to comparatively explore the clustering results, here interchangeably the term base clusterings is used, and thereby analyze their robustness. This should empower the user to make educated choices on which clustering to pick as final result or to decide on which ones should be combined into a consensus result. The meta-view with can be seen in Figure \ref{fig:meta-view}, where example data is used and the ground truth is currently shown.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=.45]{data-view}
+	\caption{PLACEHOLDER: Meta-View with data and ground truth selected}
+	\label{fig:meta-view}
+\end{figure}
+
+The meta-view consists of five visual elements and some UI-elements in the top. Of the five elements, the left four visualizations give an overview of the data on an individual clustering and meta-level and the right part can be used to filter the base clusterings. In the top left visualization, the data can be seen with the clustering labels colored in according to the result of selected clustering run. The selected clustering can be changed by either selecting another one in the selector above, by clicking on a result in one of the other three views that  show them on a meta-level. When changing between selected clustering solutions, the colors for the labels are adapted such that the change of labels is minimal. This is done so the user can more easily see differences, and is computed solving the mathematical assignment problem with Kuhn’s Hungarian method \cite{Kuhn2010}.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=.45]{data-view}
+	\caption{PLACEHOLDER: Heat Map of the clusterings in Meta-View}
+	\label{fig:heatmap}
+\end{figure}
+
+The bottom left of the for visualizations shows a heat map representing the distances between clustering solutions and indicating similarities hierarchically when looking for dark colored (i.e. dense) blocks on the diagonal. Figure \ref{fig:heatmap} shows such a heat map and one can see that depending on what the user considers to be a block, groups can visually be identified. The distances plotted represent the ones calculated with the distance measure selected in the workflow-view and are color coded such that their comparative values can easily be seen. Clicking within this plot highlights the clustering corresponding to the column selected, as well as the horizontal and vertical distance entries of the matrix. This should allow more easily visually analyzing distances between clusterings or clustering blocks within the matrix, when adding to the selection through control-clicking. Whenever a single clustering is selected it is also shown in the top left and any selection is also updated to the remaining views in the meta-view.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=.45]{data-view}
+	\caption{PLACEHOLDER: OPTICS Reachability Plot in Meta-View }
+	\label{fig:opticsplot}
+\end{figure}
+
+In the bottom right, the reachability plot resulting from the OPTICS meta-clustering is shown, it can be seen in Figure \ref{fig:opticsplot}. The height of the bars represent the reachability value for the clustering as determined by the algorithm and valleys in this plot can be interpreted as clusters. For more information on the reachability value refer to Section \ref{sec:opticstheory}. To define the meta-clusters the gray range range bar can be clicked or dragged on, moving the threshold bar and coloring the clusterings accordingly and thereby visualizing to which meta-cluster each individual clustering belongs. Clicking or control-clicking on bars modifies the selected clustering(s), again updating the other views. With the meta-clustering defined double clicking on a bar or point in any other plot on the meta-level, will select the whole meta-cluster.
 
 
 
@@ -474,7 +502,7 @@ The scatter plot is the simplest visualization of the data within the tool. It i
 
 \subsection{Switching between Clusterings}
 
-In the meta-view the user is able to change the currently visible clustering by selecting another clustering in the drop-down menu, the heat map or the reachability plot. Whenever this happens the scatter plot showing the current clustering is exchanged and replaces with one showing the selected data. As the labels may be totally different and comparing them in this switching process is visually difficult when they are assigned different colors, Kuhn’s Hungarian method \cite{Kuhn2010} is used to color the points of the newly shown clustering according to the previously shown one. This results in visually similar choices of color for points and thereby allowing for easier comparison.
+In the meta-view the user is able to change the currently visible clustering by selecting another clustering in the drop-down menu, the heat map or the reachability plot. Whenever this happens the scatter plot showing the current clustering is exchanged and replaces with one showing the selected data. As the labels may be totally different and comparing them in this switching process is visually difficult when they are assigned different colors, Kuhn’s Hungarian method \cite{Kuhn2010} is used to color the points of the newly shown clustering according to the previously shown one. This results in visually similar choices of color for points and thereby allowing for easier comparison. In the general case, this problem is called the mathematical assignment problem, which has many applications in different fields \cite{Kuhn2010}.
 
 \subsection{Scatter Plot Matrix}
 
@@ -487,6 +515,9 @@ bla bla bla
 \subsection{Heat Map}
 
 bla bla bla
+
+\subsection{MDS Plot}
+The Multi-Dimensional Scaling (MDS) plot shows points such that their actual distances are approximately represented in a fixed dimensional space. This is done with the equally named method multi-dimensional scaling \cite{mds} for which a maximum number of dimensions $d$ must be defined and the input requires a distance matrix for the points to be layed out. This method is implemented using the Java Smile \cite{javasmile} library and trying to use as many dimensions as possible. With $d$ set, it aims to compute approximate coordinates for the points by trying to keep the distances in a $d$ dimensional space as true to the inserted distance matrix as possible. The resulting coordinates, similarly to PCA, also capture as much information as possible in the leading dimensions, resulting in the first two being the best choice to visualize in 2D. This is the case as MDS actually computes the same result as PCA whenever the distances are Euclidean. To show this information, the created points are loaded into a scatter plot and per default these first two dimensions are shown. Whenever more than two dimensions are available the user can change the shown dimensions by clicking on the corresponding axis and choosing another dimension. 
 
 \subsection{Filter Panel}
 
