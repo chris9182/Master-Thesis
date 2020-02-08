@@ -245,10 +245,17 @@ bla
 bla
 
 \section{Other Methods}
-\subsection{Dimensionality Reduction}\label{sec:dim_reduction}
-PCA \cite{pca}
 
+\subsection{Dimensionality Reduction}\label{sec:dim_reduction}
+
+\subsubsection{Principal Component Analysis}
+ pca \cite{pca}
+
+\subsubsection{t-Distributed Stochastic Neighbor Embedding}
  t-SNE \cite{Maaten2008VisualizingDU}
+
+\subsubsection{Multi-Dimensional Scaling}
+MDS \cite{mds}
 
 \subsection{Hungarians Method}
 image 
@@ -301,7 +308,7 @@ In the top right the ``Matrix'' button can be used to display all dimensions at 
 
 \subsection{Modifying the data}
 
-As the data may still contain unwanted dimensions after loading cleanup may need to be done. To reduce the dimensionality the simplest method is to select the ``Dim. Remover'' tool in the top right and define the index of the dimension to be removed. As more sophisticated methods PCA \cite{pca} and t-SNE \cite{Maaten2008VisualizingDU} are also available. PCA calculates the principal components of the data and projects it onto the $k$ strongest ones leaving us with $k$ dimensions. $k$ can easily be defined in the settings of PCA by filling in the dimensions field, as seen in Figure \ref{fig:loaded-data}. t-SNE works similarly to PCA, has more options though and even a parallel implementation. For more information on those methods see Section \ref{sec:dim_reduction}.
+As the data may still contain unwanted dimensions after loading cleanup may need to be done. To reduce the dimensionality the simplest method is to select the ``Dim. Remover'' tool in the top right and define the index of the dimension to be removed. As more sophisticated methods Principal Component Analysis (PCA) \cite{pca} and t-Distributed Stochastic Neighbor Embedding (t-SNE) \cite{Maaten2008VisualizingDU} are also available. PCA calculates the principal components of the data and projects it onto the $k$ strongest ones leaving us with $k$ dimensions. $k$ can easily be defined in the settings of PCA by filling in the dimensions field, as seen in Figure \ref{fig:loaded-data}. t-SNE works similarly to PCA, has more options though and even a parallel implementation. For more information on those methods see Section \ref{sec:dim_reduction}.
 
 Other than reducing the dimensionality of the data the application allows to normalize the data, such that it can be more easily used for clustering. If there are different dimensions with strongly different meaning, unit and range this normalization step can benefit the accuracy of clustering greatly \cite{normalization}. The available tools are ``Normalize'' and ``Standardize''. Normalize changes the value range for each dimension to the interval $[0,1]$ while preserving relative distances, the Standardize tool adapts these ranges such that the average is $0$ and the standard deviation is $1$.
 
@@ -372,6 +379,15 @@ The bottom left of the for visualizations shows a heat map representing the dist
 \end{figure}
 
 In the bottom right, the reachability plot resulting from the OPTICS meta-clustering is shown, it can be seen in Figure \ref{fig:opticsplot}. The height of the bars represent the reachability value for the clustering as determined by the algorithm and valleys in this plot can be interpreted as clusters. For more information on the reachability value refer to Section \ref{sec:opticstheory}. To define the meta-clusters the gray range range bar can be clicked or dragged on, moving the threshold bar and coloring the clusterings accordingly and thereby visualizing to which meta-cluster each individual clustering belongs. Clicking or control-clicking on bars modifies the selected clustering(s), again updating the other views. With the meta-clustering defined double clicking on a bar or point in any other plot on the meta-level, will select the whole meta-cluster.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=.45]{data-view}
+	\caption{PLACEHOLDER: MDS Plot in Meta-View }
+	\label{fig:mdsplot}
+\end{figure}
+
+Above the reachability plot in the top right the MDS plot is visible, it can be seen in Figure \ref{fig:mdsplot}. It shows an approximate representation of the clusterings in a finite dimensional space, aiming to stay as true as possible to the distance between them. The computation of this representation uses Multi-Dimensional Scaling (MDS) \cite{mds} which also gives this plot its name. When ground truth is available, it is shown in this plot as a star and the other clusterings are colored according to the threshold in the OPTICS plot. This visualization is useful as the user can, similarly to the heat map, explore which clusterings are close to each other and where the ground truth lies in this representation space. An ideal sampling of the solution space could be claimed if the ground truth is central and as the represented space approximates the solution space, finding the ground truth in the center and surrounded by solutions should be an indicator of good sampling. In the MDS plot the user can also once again select points by clicking, additionally dragging and selecting multiple points at once is possible as well. Besides this, all functionality available in simple scatter plots can also be used here.
 
 
 
@@ -517,7 +533,7 @@ The implementation of the OPTICS algorithm, creating the data required for this 
 The heat map shows the distances between clusterings solutions using the meta distance measure as defined by the user. It allows for visually identifying blocks of similar results on the diagonal, different hues of brown were chosen for this as they are easier to distinguish than other colors tested. The plot is drawn by overriding Java Swings \cite{javaswing} draw() function as creating a component for each cell makes the view unresponsive due to the large overhead from managing a large number of components. To allow for mouse interactivity the coordinates of clicks were calculated back to find the targeted cell and used for selection logic. This is needed as there are no small components which would usually manage this.
 
 \subsection{MDS Plot}
-The Multi-Dimensional Scaling (MDS) plot shows points such that their actual distances are approximately represented in a fixed dimensional space. This is done with the equally named method multi-dimensional scaling \cite{mds} for which a maximum number of dimensions $d$ must be defined and the input requires a distance matrix for the points to be layed out. This method is implemented using the Java Smile \cite{javasmile} library and trying to use as many dimensions as possible. With $d$ set, it aims to compute approximate coordinates for the points by trying to keep the distances in a $d$ dimensional space as true to the inserted distance matrix as possible. The resulting coordinates, similarly to PCA, also capture as much information as possible in the leading dimensions, resulting in the first two being the best choice to visualize in 2D. This is the case as MDS actually computes the same result as PCA whenever the distances are Euclidean. To show this information, the created points are loaded into a scatter plot and per default these first two dimensions are shown. Whenever more than two dimensions are available the user can change the shown dimensions by clicking on the corresponding axis and choosing another dimension. 
+The Multi-Dimensional Scaling (MDS) plot shows points such that their actual distances are approximately represented in a fixed dimensional space. This is done with the equally named method multi-dimensional scaling \cite{mds} for which a maximum number of dimensions $d$ must be defined and the input requires a distance matrix for the points to be layed out. This method is implemented using the Java Smile \cite{javasmile} library and trying to use as many dimensions as possible. With $d$ set, it aims to compute approximate coordinates for the points by trying to keep the distances in a $d$ dimensional space as true to the inserted distance matrix as possible. The resulting coordinates, similarly to PCA, also capture as much information as possible in the leading dimensions, resulting in the first two being the best choice to visualize in 2D. This is the case as MDS actually computes the same result as PCA whenever the distances are Euclidean. To show this information, the created points are loaded into a scatter plot and per default these first two dimensions are shown. Whenever more than two dimensions are available the user can change the shown dimensions by clicking on the corresponding axis and choosing another dimension. The selection of points can be done by either clicking or dragging on the canvas of the scatter plot. When clicking the closes point is selected and when dragging all points within the drawn rectangle are selected.
 
 \subsection{Filter Panel}
 The filter panel allows the user to filter out results by decreasing the range on the range selectors. The area charts show how much data points are within the range in blue and how many points are outside it/filtered out in red. This chart is implemented by defining buckets for the values to be shown and counting the number of value occurrences within each bucket. For double values the square root of the number of values is used as the number of buckets, for integer values the number of values in their range is chosen and for Boolean values 3 buckets are chosen. 3 buckets where chosen there, such that true is shown on the left, false on the right and there is space in the center for clearly separating the two values. If there would be to many buckets when using this default calculation they are capped at 31 (as uneven numbers may produce nicer ranges), which helps for example whenever too large integer ranges are available. Also, as the charts are quite small, more buckets can no longer be visualized properly.
