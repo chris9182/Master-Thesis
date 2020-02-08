@@ -230,7 +230,7 @@ bla
 bla
 
 \subsection{OPTICS}\label{sec:opticstheory}
-bla
+optics \cite{10.1145/304181.304187}
 
 \section{Consensus Clustering}
 consensus clustering
@@ -242,7 +242,7 @@ bla
 bla
 
 \subsection{DICLENS}
-bla
+diclens \cite{DICLENS}
 
 \section{Other Methods}
 
@@ -382,7 +382,7 @@ The bottom left of the for visualizations shows a heat map representing the dist
 	\label{fig:opticsplot}
 \end{figure}
 
-In the bottom right, the reachability plot resulting from the OPTICS meta-clustering is shown, it can be seen in Figure \ref{fig:opticsplot}. The height of the bars represent the reachability value for the clustering as determined by the algorithm and valleys in this plot can be interpreted as clusters. For more information on the reachability value refer to Section \ref{sec:opticstheory}. To define the meta-clusters the gray range range bar can be clicked or dragged on, moving the threshold line and coloring the clusterings accordingly and thereby visualizing to which meta-cluster each individual clustering belongs. Clicking or control-clicking on bars modifies the selected clustering(s), again updating the other views. With the meta-clustering defined double clicking on a bar or point in any other plot on the meta-level, will select the whole meta-cluster. This chart can also be used as help for deciding on which clustering to pick for the final result as neighboring bars with small values indicate a dense region of results. Such a dense region can be interpreted as a robust solution and choosing a clustering from it may yield a good final choice.
+In the bottom right, the reachability plot resulting from the OPTICS meta-clustering is shown, it can be seen in Figure \ref{fig:opticsplot}. The height of the bars represent the reachability value for the clustering as determined by the algorithm and valleys in this plot can be interpreted as clusters. For more information on the reachability value refer to Section \ref{sec:opticstheory}. To define the meta-clusters the gray range range bar can be clicked or dragged on, moving the threshold line and coloring the clusterings accordingly and thereby visualizing to which meta-cluster each individual clustering belongs. Clicking or control-clicking on bars modifies the selected clustering(s), again updating the other views. If ground truth is available, mousing over the bars shows a tooltip with the distance and the NMI of the clustering in relation to the truth. With the meta-clustering defined double clicking on a bar or point in any other plot on the meta-level, will select the whole meta-cluster. This chart can also be used as help for deciding on which clustering to pick for the final result as neighboring bars with small values indicate a dense region of results. Such a dense region can be interpreted as a robust solution and choosing a clustering from it may yield a good final choice.
 
 \begin{figure}[h]
 	\centering
