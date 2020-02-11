@@ -221,13 +221,18 @@ The newly created tool uses a large amount of existing methods which are describ
 The clustering algorithms implemented were used to create base clusterings for meta-clustering. Besides this, any base clustering result may be chosen by the user as the overall result. The algorithms described here are the ones used in the created tool to generate base clusterings, except for OPTICS which was used for meta-clustering. For additional information on the choice of OPTICS for the meta-level clustering, see Section \ref{sec:sel_alg_param}.
 
 \subsection{k-Means}
-K-Means clustering is one of the most prominent methods used for clustering \cite{Jin2010}. The main implementations of k-Means are Lloyds method \cite{4031353} and MacQueens method \cite{macqueen1967} although important variants like k-Medians \cite{Dohan2015KmedianAT} are available.
+K-Means clustering is one of the most prominent methods used for clustering \cite{Jin2010}. The main implementations of k-Means are Lloyds method \cite{4031353} and MacQueens method \cite{macqueen1967} although important variants like k-Medians \cite{Dohan2015KmedianAT} and k-Medoids \cite{kmedoids}  are available.
 
-\subsection{DBSCAN}
-bla
+The main idea of k-Means type clustering algorithms is to start with centroids which are points in the data-space representing the centers of the clusters. Each point is assigned to the centroid closest to it according to Euclidean distance, defining the clusters. To improve the result the centroid is updated to the center of its corresponding points iteratively until no more changes happen or some convergence criterion is met. This update procedure does not guarantee finding the optimum though, even if no more changes for the centroids can be observed. How the initial centroids are chosen may also impact the quality of the result greatly. To find a good initialization, Arthur and Vassilvitskii \cite{10.5555/1283383.1283494} proposed k-Means++ whereby the centroids are picked such that they are far apart with high probability. They showed that this kind of initialization makes the overall algorithm $O(log(k))$ competitive with the optimal clustering \cite{10.5555/1283383.1283494}.
+
+The main difference between Lloyds and MacQueens method is that Lloyds method only recalculates the centroid positions every time an iteration is completed while MacQueens method also updates them whenever a point changes its assigned clusters. This results in more computational cost during iterations, may allow for faster convergence though. The k-Medians method is different in regards to the distance metric used. Unlike Lloyds and MacQueens methods it does not use the Euclidean distance but the Manhattan-distance (1-Norm) to find the centroids. K-Medoids in contrast to all previous methods does not use centroids that may lie anywhere in the data space, but only existing points may be used. These are in this case called medoids and define the objects for which the average dissimilarity to all points withing the cluster is minimal.
 
 \subsection{Expectation Maximization}
-bla
+bla \cite{10.2307/2984875}
+
+\subsection{DBSCAN}
+bla \cite{10.5555/3001460.3001507}
+
 
 \subsection{OPTICS}\label{sec:opticstheory}
 optics \cite{10.1145/304181.304187}
@@ -257,7 +262,9 @@ diclens \cite{DICLENS}
 \subsubsection{Multi-Dimensional Scaling}
 MDS \cite{mds}
 
-\subsection{Hungarians Method}
+\subsection{Kuhn’s Hungarian method}
+Kuhn’s Hungarian method \cite{Kuhn2010} can be used to solve the mathematical assignment problem for the two-dimensional case. A simple example for the assignment problem is to think of $n$ jobs and $n$ workers in a factory that each demand a different payment for a specific job. Now the task is to find the optimal assignment whereby all jobs are performed, all workers are assigned a job and the total cost for all workers is minimal. The assignment problem also allows for reformulation such that the target value is maximized instead of minimized whenever this better fits the problem and it can be extended to more than two dimensions. In the aforementioned example an additional dimension could for example be the tools used, i.e. a worker demands a different payment depending on which task he has to perform with which tool being provided. Also, as an extension to make this more general each dimension may not necessarily need to have the same number of elements. If there are for example more workers than jobs, some workers will not be assigned a job.
+
 image 
 
 \subsection{Kernel Density Estimation}
