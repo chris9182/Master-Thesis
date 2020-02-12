@@ -217,6 +217,28 @@ Binary Linear Programming based methods create a compact representation of the d
 \chapter{Methods}
 The newly created tool uses a large amount of existing methods which are described in this chapter. This section aims to give an overview of what exact methods were used, the theory behind them and in which scenarios they can be/are applied. For a more general overview of the topics relating the methods used, see the related work for this paper in Chapter \ref{cha:related_work}.
 
+\section{Dimensionality Reduction}\label{sec:dim_reduction}
+Dimensionality reduction are able to reduce the number of dimensions in a data-set while trying to maintain as much information as possible. Reducing the number of dimensions is often needed for reducing the computational complexity of clustering and improving the accuracy of the result, but also to visualize the data in a lower-dimensional space. This visualization is then often easier to understand for a user than if all dimensions are shown at once.
+\subsection{Principal Component Analysis}
+ Principal Component Analysis (PCA) \cite{pca} aims to transform correlated variables into uncorrelated ones thereby omitting less relevant dimensions. Generally, Principal Components (PCs) are linear combinations of the original variables and can be computed through the eigenvectors $V$ of the covariance matrix $C$. To use these PCs for dimensionality reduction the $k$ onces corresponding to the largest eigenvalues of the matrix are extracted into a matrix $V_k$ and used as a basis to transform the data. This is done by calculating $data_{red.}=V_k^T*data_{center}$, whereby the original data must be centered first.
+
+\subsection{t-Distributed Stochastic Neighbor Embedding}
+ t-SNE \cite{Maaten2008VisualizingDU}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+
+\subsection{Multi-Dimensional Scaling}
+Multi-Dimensional Scaling (MDS) \cite{mds} uses a distance matrix (often called proximity data) and a number of target dimensions $k$ as input. It then trys to lay out the point in a $k$-dimensional space such that the distances between them in that space are as close as possible to the true distance. When this method is used with a distance matrix created with Euclidean distances, the result will be equivalent to running PCA on the data itself. 
+
+For the calculation of the solution MDS builds $n$ $k$-dimensional hypervectors with unknown parameters and aims to minimize the stress value by applying gradient decent. The stress of a configuration is defined as the residual sum of squares for the distances, i.e. the sum of squared errors between the actual distances and the distances in the $k$-dimensional space.
+
 \section{Clustering}
 The clustering algorithms implemented were used to create base clusterings for meta-clustering. Besides this, any base clustering result may be chosen by the user as the overall result. The algorithms described here are the ones used in the created tool to generate base clusterings, except for OPTICS which was used for meta-clustering. For additional information on the choice of OPTICS for the meta-level clustering, see Section \ref{sec:sel_alg_param}.
 
@@ -245,7 +267,9 @@ An object $p$ is considered to be density-connected to another object $q$ if bot
 
 Any objects at the border are not core objects, but will be assigned to a cluster; outside points will be considered noise.
 
-To now create the different clusters, for all pairs of points $p$ and $q$ if $q$ is density-reachable from $p$ they will both be assigned the same cluster and $p$ is considered density-connected to $q$.
+To now create all the different clusters, for all pairs of points $p$ and $q$ if $q$ is density-reachable from $p$ they will both be assigned the same cluster and $p$ is considered density-connected to $q$. It is important to note here that points on the border of two clusters may belong to either cluster depending on the order of processing.
+
+Also the relationship between $\epsilon$ and $\mu$ is interesting to observe in practice. Often when trying different parameter sets for DBSCAN is suffices to fix one parameter to a somewhat sensible value while only sampling the other. If one for example knows that any region with less then $20$ ``close'' points should not be considered a cluster it is possible to fix $\mu$ at $20$ and only sample $\epsilon$ to find a satisfactory result.
 
 
 \subsection{OPTICS}\label{sec:opticstheory}
@@ -266,44 +290,42 @@ $$
 \end{cases}
 $$
 
-The output of the OPTICS clustering algorithm is an ordered list of objects with their reachabililty-distances. To compute this list all points are processed iteratively starting with any point. All points neighboring the current point are updated with their reachability distance from the current point, assigning the minimum of the new and previous values to the point. To select the next point the one with the smallest reachability value is chosen or a new random one if there are none. The resulting list of points with reachability distances can be visualized with a bar chart whereby basins indicate clusters. As the definition of these basins can be done in different ways, the result can be considered hierarchical.
+The output of the OPTICS clustering algorithm is an ordered list of objects with their reachabililty-distances. To compute this list all points are processed iteratively starting with any point. All points neighboring the current point are updated with their reachability distance from the current point, assigning the minimum of the new and previous values to the point. To select the next point the one with the smallest reachability value is chosen or a new random one if there are none. The resulting list of points with reachability distances can be visualized with a bar chart whereby valleys indicate clusters. As the definition of these valleys can be done in different ways, the result can be considered hierarchical.
 
 
-\section{Consensus Clustering}
-consensus clustering
-
+\section{Consensus Functions}
+Consensus functions have the goal of merging multiple different clustering results together such that the overall result represents a consensus between the base clusterings. In this work I focused on two methods that aim to achieve this.
 \subsection{Co-association Matrix based Consensus}
-bla
+Co-association Matrix based consensus functions \cite{Monti2003} first create a co-association matrix that indicates how often two points $p$ and $q$ appear in in a common cluster, i.e. if $p$ and $q$ are clustered together $70\%$ of the time the corresponding entry of the matrix is $0.7$. To extract a consensus result from this matrix different methods can be applied. One possibility is to choose a clustering algorithm that takes this matrix as an input, converts it to a dissimilarity/distance measure and performs clustering with it. Another possibility is to use linking of sets strategies, which is also done for the implementation in the tool. This has the benefit of being trivial to implement and not imposing a cluster structure, as would for example be the case when using k-Means.The possible linking strategies are single-link, using the similarity of the two points of the sets where it is maximal, average-link, using the average similarity between all point pairs, or maximum link, whereby the smallest similarity is used. With each of these strategies the pair of sets for which this linking value is maximal (i.e. they are most similar) is merged. To stop the merging process and obtain the final result, either a threshold value can be set for the link value upon which no more merging should be performed or a number of target clusters $k$ can be defined stopping when only $k$ sets remain. Another option for defining when to stop merging is the Lifetime Criterion. For the implementation of the tool per default the average-link strategy is chosen with either defining $k$ or using this Lifetime Criterion.
 
 \subsubsection{Lifetime Criterion}
-bla
+The lifetime of a group of sets is defined as the difference between the linking values for the previous merge and the next merge. These linking values are the maximum link value according to some strategy, where the next merge of two sets would occur. The Lifetime Criterion claims that a good choice for a cut in a hierarchical clustering tree is the one for which the lifetime is maximal \cite{YANG201735}. This estimate similarly to the elbow-method for other clustering algorithms aims to find a good trade-off between the number of clusters and the accuracy decrease due to increasing/decreasing the cluster number. To use this criterion, either two runs of merging (only keeping the linking values) need to be performed or the full merge-tree must be saved. If the whole tree is saved the result can be obtained by cutting the tree, otherwise the group of sets needs to be re-computed up to the corresponding level.
 
 \subsection{DICLENS}
 diclens \cite{DICLENS}
+%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
 
 \section{Other Methods}
-
-\subsection{Dimensionality Reduction}\label{sec:dim_reduction}
-
-\subsubsection{Principal Component Analysis}
- pca \cite{pca}
-
-\subsubsection{t-Distributed Stochastic Neighbor Embedding}
- t-SNE \cite{Maaten2008VisualizingDU}
-
-\subsubsection{Multi-Dimensional Scaling}
-MDS \cite{mds}
 
 \subsection{Kuhn’s Hungarian method}
 Kuhn’s Hungarian method \cite{Kuhn2010} can be used to solve the mathematical assignment problem for the two-dimensional case. A simple example for the assignment problem is to think of $n$ jobs and $n$ workers in a factory that each demand a different payment for a specific job. Now the task is to find the optimal assignment whereby all jobs are performed, all workers are assigned a job and the total cost for all workers is minimal. The assignment problem also allows for reformulation such that the target value is maximized instead of minimized whenever this better fits the problem and it can be extended to more than two dimensions. In the aforementioned example an additional dimension could for example be the tools used, i.e. a worker demands a different payment depending on which task he has to perform with which tool being provided. Also, as an extension to make this more general each dimension may not necessarily need to have the same number of elements. If there are for example more workers than jobs, some workers will not be assigned a job.
 
-image 
+image %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Kernel Density Estimation}
+%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
 
 \part{Implemented Tool}
 \chapter{Using the Tool}\label{cha:Tool}
-%maybe not "this chapter..."
 The implemented tool aims to facilitate the computation and selection of good clustering solutions for a given data-set. To do this both powerful visualizations and algorithms are needed, which are combined here. When working with the created application the user can first import and edit point data, then select clustering algorithms and parameters for meta-clustering and finally use the meta-view to analyze the results or create a consensus results. The final goal after all of this is either having found a clustering solution that is satisfactory or created one using consensus clustering in the final step. This simple workflow can be described with three steps, each with its own view and functionality. In the following sections the views and possibilities within each view are described. For more details on implementation details see Chapter \ref{cha:impl}
 
 \section{Data Visualization and Manipulation}
@@ -597,11 +619,13 @@ bla
 \section{Multiple Solutions}
 bla
 
+
+
 \part{Concluding Thoughts}
 
 \chapter{Future Work}\label{cha:futurework}
 
-\section{Improvements for Tool}
+\section{Improvements for the Tool}
 
 bla
 
