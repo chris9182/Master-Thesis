@@ -302,13 +302,9 @@ Co-association Matrix based consensus functions \cite{Monti2003} first create a 
 The lifetime of a group of sets is defined as the difference between the linking values for the previous merge and the next merge. These linking values are the maximum link value according to some strategy, where the next merge of two sets would occur. The Lifetime Criterion claims that a good choice for a cut in a hierarchical clustering tree is the one for which the lifetime is maximal \cite{YANG201735}. This estimate similarly to the elbow-method for other clustering algorithms aims to find a good trade-off between the number of clusters and the accuracy decrease due to increasing/decreasing the cluster number. To use this criterion, either two runs of merging (only keeping the linking values) need to be performed or the full merge-tree must be saved. If the whole tree is saved the result can be obtained by cutting the tree, otherwise the group of sets needs to be re-computed up to the corresponding level.
 
 \subsection{DICLENS}
-diclens \cite{DICLENS}
-%%%%%%%%%%%%%%%%%%%%%%
+Divisive Clustering Ensemble with Automatic Cluster Number (DICLENS) \cite{DICLENS} organizes the clusterings in a graph with the edges representing inter-cluster similarities. Within this graph a minimum spanning tree is searched for with Prim's algorithm \cite{prim} and the ideal number of clusters $k$ is searched for. This $k$ is found by iteratively removing the edge with minimum weight and regarding the connected components as meta-clusters. For this meta-clustering majority voting is performed, computing a final result for which the intracluster similarity (ICS) and intercluster similarity (ECS) are used to measure the quality. This is repeated until all edges of the minimum spanning tree are removed and the result for which ICS-ECS is largest is chosen.
 
-
-
-
-
+Mimaroglu and Aksehirli \cite{DICLENS} also provide a Java implementation of their method. It also includes a visual interface for simpler understanding. This implementation was also used to implement their method in this tool.
 
 \section{Other Methods}
 
