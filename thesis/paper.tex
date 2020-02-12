@@ -225,17 +225,49 @@ K-Means clustering is one of the most prominent methods used for clustering \cit
 
 The main idea of k-Means type clustering algorithms is to start with centroids which are points in the data-space representing the centers of the clusters. Each point is assigned to the centroid closest to it according to Euclidean distance, defining the clusters. To improve the result the centroid is updated to the center of its corresponding points iteratively until no more changes happen or some convergence criterion is met. This update procedure does not guarantee finding the optimum though, even if no more changes for the centroids can be observed. How the initial centroids are chosen may also impact the quality of the result greatly. To find a good initialization, Arthur and Vassilvitskii \cite{10.5555/1283383.1283494} proposed k-Means++ whereby the centroids are picked such that they are far apart with high probability. They showed that this kind of initialization makes the overall algorithm $O(log(k))$ competitive with the optimal clustering \cite{10.5555/1283383.1283494}.
 
-The main difference between Lloyds and MacQueens method is that Lloyds method only recalculates the centroid positions every time an iteration is completed while MacQueens method also updates them whenever a point changes its assigned clusters. This results in more computational cost during iterations, may allow for faster convergence though. The k-Medians method is different in regards to the distance metric used. Unlike Lloyds and MacQueens methods it does not use the Euclidean distance but the Manhattan-distance (1-Norm) to find the centroids. K-Medoids in contrast to all previous methods does not use centroids that may lie anywhere in the data space, but only existing points may be used. These are in this case called medoids and define the objects for which the average dissimilarity to all points withing the cluster is minimal.
+The main difference between Lloyds and MacQueens method is that Lloyds method only recalculates the centroid positions every time an iteration is completed while MacQueens method also updates them whenever a point changes its assigned clusters. This results in more computational cost during iterations, may allow for faster convergence though. The k-Medians method is different in regards to the distance metric used. Unlike Lloyds and MacQueens methods it does not use the Euclidean distance but the Manhattan-distance (1-Norm) to find the centroids. K-Medoids in contrast to all previous methods does not use centroids that may lie anywhere in the data space, but only existing points may be used. These are in this case called medoids and define the objects for which the average dissimilarity to all points within the cluster is minimal.
 
 \subsection{Expectation Maximization}
-bla \cite{10.2307/2984875}
+The Expectation Maximization (EM) algorithm \cite{10.2307/2984875} aims to iteratively find estimates of parameters of a model such that they represent the maximum likelihood of those. To do this, the algorithm alternates between two steps, those being the expectation step and the maximization step. In the expectation step the expectation of the log-likelihood is defined as a function given the current set of parameters. The maximization step then computes the new set of parameters such that the expected log-likelihood function is maximized.
+
+This can be applied for clustering by defining the model as a Gaussian mixture and running this EM algorithm such that the best model given the parameter $k$ is found. A benefit of this can be, that Gaussian clusters with different spread can more easily be found than with k-Means.
 
 \subsection{DBSCAN}
-bla \cite{10.5555/3001460.3001507}
+Density-Based Spatial Clustering of Application with noise (DBSCAN) \cite{10.5555/3001460.3001507}, is an algorithm that unlike k-Means is not based on partitioning the data directly but on searching for dense regions in the data. For the calculation two parameters are needed, Epsilon ($\epsilon$) and a minimum number of objects ($\mu$). The parameter $\epsilon$ defines how large a region may be considered for neighbor search and $\mu$ defines how many objects must be within that region for it to be considered dense. The following explanations are needed for full understanding of the algorithm.
+
+When defining the neighborhood within the epsilon range for an object $p$ as $N_\epsilon(p)$ the algorithm considers an object $p$ as a core object if $|N_\epsilon(p)|\geq \mu$.
+
+An object $p$ is said to be directly density-reachable if $p\in N_\epsilon(q) $ and $q$ is a core object.
+
+For two objects $p$ and $q$ they are density-reachable if there exists a path of objects between them for which each pair of objects is directly density-reachable.
+
+An object $p$ is considered to be density-connected to another object $q$ if both $p$ and $q$ are density-reachable from a common object $o$.
+
+Any objects at the border are not core objects, but will be assigned to a cluster; outside points will be considered noise.
+
+To now create the different clusters, for all pairs of points $p$ and $q$ if $q$ is density-reachable from $p$ they will both be assigned the same cluster and $p$ is considered density-connected to $q$.
 
 
 \subsection{OPTICS}\label{sec:opticstheory}
-optics \cite{10.1145/304181.304187}
+Ordering Points to Identify the Clustering Structure or OPTICS \cite{10.1145/304181.304187} is an extension of DBSCAN whereby DBSCANs Epsilon $\epsilon$ parameter is used in a different manner. It also has a parameter MinPts which has a similar meaning ad the $\mu$ parameter of DBSCAN. The idea is that different distance parameters are used in each step such that density-based clusters with different densities can be found simultaneously. To achieve this the  $\epsilon$ parameter only defines the maximum distance for which points can be considered reachable and the actual reachability distance for two objects is computed as:
+$$reachability\text{-}distance_{\epsilon,MinPts}(p,o)=$$
+$$
+\begin{cases}
+    \text{UNDEFINED},& \text{if } |N_\epsilon(p)|< \text{MinPts}\\
+    max(core\text{-}distance(o),distance(o,p)),              & \text{otherwise}
+\end{cases}
+$$
+whereby:
+$$core\text{-}distance_{\epsilon,MinPts}(p)=$$
+$$
+\begin{cases}
+    \text{UNDEFINED},& \text{if } |N_\epsilon(p)|< \text{MinPts}\\
+    MinPts\text{-}distance(p),              & \text{otherwise}
+\end{cases}
+$$
+
+The output of the OPTICS clustering algorithm is an ordered list of objects with their reachabililty-distances. To compute this list all points are processed iteratively starting with any point. All points neighboring the current point are updated with their reachability distance from the current point, assigning the minimum of the new and previous values to the point. To select the next point the one with the smallest reachability value is chosen or a new random one if there are none. The resulting list of points with reachability distances can be visualized with a bar chart whereby basins indicate clusters. As the definition of these basins can be done in different ways, the result can be considered hierarchical.
+
 
 \section{Consensus Clustering}
 consensus clustering
@@ -409,7 +441,7 @@ Above the reachability plot in the top right the MDS plot is visible, it can be 
 
 In the very right of the meta-view the filter panel can be seen, as depicted in Figure \ref{fig:filterpanel}. There, clusterings can be filtered such that they are less visually prominent in the other views and won't be used for consensus calculation. To define which clusterings to filter out the user can drag the range bars below each area plot, reducing the range of values for a clustering to be considered relevant. The area charts above these bars depict how many clusterings have approximately which value and how many of them were filtered out (in blue) in comparison to how many weren't (in red).
 
-Next to the ``Save'' button in the top row, a consensus function can be chosen and used by pressing the ``Consensus'' button. When this button is pressed, if the consensus function supports it a window opens, allowing the user to set a number of desired clusters in the output or to leave this field empty when the function should try to find this parameter itself. The consensus function them aims to combine the clusterings belonging to the same meta-cluster, ignoring the ones filtered out. When the calculation is done a new meta-view opens using the consensus results as data. This new view will contain as many clusterings as there were meta-clusters in the previous view and, if it was available, the ground truth.
+Next to the ``Save'' button in the top row, a consensus function can be chosen and used by pressing the ``Consensus'' button. When this button is pressed, if the consensus function supports it a window opens, allowing the user to set a number of desired clusters in the output or to leave this field empty when the function should try to find this parameter itself. The consensus function them aims to combine the clusterings belonging to the same meta-cluster, ignoring the ones filtered out as well as the ground truth if available. When the calculation is done a new meta-view opens using the consensus results as data. This new view will contain as many clusterings as there were meta-clusters in the previous view and, if it was available, the ground truth.
 
 \chapter{Implementation}\label{cha:impl}
 \section{Programming Language and Tools}
