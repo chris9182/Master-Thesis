@@ -599,7 +599,43 @@ For the comparison of two clustering results, it is possible to select two clust
 \chapter{Experiments}\label{cha:experiments}
 To show the value of the new tool different scenarios created. The goals of the tool are to improve on the ease of finding complex cluster structures and improve on the result in comparison to only using simple clustering methods. Another aim is to visualize the data and clustering results such that an expert user can make a well informed decision on which solutions best fit the data.
 \section{Solutions better than Base-Clusterings}
-bla
+Creating base clusterings and applying consensus functions are well known methods, but there was previously no tool allowing to perform these steps as easily with a visual interface. Using this tool, a user is able to find better results than the individual ones created by sampling the parameters for the different clustering algorithms. This is the case as the combined knowledge through consensus clustering can be more powerful than an individual algorithm. To illustrate this, I have a synthetic data-set with three Gaussian distributed clusters with different standard deviations, it can be seen in Figure \ref{fig:better_base}.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=.45]{better_base}
+	\caption{Synthetic Data with Ground Truth}
+	\label{fig:better_base}
+\end{figure}
+
+Now as this data-set is quite simple let us create the base clusterings using Lloyd's k-Means algorithm. To increase the knowledge that can be extracted from the results, $k$ can simply be sampled in a large range. In this example, it is sampled in the range of $2$ to $20$ computing $6$ results for each $k$, see Figure \ref{fig:better_base_wf}. (Seed=$1$) Using such a larger range, even if an approximate $k$ is known is often useful as the additional information of possible smaller local clusters can be integrated. Also, as a poor value for $k$ leads to less robust results, the clusterings should differ more strongly and the randomness of the result should not make the information from small clusters to dominant.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=.75]{better_base_wf}
+	\caption{Workflow for example Data-Set in Figure \ref{fig:better_base}}
+	\label{fig:better_base_wf}
+\end{figure}
+
+The best result resulting from a single clustering run is for k-Means with $k=3$ with an Normalized Mutual Information (NMI) score of around 0.886. This result can be seen in Figure \ref{fig:better_base_best} 
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=.45]{better_base_best}
+	\caption{Result of best k-Means run for example Data-Set in Figure \ref{fig:better_base}}
+	\label{fig:better_base_best}
+\end{figure}
+
+One can see that the simple k-Means algorithm has difficulties with clusters with strongly differing spread and assigns points belonging to the green cluster to the red one. One way to fix this problem could be to use a better fitting algorithm like EM clustering, though such a choice may not be obvious with higher-dimensional data. To still find a good result, the information gathered from the other runs can be included through consensus clustering. Using the Co-Association Matrix with Average Link strategy and trusting the Lifetime criterion for the choice of $k$ we obtain exactly the same cluster assignments as in the ground truth, see Figure \ref{fig:better_base_consensus}. Here all clusterings were included for consensus by dragging the threshold bar in the OPTICS plot to the very top.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=.45]{better_base_consensus}
+	\caption{Consensus Result for example Data-Set in Figure \ref{fig:better_base}}
+	\label{fig:better_base_consensus}
+\end{figure}
+
+With the information of all clusterings taken into account through consensus clustering, the consensus result has an NMI of 1 when compared with the ground truth, showing that this combined result is better than any individual run. Still it is important to note that the Lifetime criterion may fail to find an ideal choice for $k$ automatically. To overcome this, DICLENS can alternatively be used as it is better at defining $k$ although it has a much higher computational cost. It is also always possible to define $k$ by hand whenever this information is available.
 
 \section{Multiple Solutions}
 bla
