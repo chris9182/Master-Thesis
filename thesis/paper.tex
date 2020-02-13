@@ -223,16 +223,7 @@ Dimensionality reduction are able to reduce the number of dimensions in a data-s
  Principal Component Analysis (PCA) \cite{pca} aims to transform correlated variables into uncorrelated ones thereby omitting less relevant dimensions. Generally, Principal Components (PCs) are linear combinations of the original variables and can be computed through the eigenvectors $V$ of the covariance matrix $C$. To use these PCs for dimensionality reduction the $k$ onces corresponding to the largest eigenvalues of the matrix are extracted into a matrix $V_k$ and used as a basis to transform the data. This is done by calculating $data_{red.}=V_k^T*data_{center}$, whereby the original data must be centered first.
 
 \subsection{t-Distributed Stochastic Neighbor Embedding}
- t-SNE \cite{Maaten2008VisualizingDU}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-
-
-
+The dimensionality recution method t-Distributed Stochastic Neighbor Embedding (t-SNE) \cite{Maaten2008VisualizingDU} works by converting the Euclidean distances between points into conditional probabilities that represent similarities. This similarity represents the probability that a point would be picked as the neighbor of another point if neighbors were picked proportionally to their probability density under a Student-t distribution centered at a given point. To lay out the points, an initial randomly sampled solution is created and improved on iteratively with gradient decent, such that the similarities are best represented by the points in low-dimensional space. As inputs the number of dimensions $k$ and the perplexity and some optimization parameters are needed. The number of resulting dimensions is defined by $k$ and the optimization parameters can be used to improve the runtime of the algorithm. The perplexity parameter can be seen as a smoothing parameter defining the effective number of neighbors for each point. This parameter is usually also fairly robust \cite{Maaten2008VisualizingDU}, good choices in practice are between $5$ and $50$.
 
 \subsection{Multi-Dimensional Scaling}
 Multi-Dimensional Scaling (MDS) \cite{mds} uses a distance matrix (often called proximity data) and a number of target dimensions $k$ as input. It then trys to lay out the point in a $k$-dimensional space such that the distances between them in that space are as close as possible to the true distance. When this method is used with a distance matrix created with Euclidean distances, the result will be equivalent to running PCA on the data itself. 
@@ -314,11 +305,9 @@ Kuhn’s Hungarian method \cite{Kuhn2010} can be used to solve the mathematical 
 image %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Kernel Density Estimation}
-%%%%%%%%%%%%%%%%%%%%%%
+Kernel Density Estimation aims to estimate the probability density function for a random variable \cite{parzen1962estimation}. Given a sample of points one is interested in the shape of the unknown density function of the distribution from which the points are drawn. To estimate this function a kernel density estimator is used, requiring a kernel function and a bandwidth parameter. For the kernel function many different choices are possible, typical ones are Gaussian, multivariate Student and Laplacian kernels \cite{kim2011robust}. The bandwidth parameter defines the smoothness of the resulting function and can be difficult to manually set. For this reason, estimates based on the standard deviation of the samples are available for this parameter \cite{rulethumbdens}.
 
-
-
-
+The resulting function can then be used to analyze from which distributions the data-points may have been drawn which may also prove useful when analyzing clustering solutions.
 
 \part{Implemented Tool}
 \chapter{Using the Tool}\label{cha:Tool}
