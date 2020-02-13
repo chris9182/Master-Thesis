@@ -617,7 +617,7 @@ Now as this data-set is quite simple let us create the base clusterings using Ll
 	\label{fig:better_base_wf}
 \end{figure}
 
-The best result resulting from a single clustering run is for k-Means with $k=3$ with an Normalized Mutual Information (NMI) score of around 0.886. This result can be seen in Figure \ref{fig:better_base_best} 
+The best result resulting from a single clustering run is for k-Means with $k=3$ with an Normalized Mutual Information (NMI) score of around $0.886$. This result can be seen in Figure \ref{fig:better_base_best} 
 
 \begin{figure}[h]
 	\centering
@@ -635,7 +635,9 @@ One can see that the simple k-Means algorithm has difficulties with clusters wit
 	\label{fig:better_base_consensus}
 \end{figure}
 
-With the information of all clusterings taken into account through consensus clustering, the consensus result has an NMI of 1 when compared with the ground truth, showing that this combined result is better than any individual run. Still it is important to note that the Lifetime criterion may fail to find an ideal choice for $k$ automatically. To overcome this, DICLENS can alternatively be used as it is better at defining $k$ although it has a much higher computational cost. It is also always possible to define $k$ by hand whenever this information is available.
+With the information of all clusterings taken into account through consensus clustering, the consensus result has an NMI of $1$ when compared with the ground truth, showing that this combined result is better than any individual run. Still it is important to note that the Lifetime criterion may fail to find an ideal choice for $k$ automatically. To overcome this, DICLENS can alternatively be used as it is better at defining $k$ although it has a much higher computational cost. It is also always possible to define $k$ by hand whenever this information is available.
+
+The same strategy as for the example data in Figure \ref{fig:better_base} was tested with the Iris data-set \cite{Dua:2019}. Here Lloyd's k-Means was also used and the parameter $k$ was sampled in the range between $2$ and $10$ computing 10 samples per value $k$. The best result when comparing to the ground truth was for $k=3$ with an NMI of $0.757$ while computing the consensus for all results resulted in a solution with an NMI of $0.797$ (with $k=3$ for the consensus function).
 
 \section{Multiple Solutions}
 bla
