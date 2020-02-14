@@ -638,7 +638,7 @@ One can see that the simple k-Means algorithm has difficulties with clusters wit
 With the information of all clusterings taken into account through consensus clustering, the consensus result has an NMI of $1$ when compared with the ground truth, showing that this combined result is better than any individual run. Still it is important to note that the Lifetime criterion may fail to find an ideal choice for $k$ automatically. To overcome this, DICLENS can alternatively be used as it is better at defining $k$ although it has a much higher computational cost. It is also always possible to define $k$ by hand whenever this information is available.
 
 \subsubsection{DBSCAN}
-Another data-set for which this method works is Zahn's Compound \cite{1671676} which combines multiple difficult clustering tasks. The combined data-set can be seen in \ref{fig:zahn} with its intended labels.
+Another data-set for which this method works is Zahn's Compound \cite{1671676} which combines multiple difficult clustering tasks. The combined data-set can be seen in \ref{fig:zahn} with its intended labels. If was standardized first, to be able to easier define DBSCAN parameters.
 
 \begin{figure}[h]
 	\centering
@@ -666,6 +666,12 @@ While this result is not too bad for such a complex data-set it is not obvious t
 \subsubsection{Real Data}
 
 The same strategy as for the example data in Figure \ref{fig:better_base} was tested with the Iris data-set \cite{Dua:2019}. Here Lloyd's k-Means was also used and the parameter $k$ was sampled in the range between $2$ and $10$, computing 10 samples per value $k$. The best result when comparing to the ground truth was for $k=3$ with an NMI of $0.757$ while computing the consensus for all clusterings resulted in a solution with an NMI of $0.797$ (with $k=3$ for the consensus function). This shows once again the value of consensus clustering as it can reduce the need of knowing parameters or evaluating solutions with quality measures. Still one should aim to find the method that simplest explains the data, for which consensus results are usually no good candidate.
+
+\section{Unobtainable Solutions}
+Single clustering algorithms may not be able to find the structure of a data-set when different kinds of structures are present for different clusters. Combining results of different clustering algorithms may solve this problem, as correctly identified structures should be robust throughout multiple runs of a fitting algorithm while they should not be robust whenever the algorithm doesn't fit the structure. To illustrate this a data-set was created combining a density based cluster with Gaussian clusters with different deviations, see Figure ....
+
+NMI best: 0.872
+NMI Cons: 0.978
 
 \section{Multiple Solutions}
 bla
