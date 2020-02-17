@@ -751,8 +751,21 @@ To solve this consensus clustering can be performed. As discussed previously bot
 
 
 \section{Multiple Solutions}
-bla
+Finding which clustering solution is best for an unexplored data-set can be non-trivial. Other visual frameworks often use quality metrics, which may be biased towards specific structures. In this section I want to present you with this problem using the newly created tool and show that robustness can be used to find good results. For this the unlabeled data-set shown in Figure \ref{fig:multi} is used as an example.
 
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=.4]{multi}
+	\caption{Example Data-Set with unknown Labels \ref{fig:unob}}
+	\label{fig:multi}
+\end{figure}
+
+Visually, it is already difficult to decide how many clusters can be seen. The points on the left and right can be seen as one or two clusters each, but one could even claim that one side is one and the other two clusters. For this small data-set such claims are easy to be made but with more dimensions such thoughts become more complex. For this reason, I will show how the different results can be found this the tool, by regarding the robustness of the results.
+
+% c6 = 19 clusterings 
+% c5_2 = 14 
+% c4 = 9 
+% c5_1 = 8
 
 
 \part{Concluding Thoughts}
