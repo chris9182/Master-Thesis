@@ -668,10 +668,87 @@ While this result is not too bad for such a complex data-set it is not obvious t
 The same strategy as for the example data in Figure \ref{fig:better_base} was tested with the Iris data-set \cite{Dua:2019}. Here Lloyd's k-Means was also used and the parameter $k$ was sampled in the range between $2$ and $10$, computing 10 samples per value $k$. The best result when comparing to the ground truth was for $k=3$ with an NMI of $0.757$ while computing the consensus for all clusterings resulted in a solution with an NMI of $0.797$ (with $k=3$ for the consensus function). This shows once again the value of consensus clustering as it can reduce the need of knowing parameters or evaluating solutions with quality measures. Still one should aim to find the method that simplest explains the data, for which consensus results are usually no good candidate.
 
 \section{Unobtainable Solutions}
-Single clustering algorithms may not be able to find the structure of a data-set when different kinds of structures are present for different clusters. Combining results of different clustering algorithms may solve this problem, as correctly identified structures should be robust throughout multiple runs of a fitting algorithm while they should not be robust whenever the algorithm doesn't fit the structure. To illustrate this a data-set was created combining a density based cluster with Gaussian clusters with different deviations, see Figure ....
+Single clustering algorithms may not be able to find the structure of a data-set when different kinds of structures are present for different clusters. Combining results of different clustering algorithms may solve this problem, as correctly identified structures should be robust throughout multiple runs of a fitting algorithm while they should not be robust whenever the algorithm doesn't fit the structure. To illustrate this a data-set was created combining a density based cluster with Gaussian clusters with different deviations, see Figure \ref{fig:unob}.
 
-NMI best: 0.872
-NMI Cons: 0.978
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=.4]{unob}
+	\caption{Example Data-Set with different Cluster-Structures and Labels}
+	\label{fig:unob}
+\end{figure}
+
+To produce base clusterings k-Means was run choosing $k$between $2$ and $20$ creating 5 results each and DBSCAN was run with $minPTS=5$ and $\epsilon$ between $0.01$ and $0.5$ taking 100 samples. For reproducability the seed was fixed at $1$ and trivial solutions were omitted. Also, these ranges were chosen once again such that a large diversity of solutions is obtained while not creating trivial clusterings. The workflow can be seen in Figure \ref{fig:unob_wf}.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=.75]{unob_wf}
+	\caption{Workflow for example Data-Set in Figure \ref{fig:unob}}
+	\label{fig:unob_wf}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=.4]{unob_optics_stable}
+	\caption{OPTICS reachability plot for Workflow in Figure \ref{fig:unob_wf}}
+	\label{fig:unob_optics_stable}
+\end{figure}
+
+When looking at the OPTICS reachability plot, one can see that a dense region of clustering results can be found, see Figure \ref{fig:unob_optics_stable}. Results that occur in this region can be regarded as robust and should represent a good result, but in this example no algorithm can find the true structure of the data. For example the clustering selected in Figure \ref{fig:unob_optics_stable} can be deemed robust and also visually seems sensible, but it does not capture the nature of the data, as can be seen in Figure \ref{fig:unob_stable}. As the reachability plot also shows multiple valleys, a fair conclusion could be that different equally valid solutions exist. Still, for this clustering problem we know that the structure cannot be found with a single algorithm and one can assume that the robust regions only represent good results for different parts of the data. 
+
+Looking at the results of the different algorithms exactly this behavior can be observed, see Figure \ref{fig:single}.
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}[t]{.475\textwidth}
+  \centering
+  \includegraphics[width=.95\linewidth]{unob_k3}
+  \caption{K-Means with $k=3$}
+  \label{fig:unob_k3}
+\end{subfigure}
+\hfill
+\begin{subfigure}[t]{.475\textwidth}
+  \centering
+  \includegraphics[width=.95\linewidth]{unob_k4ex}
+  \caption{K-Means with $k=4$}
+  \label{fig:unob_k4ex}
+\end{subfigure}
+\medskip
+\begin{subfigure}[t]{.475\textwidth}
+  \centering
+  \includegraphics[width=.95\linewidth]{unob_k5ex}
+  \caption{K-Means with $k=5$}
+  \label{fig:unob_k5ex}
+\end{subfigure}
+\hfill
+\begin{subfigure}[t]{.475\textwidth}
+  \centering
+  \includegraphics[width=.95\linewidth]{unob_best}
+  \caption{DBSCAN, the best single Clustering Result}
+  \label{fig:unob_best}
+\end{subfigure}
+\medskip
+\begin{subfigure}[t]{.475\textwidth}
+	\centering
+	\includegraphics[width=.95\linewidth]{unob_stable}
+	\caption{Selected robust Clustering from Figure \ref{fig:unob_optics_stable}}
+	\label{fig:unob_stable}
+\end{subfigure}
+\caption{Single Clustering results for Data-Set in Figure \ref{fig:unob}}
+\label{fig:single}
+\end{figure}
+
+
+Here, the red cluster can not be found with partitioning methods such as k-Means and the either the green or the blue and yellow clusters can not be found by density-based methods. Both the k-Means result for $k=3$ (Figure \ref{fig:unob_k3}) and some DBSCAN results (Figure \ref{fig:unob_best}) can be found in valleys of the reachability plot but none of both is able to find the structure of all clusters.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=.4]{unob_consensus}
+	\caption{Consensus Result for Data-Set in Figure \ref{fig:unob}}
+	\label{fig:unob_consensus}
+\end{figure}
+
+To solve this consensus clustering can be performed. As discussed previously both kinds of results have produced robust clusterings and the most relevant information can be combined to a better common result. In this example DICLENS was selected, fixing $k=4$ and the final result was computed. As can be seen in Figure \ref{fig:unob_consensus} using the information available from all solutions, both k-Means and DBSCAN, finds a result very close to the ground truth. This result has only few misclassified points, most noticeably the two red points outside the u-shaped cluster. The NMI of the consensus result is $0.978$ while the best result (Figure \ref{fig:unob_best}) has an NMI of $0.872$. This large improvement shows the power of using consensus clustering when different structures are present in the data.
+
 
 \section{Multiple Solutions}
 bla
