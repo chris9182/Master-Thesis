@@ -782,9 +782,9 @@ In this heat map hierarchical structures of similar clustering results can alrea
 	\label{fig:multi_optics}
 \end{figure}
 
-Computing the consensus with the Co-Association Matrix with Average Link strategy (Lifetime criterion) and letting the function guess $k$ itself, as many consensus results are obtained as meta-clusters are available. The most interesting results should then be the ones which included many base clusterings, i.e. where the meta-cluster was large. This should be a fair assumption as the definition of the threshold fixes how similar clusterings need to be to be deemed robust and meta-clusters with many solutions should therefor be especially robust. For this reason the number of merged base clusterings can be used as an implicit ranking of the consensus solutions. Figure \ref{fig:multi_consres} shows the consensus results for the four largest meta-clusters.
+To create result candidates the consensus is computed with the Co-Association Matrix algorithm with Average Link strategy (Lifetime criterion) and letting the function guess $k$ itself. Thereby, as many consensus results are obtained as meta-clusters are available each representing the merged knowledge of the meta-cluster. The most interesting results should then be the ones which included many base clusterings, i.e. where the meta-cluster was large. This should be a fair assumption as the definition of the threshold fixes how similar clusterings need to be to be deemed robust and meta-clusters with many solutions should therefor be especially robust. For this reason, the number of merged base clusterings can be used as an implicit ranking of the consensus solutions. Figure \ref{fig:multi_consres} shows the consensus results for the four largest meta-clusters.
 
-\begin{figure}[H]
+\begin{figure}[h]
 \centering
 \begin{subfigure}[t]{.49\textwidth}
   \centering
@@ -818,10 +818,11 @@ Computing the consensus with the Co-Association Matrix with Average Link strateg
 \label{fig:multi_consres}
 \end{figure}
 
-% c6 = 19 clusterings 
-% c5_2 = 14 
-% c4 = 9 
-% c5_1 = 8
+Analyzing those results, one can see that the intuition mentioned before was also found in the consensus results for the largest meta-clusters. The largest meta-cluster, which included 19 base clusterings, resulted in a consensus clustering whereby $6$ clusters were found (see Figure \ref{fig:multi_c6}). This result can be seen as the one ranked highest and most robust as it includes the largest number of clusterings deemed robust. The second and forth largest meta-clusters found that the left and right group should be in a common cluster respectively (Figure \ref{fig:multi_c5_2} and \ref{fig:multi_c5_1}) while the third largest one considers both of them as one large cluster each (Figure \ref{fig:multi_c4}). 
+
+Finding these results can be helpful on top of only creating one final result, as knowledge may be gained. In this simple case it is easy to recognize how the left and right groups of points relate to each other but for more complex data-sets this may difficult to see. Here, it would for example be beneficial to look at what the underlying reason for the layout of the points may be, such that one can properly reason why a group of points should be one or two clusters. Also, note that in no part of this process quality metrics are needed, only the definition of the meta-cluster through the threshold should be done in a sensible way. In general, a good choice for this should be to visually analyze which cut-off value creates visually pleasing valleys, as well as considering how fine-grained one wants the differences between the results to be.
+
+This way of finding multiple solutions may also prove useful when a data-set may be clustered with different goals. For example, clustering patient data could be done to find groups patients with different kinds of cancer or different kinds of diabetes. Even though both may cluster on the same data-set, the desired clusterings are likely to differ and different algorithms and parameter sets may reflect this.
 
 
 \part{Concluding Thoughts}
