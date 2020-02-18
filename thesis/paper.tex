@@ -246,7 +246,8 @@ The Expectation Maximization (EM) algorithm \cite{10.2307/2984875} aims to itera
 This can be applied for clustering by defining the model as a Gaussian mixture and running this EM algorithm such that the best model given the parameter $k$ is found. A benefit of this can be, that Gaussian clusters with different spread can more easily be found than with k-Means.
 
 \subsection{DBSCAN}
-Density-Based Spatial Clustering of Application with noise (DBSCAN) \cite{10.5555/3001460.3001507}, is an algorithm that unlike k-Means is not based on partitioning the data directly but on searching for dense regions in the data. For the calculation two parameters are needed, Epsilon ($\epsilon$) and a minimum number of objects ($\mu$). The parameter $\epsilon$ defines how large a region may be considered for neighbor search and $\mu$ defines how many objects must be within that region for it to be considered dense. The following explanations are needed for full understanding of the algorithm.
+Density-Based Spatial Clustering of Application with noise (DBSCAN) \cite{10.5555/3001460.3001507}, is an algorithm that unlike k-Means is not based on partitioning the data directly but on searching for dense regions in the data. For the calculation two parameters are needed, Epsilon ($\epsilon$) and a minimum number of objects ($\mu$). The parameter $\epsilon$ defines how large a region may be considered for neighbor search and $\mu$ defines how many objects must be within that region for it to be considered dense. The following explanations are needed for full understanding of the algorithm:
+\newline
 
 When defining the neighborhood within the epsilon range for an object $p$ as $N_\epsilon(p)$ the algorithm considers an object $p$ as a core object if $|N_\epsilon(p)|\geq \mu$.
 
@@ -256,7 +257,8 @@ For two objects $p$ and $q$ they are density-reachable if there exists a path of
 
 An object $p$ is considered to be density-connected to another object $q$ if both $p$ and $q$ are density-reachable from a common object $o$.
 
-Any objects at the border are not core objects, but will be assigned to a cluster; outside points will be considered noise.
+Any objects at the border are not core objects, but will be assigned to a cluster; points outside will be considered noise.
+\newline
 
 To now create all the different clusters, for all pairs of points $p$ and $q$ if $q$ is density-reachable from $p$ they will both be assigned the same cluster and $p$ is considered density-connected to $q$. It is important to note here that points on the border of two clusters may belong to either cluster depending on the order of processing.
 
@@ -699,35 +701,35 @@ Looking at the results of the different algorithms exactly this behavior can be 
 
 \begin{figure}[H]
 \centering
-\begin{subfigure}[t]{.475\textwidth}
+\begin{subfigure}[t]{.49\textwidth}
   \centering
   \includegraphics[width=.95\linewidth]{unob_k3}
   \caption{K-Means with $k=3$}
   \label{fig:unob_k3}
 \end{subfigure}
 \hfill
-\begin{subfigure}[t]{.475\textwidth}
+\begin{subfigure}[t]{.49\textwidth}
   \centering
   \includegraphics[width=.95\linewidth]{unob_k4ex}
   \caption{K-Means with $k=4$}
   \label{fig:unob_k4ex}
 \end{subfigure}
 \medskip
-\begin{subfigure}[t]{.475\textwidth}
+\begin{subfigure}[t]{.49\textwidth}
   \centering
   \includegraphics[width=.95\linewidth]{unob_k5ex}
   \caption{K-Means with $k=5$}
   \label{fig:unob_k5ex}
 \end{subfigure}
 \hfill
-\begin{subfigure}[t]{.475\textwidth}
+\begin{subfigure}[t]{.49\textwidth}
   \centering
   \includegraphics[width=.95\linewidth]{unob_best}
   \caption{DBSCAN, the best single Clustering Result}
   \label{fig:unob_best}
 \end{subfigure}
 \medskip
-\begin{subfigure}[t]{.475\textwidth}
+\begin{subfigure}[t]{.49\textwidth}
 	\centering
 	\includegraphics[width=.95\linewidth]{unob_stable}
 	\caption{Selected robust Clustering from Figure \ref{fig:unob_optics_stable}}
@@ -756,11 +758,65 @@ Finding which clustering solution is best for an unexplored data-set can be non-
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=.4]{multi}
-	\caption{Example Data-Set with unknown Labels \ref{fig:unob}}
+	\caption{Example Data-Set with unknown Labels}
 	\label{fig:multi}
 \end{figure}
 
-Visually, it is already difficult to decide how many clusters can be seen. The points on the left and right can be seen as one or two clusters each, but one could even claim that one side is one and the other two clusters. For this small data-set such claims are easy to be made but with more dimensions such thoughts become more complex. For this reason, I will show how the different results can be found this the tool, by regarding the robustness of the results.
+Visually, it is already difficult to decide how many clusters can be seen. The points on the left and right can be seen as one or two clusters each, but one could even claim that one side consists of one and the other two clusters. For this small data-set such claims can still easily be made but with more dimensions such thoughts become more complex. For this reason, I will show how different results can be found using this tool, by regarding the robustness of the results.
+
+To generate base clusterings k-Means was used, varying the value for $k$ between $2$ and $10$ and computing $10$ samples for each value. (Seed=1) Trivial solutions were omitted and no ground truth added as none is available. The heat map for the resulting clusterings can be seen in Figure \ref{fig:multi_heatmap}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=.4]{multi_heatmap}
+	\caption{Heat Map of Meta-Clustering for Data-Set in Figure \ref{fig:multi}}
+	\label{fig:multi_heatmap}
+\end{figure}
+
+In this heat map hierarchical structures of similar clustering results can already be observed. This structure can more clearly be defined in the OPTICS reachability plot, as seen in Figure \ref{fig:multi_optics} whereby the threshold is set such that valleys are separated and noise is left out. This way meta-clusters are defined which each represent a group of similar and robust clustering solutions.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=.4]{multi_optics}
+	\caption{OPTICS Plot of Meta-Clustering for Data-Set in Figure \ref{fig:multi}}
+	\label{fig:multi_optics}
+\end{figure}
+
+Computing the consensus with the Co-Association Matrix with Average Link strategy (Lifetime criterion) and letting the function guess $k$ itself, as many consensus results are obtained as meta-clusters are available. The most interesting results should then be the ones which included many base clusterings, i.e. where the meta-cluster was large. This should be a fair assumption as the definition of the threshold fixes how similar clusterings need to be to be deemed robust and meta-clusters with many solutions should therefor be especially robust. For this reason the number of merged base clusterings can be used as an implicit ranking of the consensus solutions. Figure \ref{fig:multi_consres} shows the consensus results for the four largest meta-clusters.
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}[t]{.49\textwidth}
+  \centering
+  \includegraphics[width=.95\linewidth]{multi_c6}
+  \caption{Consensus Result for blue Cluster\\(19 base clu.)}
+  \label{fig:multi_c6}
+\end{subfigure}
+\hfill
+\begin{subfigure}[t]{.49\textwidth}
+  \centering
+  \includegraphics[width=.95\linewidth]{multi_c5_2}
+  \caption{Consensus Result for light-blue Cluster (14 base clu.)}
+  \label{fig:multi_c5_2}
+\end{subfigure}
+\medskip
+\begin{subfigure}[t]{.49\textwidth}
+  \centering
+  \includegraphics[width=.95\linewidth]{multi_c4}
+  \caption{Consensus Result for pink Cluster\\(9 base clu.)}
+  \label{fig:multi_c4}
+\end{subfigure}
+\hfill
+\begin{subfigure}[t]{.49\textwidth}
+  \centering
+  \includegraphics[width=.95\linewidth]{multi_c5_1}
+  \caption{Consensus Result for yellow Cluster\\(8 base clu.)}
+  \label{fig:multi_c5_1}
+\end{subfigure}
+
+\caption{Consensus Clustering results for Data-Set in Figure \ref{fig:multi}}
+\label{fig:multi_consres}
+\end{figure}
 
 % c6 = 19 clusterings 
 % c5_2 = 14 
@@ -791,7 +847,7 @@ bla
 bla 
 
 \section{Reflection of Work}
-In this article I showed 
+In this thesis I presented a new tool for finding clustering solutions with the help of visual elements and consensus clustering.
 
 \begin{appendices}
 
