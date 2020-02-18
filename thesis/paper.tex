@@ -338,20 +338,29 @@ The scatter plot in the center left shows data that was imported or created and 
 	\label{fig:data-import}
 \end{figure}
 
-After selecting a file the index of cluster labels can be defined, if labels should be loaded from the file. Otherwise the value can be left at $-1$ indicating that no columns should be used for label information. ``$-2$'' may be also be specified, it is used as a shortcut for selecting the last column as cluster labels, removing the need to count columns if it is the last one. The chosen column is then not inserted as a dimension in the data space but used as the cluster labels, which the color of the loaded points will reflect in the scatter plot of the data-view. 
+After selecting a file the index of cluster labels can be defined, if labels should be loaded from the file. Otherwise the value can be left at $-1$ indicating that no columns should be used for label information. ``$-2$'' may be also be specified, it is used as a shortcut for selecting the last column as cluster labels, removing the need to count columns if it is the last one. The chosen column is then not inserted as a dimension in the data space but used as the cluster labels, which the color of the loaded points will reflect in the scatter plot of the data-view. In Figure \ref{fig:loaded-data}, one can see how the data-view looks when data with cluster labels is shown. The data-set used for this example is the same one as in Section \ref{sec:unob}.
 
-To export data the export button can be used. If will open a similar dialog as for importing, though the index of the labels does not need to be defined, as data with cluster labels will be stored such that the labels for all points will be included in the first column. If the data does not contain label information, this first column is completely omitted. The supported format for exporting data is CSV.
-
-Alternatively, the user can also create a data-set himself from within the tool. It is possible to draw points onto the canvas when the ``SinglePoint'' option is selected in the top right, as in Figure \ref{fig:data-view}. For this, the user only needs to click wherever he wants points placed. It is important to note that if there are more than two dimensions all values for the not shown dimensions will not be set, which may cause a problem for the clustering algorithms later on. Another possibility is the use of the ``ELKIGenerator'', which accepts a XML-style input for defining how to generate data. The definition for this format can be found in corresponding definitions file on the ELKI Github repository \cite{elkixml} or in the tools lib folder. This generator allows defining distributions on dimensions, the number of points for each generated distribution and many additional things like plane rotations. This can be quite useful when wanting to work with a quick sample data-set. In Figure \ref{fig:loaded-data} one can see how the data-view looks when data with cluster labels is shown. 
-
-\begin{figure}[h]
+\begin{figure}[H]
 	\centering
 	\includegraphics[scale=.45]{unob}
 	\caption{Data-View with example data-set (including cluster labels)}
 	\label{fig:loaded-data}
 \end{figure}
 
-In the top right the ``Matrix'' button can be used to display all dimensions at once, as it will open a new window showing the current data in a scatter plot matrix. Each scatter plot visualizes a different combination of dimensions and since the plots on the diagonal of this view are not useful, they were replaced with kernel density estimation plots. These kernel density estimation plots show how the values of the points in the corresponding dimension are distributed, overlapping the total distribution with the distribution of points with different labels. This may also allow seeing how clusters differ in each dimension.
+To export data the export button can be used. If will open a similar dialog as for importing, though the index of the labels does not need to be defined, as data with cluster labels will be stored such that the labels for all points will be included in the first column. If the data does not contain label information, this first column is completely omitted. The supported format for exporting data is CSV.
+
+Alternatively, the user can also create a data-set himself from within the tool. It is possible to draw points onto the canvas when the ``SinglePoint'' option is selected in the top right, as in Figure \ref{fig:data-view}. For this, the user only needs to click wherever he wants points placed. It is important to note that if there are more than two dimensions all values for the not shown dimensions will not be set, which may cause a problem for the clustering algorithms later on. Another possibility is the use of the ``ELKIGenerator'', which accepts a XML-style input for defining how to generate data. The definition for this format can be found in corresponding definitions file on the ELKI Github repository \cite{elkixml} or in the tools lib folder. This generator allows defining distributions on dimensions, the number of points for each generated distribution and many additional things like plane rotations. This can be quite useful when wanting to work with a quick sample data-set. 
+
+In the top right the ``Matrix'' button can be used to display all dimensions at once, as it will open a new window showing the current data in a scatter plot matrix. Each scatter plot visualizes a different combination of dimensions and since the plots on the diagonal of this view are not useful, they were replaced with kernel density estimation plots. These kernel density estimation plots show how the values of the points in the corresponding dimension are distributed, overlapping the total distribution with the distribution of points with different labels. This may also allow seeing how clusters differ in each dimension. 
+
+An example for this view can be seen in Figure \ref{fig:scatter_matrix} with the data-set from Figure \ref{fig:loaded-data}. Here the kernel density estimations also already show a quite clear structure for the yellow and the blue cluster as each of those clusters nicely shows a Gaussian distribution in one dimension.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=.25]{scatter_matrix}
+	\caption{Scatter Plot Matrix for data-set from Figure \ref{fig:loaded-data}}
+	\label{fig:scatter_matrix}
+\end{figure}
 
 \subsection{Modifying the data}
 
@@ -360,6 +369,8 @@ As the data may still contain unwanted dimensions after loading cleanup may need
 Other than reducing the dimensionality of the data the application allows to normalize the data, such that it can be more easily used for clustering. If there are different dimensions with strongly different meaning, unit and range this normalization step can benefit the accuracy of clustering greatly \cite{normalization}. The available tools are ``Normalize'' and ``Standardize''. Normalize changes the value range for each dimension to the interval $[0,1]$ while preserving relative distances, the Standardize tool adapts these ranges such that the average is $0$ and the standard deviation is $1$.
 
 With these to pre-processing steps done, the actual clustering of the data can be thought of next. To work on this the ``Clustering'' button opens the next major view of the tool.
+
+%%%%%%%%%%%more text somewhere here
 
 \section{Selection of Algorithms and Parameters}\label{sec:sel_alg_param}
 By clicking the ``Clustering'' button in the data-view the window managing clustering workflows, further on called workflow-view, opens. Here clustering algorithms, their parameters and the parameters for meta-clustering can be selected. The workflow-view can be seen in Figure \ref{fig:workflow-view}, there no clustering tasks are added yet and all settings are set to default values.
@@ -380,7 +391,7 @@ In the top left the selector allows for choosing clustering algorithms to add to
 	\label{fig:workflow-view-tasks}
 \end{figure}
 
-For ease of use, workflows can be saved and loaded in the workflow-view, usind the ``Save Wf'' and ``Load Wf'' buttons respectively. The tool creates custom Clustering Workflow Files (CWF) for this, allowing to re-use and modify workflows throughout multiple executions of the tool.
+For ease of use, workflows can be saved and loaded in the workflow-view, usind the ``Save Wf'' and ``Load Wf'' buttons respectively. The tool creates custom Clustering Workflow Files (CWF) for this, allowing to re-use and modify workflows throughout multiple executions of the tool. This can be especially useful when working with standardized data, such that the parameter ranges are similar or when k-Means is sampled. As this file does not depend on or reference a specific data-set, if may be used for different ones.
 
 \begin{figure}[h]
 	\centering
@@ -398,7 +409,12 @@ When all setting are defined, the user can press the ``Execute Workflow'' button
 If the user has a previously saved Clustering Result File (CRF), which can be created in the meta-view, he can also omit defining a workflow and load the results in through the ``Load Result'' button. This button is only available when no clustering tasks were added to the workflow, as can be seen in Figure \ref{fig:workflow-view-tasks}. Before loading a result though, the user should make sure that the settings in the bottom left for meta-clustering are set to his liking. Only the seed field has no effect when loading a result as no clustering algorithms, except for meta-clustering which is deterministic, are run. After the data is loaded and meta-clustering is performed the meta-view opens with the chosen data.
 
 \section{Meta-View and Consensus Clustering}
-With either a clustering result loaded in or clustering algorithms run and the meta-clustering performed the meta-view is shown (Figure \ref{fig:meta-view}). 
+With either a clustering result loaded in or clustering algorithms run and the meta-clustering performed the meta-view is shown.
+
+This view allows the user to comparatively explore the clustering results, here interchangeably the term base clusterings is used, and thereby analyze their robustness. This should empower the user to make educated choices on which clustering to pick as final result or to decide on which ones should be combined into a consensus result. The meta-view with can be seen in Figure \ref{fig:meta-view}, where example data is used and the ground truth is currently shown.
+
+%%%%%%%%%%possibly more paragraph below
+The meta-view consists of five visual elements and some UI-elements in the top. Of the five elements, the left four visualizations give an overview of the data on an individual clustering and meta-level and the right part can be used to filter the base clusterings. 
 
 \begin{figure}[H]
 	\centering
@@ -406,10 +422,6 @@ With either a clustering result loaded in or clustering algorithms run and the m
 	\caption{Meta-View with data and ground truth selected}
 	\label{fig:meta-view}
 \end{figure}
-
-This view allows the user to comparatively explore the clustering results, here interchangeably the term base clusterings is used, and thereby analyze their robustness. This should empower the user to make educated choices on which clustering to pick as final result or to decide on which ones should be combined into a consensus result. The meta-view with can be seen in Figure \ref{fig:meta-view}, where example data is used and the ground truth is currently shown.
-
-The meta-view consists of five visual elements and some UI-elements in the top. Of the five elements, the left four visualizations give an overview of the data on an individual clustering and meta-level and the right part can be used to filter the base clusterings. 
 
 In the top left visualization, the data can be seen with the clustering labels colored in according to the result of selected clustering run. The selected clustering can be changed by either selecting another one in the selector above, by clicking on a result in one of the other three views that  show them on a meta-level. When changing between selected clustering solutions, the colors for the labels are adapted such that the change of labels is minimal. This is done so the user can more easily see differences, and is computed solving the mathematical assignment problem with Kuhn’s Hungarian method \cite{Kuhn2010}. If the user wishes to reset the colors for the labels of the currently selected coloring, for example when the recoloring leads to similar colors, he can press the ``C'' button in the top right of the view, setting the colors to their default values.
 
@@ -462,7 +474,7 @@ Next to the ``Save'' button in the top row, a consensus function can be chosen a
 	\label{fig:cons_button}
 \end{figure}
 
-When this button is pressed, if the consensus function supports it a window opens, allowing the user to set a number of desired clusters in the output or to leave this field empty when the function should try to find this parameter itself (Figure \ref{fig:choosek_window}).
+When this button is pressed, a dialog window opens if the consensus function supports defining the number of clusters in the result. With this, the user can define this parameter to force this number of cluster or can leave this field empty when the function should try to estimate this parameter itself (Figure \ref{fig:choosek_window}).
 
 \begin{figure}[h]
 	\centering
@@ -565,8 +577,13 @@ The interface IMetaDistanceMeasure is used to define distance measures that can 
   \item $d(x,z)\leq d(x,y)+d(y,z)$: the triangle inequality must hold
 \end{itemize}
 
-The default implemented distance measures are Variation of Information and Clustering Error. 
-%%%%%%%%%%%%more
+If the requirements of a metric are not fulfilled the measure can only be used as an estimate and may produce unsatisfying clusterings. The default implemented measures are Variation of Information and the Clustering Error. 
+
+Variation of Information (VI) \cite{10.1007/978-3-540-45167-9_14} measures how much information is gained/lost when changing a clustering to another. It considers relationships between points and their clusters instead of the relationship between two points and is closely related to the mutual information measure. Unlike mutual information, VI is a metric and can therefor be used as a distance measure here.
+
+Clustering Error (or classification error) \cite{MEILA2007873} represents the fraction of misclassified points assuming one clustering represents the labels of the truth. To compute this the clusters first need to be mapped to one another such that a maximum overlap is obtained in a confusion matrix, i.e. finding a permutation where diagonal entries are maximal. To do this Kuhn’s Hungarian method \cite{Kuhn2010} is used and the diagonal elements of the matrix are summed up. This gives us the number of points for which the two solutions agree, which is subtracted from the total number of points. The resulting value is then divided by the total number of points giving us the desired fraction.
+%%%% metric????
+%%%%https://publikationen.bibliothek.kit.edu/1000011477/812079
 
 \subsubsection*{Adding Distance Measures}
 To add distance measures for OPTICS the interface IMetaDistanceMeasure must be extended and the above mentioned conditions on the distance measure must be fulfilled for the algorithm to produce a satisfying result. After implementing the distance it must be added to initDistances() within ClusterWorkflow, for it to be usable from within the tool.
@@ -695,7 +712,7 @@ While this result is not too bad for such a complex data-set it is not obvious t
 
 The same strategy as for the example data in Figure \ref{fig:better_base} was tested with the Iris data-set \cite{Dua:2019}. Here Lloyd's k-Means was also used and the parameter $k$ was sampled in the range between $2$ and $10$, computing 10 samples per value $k$. The best result when comparing to the ground truth was for $k=3$ with an NMI of $0.757$ while computing the consensus for all clusterings resulted in a solution with an NMI of $0.797$ (with $k=3$ for the consensus function). This shows once again the value of consensus clustering as it can reduce the need of knowing parameters or evaluating solutions with quality measures. Still one should aim to find the method that simplest explains the data, for which consensus results are usually no good candidate.
 
-\section{Unobtainable Solutions}
+\section{Unobtainable Solutions}\label{sec:unob}
 Single clustering algorithms may not be able to find the structure of a data-set when multiple different kinds of structures are present for individual clusters. Combining results of different clustering algorithms may solve this problem, as correctly identified structures should be robust throughout multiple runs of a fitting algorithm while they should not be robust whenever the algorithm doesn't fit the structure. To illustrate this a data-set was created combining a U-shaped density based cluster with Gaussian clusters with different deviations, see Figure \ref{fig:unob}.
 
 \begin{figure}[h]
