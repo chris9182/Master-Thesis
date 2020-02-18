@@ -67,7 +67,7 @@
 
 Clustering is the task of finding groups of points in data such that points within a group have some kind of relationship, while points in different groups do not relate. Defining how such a relationship can be expressed and how these groupings can be found are non-trivial tasks, for which reason a lot of research as been put towards this topic. Different ways of thinking about this problem, the expected results and the performance aspects of the algorithms resulted in a large number of different methods. 
 
- To summarize which methods are available many surveys were written over time \cite{7154919,1427769,7414675,surveyclustering}. Another aspect of clustering is which kinds of data can be clustered and even for more specific tasks like text clustering many methods are available \cite{5982288}, though these will no be mentioned further on as this paper only works with numeric data. Also, work has been put into optimizing clustering algorithms for different types of architectures and machines, e.g. for distributed systems \cite{6322592} or optimized for energy consumption and load balancing \cite{7586361}. Such aspects will also not be further considered as this paper and the created tool do not aim to beat existing methods in run-time or energy efficiency.
+ To summarize which methods are available many surveys were written over time \cite{7154919,1427769,7414675,surveyclustering}. Another aspect of clustering is which kinds of data can be clustered and even for more specific tasks like text clustering many methods are available \cite{5982288}, though these will no be mentioned further on as this paper only works with numeric data. Also, work has been put into optimizing clustering algorithms for different types of architectures and machines, e.g. for distributed systems \cite{6322592} or optimized for energy consumption and load balancing \cite{7586361}. Such aspects will also not be further considered as this paper and the created tool do not aim to beat existing methods in runtime or energy efficiency.
 
 To give an overview over existing clustering algorithms Xu and Tian \cite{surveyclustering} generalize the idea of algorithms to nine categories. These categories are defined by which ideas the algorithms are based on, which are the following:
 \begin{itemize}
@@ -158,7 +158,7 @@ Consensus clustering aims to combine multiple clustering solutions for the same 
 	\textbf{Robustness} & having better average quality than input clusterings \\
 	\textbf{Consistency}   & finding a result somehow similar to input clusterings \\
 	\textbf{Stability} & being more noise resilient than simple clustering algorithms \\
-	\textbf{Scalability} & applicability for large data-sets regarding run-time \\
+	\textbf{Scalability} & applicability for large data-sets regarding runtime \\
 	&
 \end{tabular}
 \caption{Quality factors for consensus clustering results}
@@ -834,16 +834,17 @@ This way of finding multiple solutions may also prove useful when a data-set may
 \section{Improvements for the Tool}
 To tool created already proves useful for finding good clustering solutions, still further work should be done such that it becomes more usable. 
 
-A downside of the current implementation is that the focus of it lies solely on finding the best clustering result. This brings the problem that the methods implemented may not be fast enough when using a large data-set. To improve on this, the next steps should be to further optimize the methods for parallel environments and possibly implement similarly accurate but overall faster methods. This is especially true for the consensus functions, DICLENS 
+A downside of the current implementation is that the focus of it lies solely on finding the best clustering result. This brings the problem that the methods implemented may not be fast enough when using a large data-set. To improve on this, the next steps should be to further optimize the methods for parallel environments and possibly implement similarly accurate but overall faster methods. This is especially true for the consensus functions as they can be very costly depending on the number of clusters in the individual results, target cluster number, points and dimensions in the data. Different functions runtime depends on different subsets of these values and also vary in their accuracy. Here more work should be put into finding the generally most accurate and performant method.
+
+Also further user studies should be performed to find which parts of the tool are useful to researchers and where the interface should be reworked for even easier use.
 
 \section{Research Consensus Clustering}
+There has been much research on the topic of consensus clustering, still some aspects have not been analyzed thoroughly enough. While most papers on consensus functions show how their method is better than previous methods, the each pick different data-sets and become incomparable to a researcher. As most of them are difficult to implement and only few publicly share an implementation, testing the methods is also a difficult task. Still, as those methods are promising creating a large scale comparison of a variety of consensus functions regarding runtime, accuracy and requirements would be beneficial.
 
-bla
+Another aspect of consensus clustering that is only rarely touched on is how to select and generate base clusterings before applying consensus functions. The idea of this tool, to use meta-clustering for this step, is based on choosing robust clusterings but other aspects may be equally valuable to consider. An analysis on how different generation mechanisms impact the quality of the consensus result or the need for more base clusterings to find a similarly accurate result could be very helpful.
 
 \section{Visual Frameworks}
-
-bla
-
+Looking at currently available frameworks it seems that the focus lies on providing information on the different clustering results to make an educated choice on which one is best. This can at best result in the user choosing the best computed result but the knowledge of all other solutions is lost. Therefor, it may be useful to allow for the merging of one or more results, even ignoring consensus clustering. When good clusters are found in different clusterings, it would be great to have a possibility to fix those clusters and either recompute the rest of the points or somehow find a consensus for only those. This may allow the user to more interactively take part in the process of clustering, giving him more control and thereby gaining a deeper understanding of the result.
 
 \chapter{Conclusion}\label{cha:conclusion}
 
