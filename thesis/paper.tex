@@ -454,7 +454,9 @@ Next to the ``Save'' button in the top row, a consensus function can be chosen a
 
 \chapter{Implementation}\label{cha:impl}
 \section{Programming Language and Tools}
-For the implementation of my tool my language of choice was Java. With Java there are lots of available implementations for different clustering methods available, including the Frameworks ELKI \cite{10.1007/978-3-540-69497-7_41} and WEKA \cite{10.1145/1656274.1656278}, as well as the machine learning library Smile \cite{javasmile}. To improve the performance in some parts of the tool Java 1.8 was chosen, making it the lowest required Java version to run it.This was done, as it enables the use of parallel streams which make it simple to parallelize functions. Additionally, it is easy to create custom visualizations using the low level draw() method of JComponents in Swing \cite{javaswing}. All graphs and plots were created using a custom draw() method as this leads to much better performance than using small components for the graphs.
+For the implementation of my tool my language of choice was Java. With Java there are lots of available implementations for different clustering methods available, including the Frameworks ELKI \cite{10.1007/978-3-540-69497-7_41} and WEKA \cite{10.1145/1656274.1656278}, as well as the machine learning library Smile \cite{javasmile}. 
+
+To improve the performance in some parts of the tool Java 1.8 was chosen, making it the lowest required Java version to run it. This was done, as it enables the use of parallel streams which make it simple to parallelize loops with independent iterations. Additionally, it is easy to create custom visualizations using the low level draw() method of JComponents in Swing \cite{javaswing}. All graphs and plots were created using a custom draw() method as this leads to much better performance than using many small components for the plots.
 
 \section{File Input and Output}
 Loading and saving data is needed for the tool to make it more usable. For this reason it is possible to not only import data for clustering but also to save workflows and whole groups of clustering results for later reuse.
@@ -469,7 +471,7 @@ The starting window or data-view, in which clusterings can also be loaded back i
 As many runs of clustering algorithms with different parameter ranges can be performed and repeatedly defining this workflow can be tedious, the tool allows exporting and importing these workflows from the cluster workflow window. For this the underlying clustering objects are serialized and saved into .CWF (Cluster Workflow Files). It is important to note, that these files do not include the parameter settings for random seed or the meta-clustering. This is intentional as I do not consider them to be part of the workflow and they should be set by the user for every run, if the default values are not satisfactory.
 
 \subsection{Pre-Clustered Data}
-Due to the clustering algorithms possibly being time consuming, either because of their complexity or just sheer number of runs, the results of these algorithms can be saved from the meta-view. To do this, the clustering results are serialized and saved as .CRF (Clustering Result Files). To load those files one can define the different parameters of the mata-clustering and then import the .CRF. This way, only the mata-clustering is computed again. The mata-clustering is not saved in this file such that the user can more easily try different settings for it, by just saving the result and running the mata-clustering again. As this is usually much faster than the clustering algorithms that generate the base clusterings, using this may save a considerable amount of time.
+Due to the clustering algorithms possibly being time consuming, either because of their complexity or just sheer number of runs, the results of these algorithms can be saved from the meta-view. To do this, the clustering result objects are serialized and saved as .CRF (Clustering Result Files). To load those files one can define the different parameters of the meta-clustering and then import the .CRF. This way, only the meta-clustering is computed again. The meta-clustering is not saved in this file such that the user can more easily try different settings for it, by just saving the result and running the meta-clustering again. As this is usually much faster than the clustering algorithms that generate the base clusterings, using this may save a considerable amount of time.
 
 \section{Methods and Interfaces}
 To ensure that new or missing methods can easily be added to the tool, all methods where a selection can be made from within the tool can be added to by implementing onto the corresponding interface. To add methods one needs to first implement it and if needed it's OptionsPanel and then add it to the corresponding static method found in the view using it.
@@ -498,7 +500,6 @@ Reducers allow the user to manipulate the data such that the dimensionality or p
 
 \subsubsection{Normalizers}
 Normalizers provide functionality for normalizing the data points. This may be useful whenever different dimensions contain values in strongly differing ranges, while their concrete values do not have any direct relation to the other dimensions \cite{normalization}. Here, two default implementations are available, Normalize and Standardize. The Normalize class adapts the values such that in each dimension the range is set to the interval $[0,1]$ while preserving relative distances. The Standardize class adapts these ranges such that the average is $0$ and the standard deviation is $1$.
-%cite normalize standardize?
 
 \subsubsection*{Adding Data Manipulation Methods}
 To additional Methods they must be implemented using the corresponding interface and added to the class DataView. To add them to this class the static methods initGenerators(), initReducers() and initNormalizers() must add the new method to the list of methods. As an example adding a new generator (newGeneratorX) would require adding ``generators.add(new newGeneratorX());'' to the function initGenerators().
@@ -513,7 +514,7 @@ Clustering algorithms can be selected and tuned in the clustering workflow windo
 \end{itemize}
 
 \subsubsection{Clustering Algorithms}
-Clustering algorithms can be used in the workflow-view to generate base clusterings for mata-clustering and visualization in the meta-view. The interface IClusterer is used as helper interface such that all clustering algorithms can use the same high level calls for compatibility. The actual implementations implement either IELKIClusterer if they use the ELKI database objects in their logic or ICustomClusterer if they use a data matrix. To further help not needing to re-implement generally needed methods the class AbstractClustering should also be extended by the actual implementation. With these class and interfaces the actual implementations can focus more on just the clustering logic. Additionally options panels should be created for each new algorithm allowing the user to set parameters or parameter ranges from the tool.
+Clustering algorithms can be used in the workflow-view to generate base clusterings for meta-clustering and visualization in the meta-view. The interface IClusterer is used as helper interface such that all clustering algorithms can use the same high level calls for compatibility. The actual implementations implement either IELKIClusterer if they use the ELKI database objects in their logic or ICustomClusterer if they use a data matrix. To further help not needing to re-implement generally needed methods the class AbstractClustering should also be extended by the actual implementation. With these class and interfaces the actual implementations can focus more on just the clustering logic. Additionally options panels should be created for each new algorithm allowing the user to set parameters or parameter ranges from the tool.
 
 \subsubsection{ELKI Clustering Algorithms}
 IELKIClusterer is used for clustering algorithms that use ELKIs database object to store the data. To run algorithms from ELKI this interface must be implemented and the database object can be used with ELKIs algorithms. The pre-implemented methods include three variants of KMeans, DBScan and EM clustering. All of these methods use ELKIs high level initialization with ``ClassGenericsUtil.parameterizeOrAbort(AlgorithmClass.class, params);'' and other than this only require the logic for managing parameters, random sampling and collection of the result.
@@ -527,13 +528,13 @@ To add new clustering algorithms for creating base clusterings, first one must c
 
 \subsection{Meta-Clustering}
 %info on OPTICS?
-The algorithm used for mata-clustering is OPTICS \cite{10.1145/304181.304187}. One of the requirements for this methods is that the used distance measure must be metric, otherwise the algorithm can only produce an approximate clustering at best. The distance measure used by the algorithm can be changed and additional distance measures can also be added. For this, the following interface is of interest:
+The algorithm used for meta-clustering is OPTICS \cite{10.1145/304181.304187}. One of the requirements for this methods is that the used distance measure must be metric, otherwise the algorithm can only produce an approximate clustering at best. The distance measure used by the algorithm can be changed and additional distance measures can also be added. For this, the following interface is of interest:
 
 \begin{itemize}
   \item Clustering Distance Measure: IMetaDistanceMeasure
 \end{itemize}
 \subsubsection{Clustering Distance Measures}
-The interface IMetaDistanceMeasure is used to define distance measures that can be used for OPTICS for mata-clustering. These distance measures should represent how different two clustering solutions are from each other while needing to fulfill the requirements of a metric. For a distance measure, here indicated with $d(x,y)$ where $x$ and $y$ are objects, to be considered metric the following conditions must hold \cite{10.5555/1756006.1953024}:
+The interface IMetaDistanceMeasure is used to define distance measures that can be used for OPTICS for meta-clustering. These distance measures should represent how different two clustering solutions are from each other while needing to fulfill the requirements of a metric. For a distance measure, here indicated with $d(x,y)$ where $x$ and $y$ are objects, to be considered metric the following conditions must hold \cite{10.5555/1756006.1953024}:
 \begin{itemize}
   \item $d(x,y)\geq0$: distances must be non-negative
   \item $d(x,y)=0$ iff $x=y$: the distance between two objects is zero if and only if both objects are equal
@@ -542,19 +543,20 @@ The interface IMetaDistanceMeasure is used to define distance measures that can 
 \end{itemize}
 
 The default implemented distance measures are Variation of Information and Clustering Error. 
-%%more
+%%%%%%%%%%%%more
+
 \subsubsection*{Adding Distance Measures}
 To add distance measures for OPTICS the interface IMetaDistanceMeasure must be extended and the above mentioned conditions on the distance measure must be fulfilled for the algorithm to produce a satisfying result. After implementing the distance it must be added to initDistances() within ClusterWorkflow, for it to be usable from within the tool.
 
 \subsection{Consensus Clustering}
-Consensus Clustering can combine the results form different base clusterings to a common clustering. This can be done in the meta-view and different algorithms can be used for this step. When run, the algorithm computes a consensus result for all base clusterings that are in a common mata-cluster in the OPTICS reachability plot and are not filtered out. This means that if the used defined three mata-clusters with some cut-off value in the reachability plot, there will be three resulting consensus clusterings, one created from each group. The interface of interest for consensus functions is:
+Consensus Clustering can combine the results form different base clusterings to a common clustering. This can be done in the meta-view and different algorithms can be used for this step. When run, the algorithm computes a consensus result for all base clusterings that are in a common meta-cluster in the OPTICS reachability plot and are not filtered out. This means that if the used defined three meta-clusters with some cut-off value in the reachability plot, there will be three resulting consensus clusterings, one created from each group. The interface of interest for consensus functions is:
 
 \begin{itemize}
   \item Consensus Functions: IConsensusFunction
 \end{itemize}
 
 \subsubsection{Consensus Functions}
-The consensus functions implement the logic for combining the base clusterings. For this the interface IConsensusFunction is of interest and can be extended to add new functions. Per default two main implementations are available. Both implementations allow for the user to either define a target value for the number of resulting clusters $k$ within each result, or for the algorithm to guess this parameter itself. Firstly, CoAssociationMatrixAverageLink can be used, which computes a Co-Association (CA) Matrix and combines objects via the average link strategy. When $k$ is defined the algorithm joins together sets of points until only $k$ sets remain, which is used as final answer. If no $k$ is defined the algorithm performs two runs, calculating the lifetime \cite{lifetime} of the resulting tree and choosing the level to cut as the one resulting with maximum lifetime. As second method DICLENS is available, which was generously provided by Mimaroglu and Aksehirl \cite{DICLENS}.
+The consensus functions implement the logic for combining the base clusterings. For this the interface IConsensusFunction is of interest and can be extended to add new functions. Per default two main implementations are available. Both implementations allow for the user to either define a target value for the number of resulting clusters $k$ within each result, or for the algorithm to guess this parameter itself. Firstly, CoAssociationMatrixAverageLink can be used, which computes a Co-Association (CA) Matrix and combines objects via the average link strategy. When $k$ is defined the algorithm joins together sets of points until only $k$ sets remain, which is used as final answer. If no $k$ is defined the algorithm performs two runs, calculating the lifetime \cite{lifetime} of the resulting tree and choosing the level to cut as the one resulting with maximum lifetime. As second method DICLENS is available, which was generously provided by Mimaroglu and Aksehirl \cite{DICLENS}. Parts of their implementation were modified to allow for parallelism whenever this was a simple change.
 
 \subsubsection*{Adding Consensus Functions}
 To add consensus functions the interface IConsensusFunction must be extended. It is also important to note that weights may be supported by the function if implemented, although at this point there is no way for the user to set weights. As for the two default implementations the function may either allow defining the number of resulting clusters per consensus result or not. To add the newly created function to the tool, within MetaViewer the function initConsensusFunctions() must include the new method.
@@ -830,8 +832,9 @@ This way of finding multiple solutions may also prove useful when a data-set may
 \chapter{Future Work}\label{cha:futurework}
 
 \section{Improvements for the Tool}
+To tool created already proves useful for finding good clustering solutions, still further work should be done such that it becomes more usable. 
 
-bla
+A downside of the current implementation is that the focus of it lies solely on finding the best clustering result. This brings the problem that the methods implemented may not be fast enough when using a large data-set. To improve on this, the next steps should be to further optimize the methods for parallel environments and possibly implement similarly accurate but overall faster methods. This is especially true for the consensus functions, DICLENS 
 
 \section{Research Consensus Clustering}
 
