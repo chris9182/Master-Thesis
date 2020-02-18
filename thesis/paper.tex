@@ -214,7 +214,7 @@ Binary Linear Programming based methods create a compact representation of the d
 
 
 \part{Theory}
-\chapter{Methods}
+\chapter{Methods}\label{cha:methods}
 The newly created tool uses a large amount of existing methods which are described in this chapter. This section aims to give an overview of what exact methods were used, the theory behind them and in which scenarios they can be/are applied. For a more general overview of the topics relating the methods used, see the related work for this paper in Chapter \ref{cha:related_work}.
 
 \section{Dimensionality Reduction}\label{sec:dim_reduction}
@@ -313,7 +313,7 @@ The resulting function can then be used to analyze from which distributions the 
 
 \part{Implemented Tool}
 \chapter{Using the Tool}\label{cha:Tool}
-The implemented tool aims to facilitate the computation and selection of good clustering solutions for a given data-set. To do this both powerful visualizations and algorithms are needed, which are combined here. When working with the created application the user can first import and edit point data, then select clustering algorithms and parameters for meta-clustering and finally use the meta-view to analyze the results or create a consensus results. The final goal after all of this is either having found a clustering solution that is satisfactory or created one using consensus clustering in the final step. This simple workflow can be described with three steps, each with its own view and functionality. In the following sections the views and possibilities within each view are described. For more details on implementation details see Chapter \ref{cha:impl}
+The implemented tool aims to facilitate the computation and selection of good clustering solutions for a given data-set. To do this both powerful visualizations and algorithms are needed, which are combined here. When working with the created application the user can first import and edit point data, then select clustering algorithms and parameters for meta-clustering and finally use the meta-view to analyze the results or create a consensus results. The final goal after all of this is either having found a clustering solution that is satisfactory or created one using consensus clustering in the final step. This simple workflow can be described with three steps, each with its own view and functionality. In the following sections the views and possibilities within each view are described. For more details on implementation details see Chapter \ref{cha:impl}.
 
 \section{Data Visualization and Manipulation}
 To start with the tool, the user needs to import or create a data-set on which the clustering should be performed. As the data may have too many dimensions or include unnecessary columns, it needs to be sanitized as well. For this reason, the first window shown implements functionality for both of this steps. When the application is started a scatter plot without data is shown, as well as a side menu with different buttons. This starting window will further on also be called data-view as it visualizes point data, it can be seen in Figure \ref{fig:data-view}. 
@@ -853,7 +853,7 @@ Looking at currently available frameworks it seems that the focus lies on provid
 bla 
 
 \section{Reflection of Work}
-In this thesis I presented a new tool for finding clustering solutions with the help of visual elements and consensus clustering.
+In this thesis I presented a new tool for finding clustering solutions with the help of visual elements and consensus clustering. Previous visual frameworks such as Clustervision \cite{Kwon2018ClustervisionVS} rank multiple different clustering results according to quality metrics which might be biased towards specific cluster structures and only allow for choosing individual results, basically ignoring knowledge gained from additional runs. The newly created tool avoids these problems by finding robust solutions through meta-clustering and creating final solution candidates with consensus clustering. This way no structure bias should occur and knowledge of additional runs is included in the final result. In the Experiments chapter (Chapter \ref{cha:experiments}) of this thesis I showed how this leads to improved solution accuracy and still allows for analysis of different candidate solutions. Based on these findings, it could be a good idea to put further research into finding robust solutions and create consensus results according to indicators of clustering robustness.
 
 \begin{appendices}
 
