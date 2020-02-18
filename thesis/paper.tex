@@ -344,11 +344,10 @@ To export data the export button can be used. If will open a similar dialog as f
 
 Alternatively, the user can also create a data-set himself from within the tool. It is possible to draw points onto the canvas when the ``SinglePoint'' option is selected in the top right, as in Figure \ref{fig:data-view}. For this, the user only needs to click wherever he wants points placed. It is important to note that if there are more than two dimensions all values for the not shown dimensions will not be set, which may cause a problem for the clustering algorithms later on. Another possibility is the use of the ``ELKIGenerator'', which accepts a XML-style input for defining how to generate data. The definition for this format can be found in corresponding definitions file on the ELKI Github repository \cite{elkixml} or in the tools lib folder. This generator allows defining distributions on dimensions, the number of points for each generated distribution and many additional things like plane rotations. This can be quite useful when wanting to work with a quick sample data-set. In Figure \ref{fig:loaded-data} one can see how the data-view looks when data with cluster labels is shown. 
 
-%%%%%%%%%%%change figure
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=.45]{data-view}
-	\caption{PLACEHOLDER: Data-View with data-set (including cluster labels)}
+	\includegraphics[scale=.45]{unob}
+	\caption{Data-View with example data-set (including cluster labels)}
 	\label{fig:loaded-data}
 \end{figure}
 
@@ -399,58 +398,82 @@ When all setting are defined, the user can press the ``Execute Workflow'' button
 If the user has a previously saved Clustering Result File (CRF), which can be created in the meta-view, he can also omit defining a workflow and load the results in through the ``Load Result'' button. This button is only available when no clustering tasks were added to the workflow, as can be seen in Figure \ref{fig:workflow-view-tasks}. Before loading a result though, the user should make sure that the settings in the bottom left for meta-clustering are set to his liking. Only the seed field has no effect when loading a result as no clustering algorithms, except for meta-clustering which is deterministic, are run. After the data is loaded and meta-clustering is performed the meta-view opens with the chosen data.
 
 \section{Meta-View and Consensus Clustering}
-With either a clustering result loaded in or clustering algorithms run and the meta-clustering performed the meta-view is shown. This view allows the user to comparatively explore the clustering results, here interchangeably the term base clusterings is used, and thereby analyze their robustness. This should empower the user to make educated choices on which clustering to pick as final result or to decide on which ones should be combined into a consensus result. The meta-view with can be seen in Figure \ref{fig:meta-view}, where example data is used and the ground truth is currently shown.
+With either a clustering result loaded in or clustering algorithms run and the meta-clustering performed the meta-view is shown (Figure \ref{fig:meta-view}). 
 
-\begin{figure}[h]
+\begin{figure}[H]
 	\centering
-	\includegraphics[scale=.45]{data-view}
-	\caption{PLACEHOLDER: Meta-View with data and ground truth selected}
+	\includegraphics[angle=-90,origin=c,scale=.42]{meta-view}
+	\caption{Meta-View with data and ground truth selected}
 	\label{fig:meta-view}
 \end{figure}
+
+This view allows the user to comparatively explore the clustering results, here interchangeably the term base clusterings is used, and thereby analyze their robustness. This should empower the user to make educated choices on which clustering to pick as final result or to decide on which ones should be combined into a consensus result. The meta-view with can be seen in Figure \ref{fig:meta-view}, where example data is used and the ground truth is currently shown.
 
 The meta-view consists of five visual elements and some UI-elements in the top. Of the five elements, the left four visualizations give an overview of the data on an individual clustering and meta-level and the right part can be used to filter the base clusterings. 
 
 In the top left visualization, the data can be seen with the clustering labels colored in according to the result of selected clustering run. The selected clustering can be changed by either selecting another one in the selector above, by clicking on a result in one of the other three views that  show them on a meta-level. When changing between selected clustering solutions, the colors for the labels are adapted such that the change of labels is minimal. This is done so the user can more easily see differences, and is computed solving the mathematical assignment problem with Kuhn’s Hungarian method \cite{Kuhn2010}. If the user wishes to reset the colors for the labels of the currently selected coloring, for example when the recoloring leads to similar colors, he can press the ``C'' button in the top right of the view, setting the colors to their default values.
 
-Above this scatter plot the ``Show in Main'' button allows the user to load the currently selected clustering back into the data-view, which can for example be useful to use dimensionality reduction. The ``Matrix'' button opens the scatter plot matrix for the current clustering, this is the same visualization as when opened from the data-view. The ``Save'' button enables saving of all clustering results at once using the custom Clustering Result File (CRF) format, as mentioned in the description of the workflow-view. Alternatively, if only one clustering is selected the CSV file type can be chosen and only the one clustering can be saved.
+Above this scatter plot the ``Show in Main'' button allows the user to load the currently selected clustering back into the data-view, which can for example be useful dimensionality reduction should be applied. The ``Matrix'' button opens the scatter plot matrix for the current clustering, this is the same visualization as when opened from the data-view. The ``Save'' button enables saving of all clustering results at once using the custom Clustering Result File (CRF) format, as mentioned in the description of the workflow-view. Alternatively, if only one clustering is selected the CSV file type can be chosen and only the chosen clustering can be saved.
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=.45]{data-view}
-	\caption{PLACEHOLDER: Heat Map of the clusterings in Meta-View}
+	\includegraphics[scale=.45]{heat-map}
+	\caption{Heat Map of the clusterings in Meta-View}
 	\label{fig:heatmap}
 \end{figure}
 
-The bottom left of the for visualizations shows a heat map representing the distances between clustering solutions and indicating similarities hierarchically when looking for dark colored (i.e. dense) blocks on the diagonal. Figure \ref{fig:heatmap} shows such a heat map and one can see that depending on what the user considers to be a block, groups can visually be identified. The distances plotted represent the ones calculated with the distance measure selected in the workflow-view and are color coded such that their comparative values can easily be seen. Clicking within this plot highlights the clustering corresponding to the column selected, as well as the horizontal and vertical distance entries of the matrix. This should allow more easily visually analyzing distances between clusterings or clustering blocks within the matrix, when adding to the selection through control-clicking. Whenever a single clustering is selected it is also shown in the top left and any selection is also updated to the remaining views in the meta-view.
+The bottom left of the for visualizations shows a heat map representing the distances between clustering solutions and indicating similarities hierarchically when looking for dark colored (i.e. dense) blocks on the diagonal. Figure \ref{fig:heatmap} shows such a heat map and one can see that depending on what the user considers to be a block, groups can visually be identified. The distances values plotted represent the ones calculated with the distance measure selected in the workflow-view and are color-coded such that their values can easily be compared in modulus. Clicking within this plot highlights the clustering corresponding to the column selected, as well as the horizontal and vertical distance entries of the matrix. This should allow more easily visually analyzing distances between clusterings or clustering blocks within the matrix, when adding to the selection through control-clicking. Whenever a single clustering is selected it is also shown in the top left and any selection is also updated to the remaining views in the meta-view.
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=.45]{data-view}
-	\caption{PLACEHOLDER: OPTICS Reachability Plot in Meta-View }
+	\includegraphics[scale=.45]{reach-plot}
+	\caption{OPTICS Reachability Plot in Meta-View }
 	\label{fig:opticsplot}
 \end{figure}
 
-In the bottom right, the reachability plot resulting from the OPTICS meta-clustering is shown, it can be seen in Figure \ref{fig:opticsplot}. The height of the bars represent the reachability value for the clustering as determined by the algorithm and valleys in this plot can be interpreted as clusters. For more information on the reachability value refer to Section \ref{sec:opticstheory}. To define the meta-clusters the gray range range bar can be clicked or dragged on, moving the threshold line and coloring the clusterings accordingly and thereby visualizing to which meta-cluster each individual clustering belongs. Clicking or control-clicking on bars modifies the selected clustering(s), again updating the other views. If ground truth is available, mousing over the bars shows a tooltip with the distance and the NMI of the clustering in relation to the truth. With the meta-clustering defined double clicking on a bar or point in any other plot on the meta-level, will select the whole meta-cluster. This chart can also be used as help for deciding on which clustering to pick for the final result as neighboring bars with small values indicate a dense region of results. Such a dense region can be interpreted as a robust solution and choosing a clustering from it may yield a good final choice.
+In the bottom right, the reachability plot resulting from the OPTICS meta-clustering is shown, it can be seen in Figure \ref{fig:opticsplot}. The height of the bars represent the reachability value for the clustering as determined by the algorithm and valleys in this plot can be interpreted as clusters. For more information on the reachability value refer to Section \ref{sec:opticstheory}. To define the meta-clusters the gray range range bar can be clicked or dragged on, moving the threshold line and coloring the clusterings accordingly and thereby visualizing to which meta-cluster each individual clustering belongs. Clicking or control-clicking on bars modifies the selected clustering(s), again updating the other views. If ground truth is available, mousing over the bars shows a tooltip with the distance and the NMI of the clustering in relation to the truth. With the meta-clustering defined double clicking on a bar or point in any other plot on the meta-level, will select the whole meta-cluster. This chart can also be used as help for deciding on which clustering to pick for the final result as neighboring bars with small values indicate a dense region of results. Such a dense region can be interpreted as a robust solution and choosing a clustering from it may yield a good final choice. 
+
+In the top right of the reachability plot the button ``Clusters to Histogram'' allows the user to only show clusterings in the filter panel and its area charts which are assigned to a cluster. This leaves out the noise and allows to see the parameter distributions of the deemed robust clusterings, such that filtering is facilitated. To undo this, the ``Reset'' button above the filter panel can be clicked, both resetting all filters and showing all clusterings in the area charts of the panel.
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=.45]{data-view}
-	\caption{PLACEHOLDER: MDS Plot in Meta-View }
+	\includegraphics[scale=.45]{mds-plot}
+	\caption{MDS Plot in Meta-View}
 	\label{fig:mdsplot}
 \end{figure}
 
-Above the reachability plot in the top right the MDS plot is visible, it can be seen in Figure \ref{fig:mdsplot}. It shows an approximate representation of the clusterings in a finite dimensional space, aiming to stay as true as possible to the distance between them. The computation of this representation uses Multi-Dimensional Scaling (MDS) \cite{mds} which also gives this plot its name. When ground truth is available, it is shown in this plot as a star and the other clusterings are colored according to the threshold in the OPTICS plot. This visualization is useful as the user can, similarly to the heat map, explore which clusterings are close to each other and where the ground truth lies in this representation space. An ideal sampling of the solution space could be claimed if the ground truth is central and as the represented space approximates the solution space, finding the ground truth in the center and surrounded by solutions should be an indicator of good sampling. In the MDS plot the user can also once again select points by clicking, additionally dragging and selecting multiple points at once is possible as well. Besides this, all functionality available in simple scatter plots can also be used here.
+Above the reachability plot in the top right the MDS plot is visible, it can be seen in Figure \ref{fig:mdsplot}. It shows an approximate representation of the clusterings in a finite dimensional space, aiming to stay as true as possible to the distance between them. The computation of this representation uses Multi-Dimensional Scaling (MDS) \cite{mds} which also gives this plot its name. When ground truth is available, it is shown in this plot as a star and the other clusterings are colored according to the threshold in the OPTICS plot. This visualization is useful as the user can, similarly to the heat map, explore which clusterings are close to each other and where the ground truth lies in this representation space. An ideal sampling of the solution space could be claimed if the ground truth is central as the represented space approximates the solution space. With many clusterings surrounding the ground truth consensus clustering is also more likely to find a result close to the ground truth, as its goal of combining clusterings aims to find a result in the center of the solution space spanned by the clusterings. In the MDS plot the user can also once again select points by clicking, additionally dragging and selecting multiple points at once is possible as well. Besides this, all functionality available in simple scatter plots can also be used here, e.g. editing the range of shown values.
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=.45]{data-view}
-	\caption{PLACEHOLDER: Filter Panel in Meta-View }
+	\includegraphics[scale=.5]{filter-panel}
+	\caption{Filter Panel in Meta-View}
 	\label{fig:filterpanel}
 \end{figure}
 
-In the very right of the meta-view the filter panel can be seen, as depicted in Figure \ref{fig:filterpanel}. There, clusterings can be filtered such that they are less visually prominent in the other views and won't be used for consensus calculation. To define which clusterings to filter out the user can drag the range bars below each area plot, reducing the range of values for a clustering to be considered relevant. The area charts above these bars depict how many clusterings have approximately which value and how many of them were filtered out (in blue) in comparison to how many weren't (in red).
+In the very right of the meta-view the filter panel can be seen, as depicted in Figure \ref{fig:filterpanel}. There, clusterings can be filtered such that they are less visually prominent in the other views and won't be used for consensus calculation. To define which clusterings to filter out the user can drag the range bars below each area plot, reducing the range of values for a clustering to be considered relevant. The area charts above these bars depict how many clusterings have approximately which value and how many of them were filtered out (in blue) in comparison to how many weren't (in red). Also note that either all clusterings are visualized in these area charts or only the ones that were assigned a meta-cluster, if the ``Clusters to Histogram'' button was pressed above the reachability plot.
 
-Next to the ``Save'' button in the top row, a consensus function can be chosen and used by pressing the ``Consensus'' button. When this button is pressed, if the consensus function supports it a window opens, allowing the user to set a number of desired clusters in the output or to leave this field empty when the function should try to find this parameter itself. The consensus function them aims to combine the clusterings belonging to the same meta-cluster, ignoring the ones filtered out as well as the ground truth if available. When the calculation is done a new meta-view opens using the consensus results as data. This new view will contain as many clusterings as there were meta-clusters in the previous view and, if it was available, the ground truth.
+Next to the ``Save'' button in the top row, a consensus function can be chosen and used by pressing the ``Consensus'' button, see Figure \ref{fig:cons_button}. 
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=.75]{cons_button}
+	\caption{Buttons in the top of the Meta-View}
+	\label{fig:cons_button}
+\end{figure}
+
+When this button is pressed, if the consensus function supports it a window opens, allowing the user to set a number of desired clusters in the output or to leave this field empty when the function should try to find this parameter itself (Figure \ref{fig:choosek_window}).
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=.6]{choosek_window}
+	\caption{Input for Number of target Clusters for Consensus}
+	\label{fig:choosek_window}
+\end{figure}
+
+ The consensus function them aims to combine the clusterings belonging to the same meta-cluster, ignoring the ones filtered out as well as the ground truth if available. When the calculation is done a new meta-view opens using the consensus results as data. This new view will contain as many clusterings as there were meta-clusters in the previous view and, if it was available, the ground truth.
+
+The selection of the final result can be done by either searching for robust solutions in the visualizations of the meta-view or by performing consensus clustering, merging all clusterings or groups of robust solutions. When consensus clustering is used, additional knowledge can be gained from other solutions and the overall result may be better than any individual run, though the consensus results may be more difficult to interpret.
 
 \chapter{Implementation}\label{cha:impl}
 \section{Programming Language and Tools}
