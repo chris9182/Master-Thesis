@@ -640,11 +640,12 @@ For the comparison of two clustering results, it is possible to select two clust
 
 \part{Testing}
 \chapter{Experiments}\label{cha:experiments}
-To show the value of the new tool different scenarios created. The goals of the tool are to improve on the ease of finding complex cluster structures and improve on the result in comparison to only using simple clustering methods. Another aim is to visualize the data and clustering results such that an expert user can make a well informed decision on which solutions best fit the data. For all experiments performed the Variation of Information distance measure was used, as it produced better results and the random seed was fixed at $1$ for reproducability of the experiments. The parameters for OPTICS were also left at their default values.
+To show the value of the new tool, different scenarios created. The goals of the tool are to improve on the ease of finding complex cluster structures and improve on the result in comparison to only using simple clustering methods. Another aim is to visualize the data and clustering results such that an expert user can make a well informed decision on which solutions best fit the data. For all experiments performed the Variation of Information distance measure was used, as it produced better results and the random seed was fixed at $1$ for reproducability of the experiments. The parameters for OPTICS were also left at their default values, as more fine-grained valleys are visible. The default choice for $\epsilon$ also leads to a worse runtime for the algorithm, this is accepted though as the clustering algorithms take more time anyways.
 
 \section{Solutions better than Base-Clusterings}
+To show that the tool is able to find better solutions than just the ones produced by single clustering runs, different examples are presented in the following sections. 
 \subsubsection{k-Means}
-Creating base clusterings and applying consensus functions are well known methods, but there was previously no tool allowing to perform these steps as easily with a visual interface. Using this tool, a user is able to find better results than the individual ones created by sampling the parameters for the different clustering algorithms. This is the case as the combined knowledge through consensus clustering can be more powerful than an individual algorithm. 
+Creating base clusterings and applying consensus functions are well known methods, but there was previously no tool allowing to perform these steps as easily with a visual interface. Using this tool, a user is able to find better results than the individual ones created by sampling the parameters for the different clustering algorithms. This is the case as the combined knowledge through consensus clustering can be more powerful than an individual algorithm due information from other results being ignored when deciding on a sampled solution.
 
 \begin{figure}[h]
 	\centering
@@ -671,7 +672,7 @@ Creating base clusterings and applying consensus functions are well known method
 	\label{fig:better_base_consensus}
 \end{figure}
 
-To illustrate this, I have a synthetic data-set with three Gaussian distributed clusters with different standard deviations, it can be seen in Figure \ref{fig:better_base}.
+To illustrate this, a synthetic data-set with three Gaussian distributed clusters with different standard deviations is used in this example, it can be seen in Figure \ref{fig:better_base}.
 
 Now as this data-set is quite simple let us create the base clusterings using Lloyd's k-Means algorithm. To increase the knowledge that can be extracted from the results, $k$ can simply be sampled in a large range. In this example, it is sampled in the range of $2$ to $20$ computing $6$ results for each $k$, see Figure \ref{fig:better_base_wf}. Using such a larger range, even if an approximate $k$ is known is often useful as the additional information of possible smaller local clusters can be integrated. Also, as a poor value for $k$ leads to less robust results, the clusterings should differ more strongly and the randomness of the result should not make the information from small clusters to dominant.
 
@@ -705,11 +706,13 @@ Another data-set for which this method works is Zahn's Compound \cite{1671676} w
 
 Sampling 200 runs of DBSCAN by fixing minPTS to 5 and randomly picking $\epsilon$ between $0.01$ and $0.5$ (which is roughly the range where non-trivial clusterings can result) gives us a best result with an NMI of $0.896$. It can be seen in Figure \ref{fig:zahn_best}. The points colored in white in Figure \ref{fig:zahn_best} indicate points that DBSCAN considered noise, for the calculation of the NMI and in all other parts of the tool they are considered to belong to a common cluster.
 
-While this result is not too bad for such a complex data-set it is not obvious to find from all of the 200 solutions. Especially when the structure is as complex as here, if may be difficult for the user to figure out which of the results is satisfactory, given no ground truth. Consensus not only gives us a better solution (fixed $k=6$) with an NMI of $0.943$ but also only a single result. This means that besides improving the quality of the result the user does therefor not need to choose the right solution. The output of the consensus function can be seen in Figure \ref{fig:zahn_consensus}.
+While this result is not too bad for such a complex data-set it is not obvious to find from all of the 200 solutions. Especially when the structure is as complex as here, if may be difficult for the user to figure out which of the results is satisfactory, given no ground truth. Consensus not only gives us a better solution (fixed $k=6$) with an NMI of $0.943$ but also only a single result. This means that besides improving the quality of the result the user does therefor not need to choose the right solution. The output of the consensus function can be seen in Figure \ref{fig:zahn_consensus}. The used consensus function was once again the  Co-Association Matrix based one.
 
 \subsubsection{Real Data}
 
-The same strategy as for the example data in Figure \ref{fig:better_base} was tested with the Iris data-set \cite{Dua:2019}. Here Lloyd's k-Means was also used and the parameter $k$ was sampled in the range between $2$ and $10$, computing 10 samples per value $k$. The best result when comparing to the ground truth was for $k=3$ with an NMI of $0.757$ while computing the consensus for all clusterings resulted in a solution with an NMI of $0.797$ (with $k=3$ for the consensus function). This shows once again the value of consensus clustering as it can reduce the need of knowing parameters or evaluating solutions with quality measures. Still one should aim to find the method that simplest explains the data, for which consensus results are usually no good candidate.
+The same strategy as for the example data in Figure \ref{fig:better_base} was tested with the Iris data-set \cite{Dua:2019}. Here Lloyd's k-Means was also used and the parameter $k$ was sampled in the range between $2$ and $10$, computing 10 samples per value $k$. The best result when comparing to the ground truth was for $k=3$ with an NMI of $0.757$ while computing the consensus for all clusterings resulted in a solution with an NMI of $0.797$ (with $k=3$ for the consensus function). This shows once again the value of consensus clustering as it can eliminate the need of evaluating individual solutions with quality measures and picking one, while still finding a good or even better solution. Still one should aim to find the method that simplest explains the data, for which consensus results are usually no good candidate. 
+
+Besides the Iris data-set, a real wireless indoor localization data-set \cite{wireless} was used as a test-case for a user, more on this can be found in Section \ref{sec:user_test}. There can be seen that the parameter $k$ can be found as a side-effect of collecting consensus solutions for meta-clusters and better results than the individual runs can be obtained. This effect of obtaining $k$ can also further be observed in the example in Section \ref{sec:multi_sol}.
 
 \section{Unobtainable Solutions}\label{sec:unob}
 Single clustering algorithms may not be able to find the structure of a data-set when multiple different kinds of structures are present for individual clusters. Combining results of different clustering algorithms may solve this problem, as correctly identified structures should be robust throughout multiple runs of a fitting algorithm while they should not be robust whenever the algorithm doesn't fit the structure. To illustrate this a data-set was created combining a U-shaped density based cluster with Gaussian clusters with different deviations, see Figure \ref{fig:unob}.
@@ -741,7 +744,7 @@ When looking at the OPTICS reachability plot, one can see that a dense region of
 
 Looking at the results of the different algorithms exactly this behavior can be observed, see Figure \ref{fig:single}.
 
-\begin{figure}[H]
+\begin{figure}[h]
 \centering
 \begin{subfigure}[t]{.49\textwidth}
   \centering
@@ -784,7 +787,7 @@ Looking at the results of the different algorithms exactly this behavior can be 
 
 Here, the red cluster can not be found with partitioning methods such as k-Means and the either the green or the blue and yellow clusters can not be found by density-based methods. Both the k-Means result for $k=3$ (Figure \ref{fig:unob_k3}) and some DBSCAN results (Figure \ref{fig:unob_best}) can be found in valleys of the reachability plot but none of both is able to find the structure of all clusters.
 
-\begin{figure}[H]
+\begin{figure}[h]
 	\centering
 	\includegraphics[scale=.4]{unob_consensus}
 	\caption{Consensus Result for Data-Set in Figure \ref{fig:unob}}
@@ -794,7 +797,7 @@ Here, the red cluster can not be found with partitioning methods such as k-Means
 To solve this consensus clustering can be performed. As discussed previously both kinds of results have produced robust clusterings and the most relevant information can be combined to a better common result. In this example DICLENS was selected, fixing $k=4$ and the final result was computed. As can be seen in Figure \ref{fig:unob_consensus}, using the information available from all solutions, both k-Means and DBSCAN runs, finds a result very close to the ground truth. This result has only few misclassified points, most noticeably the two red points outside the U-shaped cluster. The NMI of the consensus result is $0.978$ while the best result of a single run (Figure \ref{fig:unob_best}) has an NMI of $0.872$. This large improvement shows the power of using consensus clustering when different structures are present in the data.
 
 
-\section{Multiple Solutions}
+\section{Multiple Solutions}\label{sec:multi_sol}
 Finding which clustering solution is best for an unexplored data-set can be non-trivial. Other visual frameworks often use quality metrics, which may be biased towards specific structures. In this section I want to present you with this problem using the newly created tool and show that robustness can be used to find good results. For this the unlabeled data-set shown in Figure \ref{fig:multi} is used as an example.
 
 \begin{figure}[h]
@@ -866,7 +869,7 @@ Finding more than one possible result can be helpful on top of only creating one
 
 This way of finding multiple solutions may also prove useful when a data-set may be clustered with different goals. For example, clustering patient data could be done to find groups of patients with different kinds of cancer or different kinds of diabetes. Even though both may cluster on the same data-set (for example vectorized patient data), the desired clusterings are likely to differ and different algorithms and parameter-sets may reflect this.
 
-\section{User Testing}
+\section{User Testing}\label{sec:user_test}
 To experimentally test how easy it is to find good clustering solutions XXXX test-scenarios where created and a fellow computer science student was tasked to find solutions and explain his findings.
 
 \part{Concluding Thoughts}
@@ -875,6 +878,7 @@ To experimentally test how easy it is to find good clustering solutions XXXX tes
 
 \section{Improvements for the Tool}
 Even though the created tool already proves useful for finding good clustering solutions, further work should still be done such that it becomes more generally usable. 
+%%%%%%%%% bootstrapping
 
 A downside of the current implementation is that the focus of it lies solely on finding the best clustering result. This brings the problem that the methods implemented may not be fast enough when using a large data-set. To improve on this, the next steps should be to further optimize the methods for parallel environments and possibly implement similarly accurate but overall faster methods. This is especially true for the consensus functions as they can be very costly depending on the number of clusters in the individual results, target cluster number, points and dimensions in the data. Different functions runtime depend on different subsets of these values and also vary in their accuracy. Here more work should be put into finding the generally most accurate and performant method.
 
