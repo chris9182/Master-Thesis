@@ -885,7 +885,16 @@ At first, the user tried sampling k-means with $k$ in the range $2$ to $20$ crea
 	\label{fig:user_qcm_optics}
 \end{figure}
 
-With this knowledge, the clusterings were re-computed only using $k$ in the range $2$ to $10$.
+With this knowledge, the clusterings were re-computed only using $k$ in the range $2$ to $10$. The resulting reachability plot now more clearly shows robust groups of solutions, the threshold choice of the user can be seen in Figure \ref{fig:user_qcm_optics2}.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=.5]{user_qcm_optics2}
+	\caption{OPTICS Plot after improved Sampling}
+	\label{fig:user_qcm_optics2}
+\end{figure}
+
+For deciding on the final solution, he applied the default consensus function and obtained 5 results, one for each meta-cluster. From these solutions he chose the one resulting from the largest meta-cluster, with the reasoning that the threshold definition found it to be the largest group of robust solutions. The chosen result included 5 clusters which the user claimed to be the number of types of alcohol in the data-set. Not only is this the right number of clusters, the obtained result is $100\% $ equivalent to the ground truth. He also observed that the next largest meta-cluster produced a result where two clusters were merged into one. When visually inspecting the first and second result it also seems that this merging could be a sensible choice.
 
 The second data-set \cite{wireless} contains signal strenght data from smartphones where the strength of seven nearby wireless networks is collected for each smartphone. The task is to find how many smartphones are in the area of these wireless networks and assign the measurements taken to the smartphones.
 %%
