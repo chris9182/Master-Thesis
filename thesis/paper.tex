@@ -47,7 +47,7 @@
 \cleardoublepage
 
 % list of tables
-\listoftables
+%\listoftables
 %\protect addcontentsline{toc}{chapter}{Tabellenverzeichnis}
 \cleardoublepage
 
@@ -163,7 +163,6 @@ Consensus clustering aims to combine multiple clustering solutions for the same 
 	\textbf{Scalability} & applicability for large data-sets regarding runtime \\
 	&
 \end{tabular}
-\caption{Quality factors for consensus clustering results}
 \end{table}
 
 Consensus clustering includes two parts. Firstly base clusterings must be generated, which can be done with different strategies \cite{BOONGOEN20181}. One may choose to perform multiple runs of the same algorithm with the same parameters but different random seeds, the same algorithm with different parameters or even multiple different algorithms. All of these possibilities can be chosen while always clustering the full data, a different sub-sample of the data points (Bootstrapping) \cite{bootstrapping} each run (e.g. 80\%) or even different subspaces of the data. After the generation of base clusterings, the next step is to combine those with a consensus function. In general, consensus functions can be separated into two groups, Object Co-occurrence (O-Co) methods and Median Partitioning (MP) methods \cite{survey1}. There exist a large number of methods in both of those groups, which can be categorized according to what ideas they are based on.
