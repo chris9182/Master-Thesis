@@ -691,6 +691,9 @@ Another data-set for which this method works is Zahn's Compound \cite{1671676} w
 	\caption{Zahn's Compound Data-Set with Labels \ref{fig:better_base}}
 	\label{fig:zahn}
 \end{figure}
+
+Sampling 200 runs of DBSCAN by fixing minPTS to $5$ and randomly picking $\epsilon$ between $0.01$ and $0.5$ (which is roughly the range where non-trivial clusterings can result) gives us a best result with an NMI of $0.896$. It can be seen in Figure \ref{fig:zahn_best}. The points colored in white in Figure \ref{fig:zahn_best} indicate points that DBSCAN considered noise, for the calculation of the NMI and in all other parts of the tool they are considered to belong to a common cluster.
+
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=.4]{zahn_best}
@@ -704,13 +707,11 @@ Another data-set for which this method works is Zahn's Compound \cite{1671676} w
 	\label{fig:zahn_consensus}
 \end{figure}
 
-Sampling 200 runs of DBSCAN by fixing minPTS to 5 and randomly picking $\epsilon$ between $0.01$ and $0.5$ (which is roughly the range where non-trivial clusterings can result) gives us a best result with an NMI of $0.896$. It can be seen in Figure \ref{fig:zahn_best}. The points colored in white in Figure \ref{fig:zahn_best} indicate points that DBSCAN considered noise, for the calculation of the NMI and in all other parts of the tool they are considered to belong to a common cluster.
-
-While this result is not too bad for such a complex data-set it is not obvious to find from all of the 200 solutions. Especially when the structure is as complex as here, if may be difficult for the user to figure out which of the results is satisfactory, given no ground truth. Consensus not only gives us a better solution (fixed $k=6$) with an NMI of $0.943$ but also only a single result. This means that besides improving the quality of the result the user does therefor not need to choose the right solution. The output of the consensus function can be seen in Figure \ref{fig:zahn_consensus}. The used consensus function was once again the  Co-Association Matrix based one.
+While this result is not too bad for such a complex data-set it is not obvious to find from all of the $200$ solutions. Especially when the structure is as complex as here, if may be difficult for the user to figure out which of the results is satisfactory, given no ground truth. Consensus not only gives us a better solution (fixed $k=6$) with an NMI of $0.943$ but also only a single result. This means that besides improving the quality of the result the user does therefor not need to choose the right solution. The output of the consensus function can be seen in Figure \ref{fig:zahn_consensus}. The used consensus function was once again the  Co-Association Matrix based one.
 
 \subsubsection{Real Data}
 
-The same strategy as for the example data in Figure \ref{fig:better_base} was tested with the Iris data-set \cite{Dua:2019}. Here Lloyd's k-Means was also used and the parameter $k$ was sampled in the range between $2$ and $10$, computing 10 samples per value $k$. The best result when comparing to the ground truth was for $k=3$ with an NMI of $0.757$ while computing the consensus for all clusterings resulted in a solution with an NMI of $0.797$ (with $k=3$ for the consensus function). This shows once again the value of consensus clustering as it can eliminate the need of evaluating individual solutions with quality measures and picking one, while still finding a good or even better solution. Still one should aim to find the method that simplest explains the data, for which consensus results are usually no good candidate. 
+The same strategy as for the example data in Figure \ref{fig:better_base} was tested with the Iris data-set \cite{Dua:2019}, the first two dimensions of this data-set can be seen in the user testing section in Figure \ref{fig:iris}. Here Lloyd's k-Means was also used and the parameter $k$ was sampled in the range between $2$ and $10$, computing $10$ samples per value $k$. The best result when comparing to the ground truth was for $k=3$ with an NMI of $0.757$ while computing the consensus for all clusterings resulted in a solution with an NMI of $0.797$ (with $k=3$ for the consensus function). This shows once again the value of consensus clustering as it can eliminate the need of evaluating individual solutions with quality measures and picking one, while still finding a good or even better solution. Still one should aim to find the method that simplest explains the data, for which consensus results are usually no good candidate. 
 
 Besides the Iris data-set, a real wireless indoor localization data-set \cite{wireless} was used as a test-case for a user, more on this can be found in Section \ref{sec:user_test}. There can be seen that the parameter $k$ can be found as a side-effect of collecting consensus solutions for meta-clusters and better results than the individual runs can be obtained. This effect of obtaining $k$ can also further be observed in the example in Section \ref{sec:multi_sol}.
 
@@ -724,7 +725,7 @@ Single clustering algorithms may not be able to find the structure of a data-set
 	\label{fig:unob}
 \end{figure}
 
-To produce base clusterings k-Means was run choosing $k$ between $2$ and $20$ creating 5 results each and DBSCAN was run with $minPTS=5$ and $\epsilon$ between $0.01$ and $0.5$ taking 100 samples. The seed was again fixed at $1$  for reproducability and trivial solutions were omitted. Also, these ranges were selected such that a large diversity of solutions is obtained while not creating trivial clusterings. Trivial clusterings are not desired in this process as all points either being in one or each point in an individual cluster is no useful information. The workflow can be seen in Figure \ref{fig:unob_wf}.
+To produce base clusterings k-Means was run choosing $k$ between $2$ and $20$ creating $5$ results each and DBSCAN was run with $minPTS=5$ and $\epsilon$ between $0.01$ and $0.5$ taking $100$ samples. The seed was again fixed at $1$  for reproducability and trivial solutions were omitted. Also, these ranges were selected such that a large diversity of solutions is obtained while not creating trivial clusterings. Trivial clusterings are not desired in this process as all points either being in one or each point in an individual cluster is no useful information. The workflow can be seen in Figure \ref{fig:unob_wf}.
 
 \begin{figure}[h]
 	\centering
@@ -870,7 +871,47 @@ Finding more than one possible result can be helpful on top of only creating one
 This way of finding multiple solutions may also prove useful when a data-set may be clustered with different goals. For example, clustering patient data could be done to find groups of patients with different kinds of cancer or different kinds of diabetes. Even though both may cluster on the same data-set (for example vectorized patient data), the desired clusterings are likely to differ and different algorithms and parameter-sets may reflect this.
 
 \section{User Testing}\label{sec:user_test}
-To experimentally test how easy it is to find good clustering solutions XXXX test-scenarios where created and a fellow computer science student was tasked to find solutions and explain his findings.
+To experimentally test how easy it is to find good clustering solutions three test-scenarios where created and a fellow computer science student was tasked to find solutions and explain his findings. To again make the results reproducible the random seed was fixed at $1$ and the ground truth was not shown to the user.
+
+The first data-set \cite{qcm} includes QCM sensor data where different types of alcohol were passed through the sensor in different concentrations. The task was to find how many types of alcohol were tested and to find the clusters representing each type.
+%%img?
+
+At first, the user tried sampling k-means with $k$ in the range $2$ to $20$ creating $10$ solutions each. Doing this, he looked at which values for $k$ resulted in outlying/non-robust results. When filtering for solutions with $\leq10$ clusters, it was easy to see that the results with more than $10$ clusters produce poor solutions. The effect of which clusterings are filtered out this way can be seen in Figure \ref{fig:user_qcm_optics}.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=.5]{user_qcm_optics}
+	\caption{OPTICS Plot with applied Filter}
+	\label{fig:user_qcm_optics}
+\end{figure}
+
+With this knowledge, the clusterings were re-computed only using $k$ in the range $2$ to $10$.
+
+The second data-set \cite{wireless} contains signal strenght data from smartphones where the strength of seven nearby wireless networks is collected for each smartphone. The task is to find how many smartphones are in the area of these wireless networks and assign the measurements taken to the smartphones.
+%%
+
+Lastly, the user was tasked to find the best clustering result he can for the iris data-set \cite{Dua:2019}. For this, he was told that the set consists of three different types of flowers. The attributes collected in this set include the sepal width and length as well as the petal width an length. The first two dimensions are shown in Figure \ref{fig:iris}, there the labels represent the ground truth.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=.4]{iris2}
+	\caption{First two dimensions of Iris Data-Set}
+	\label{fig:iris}
+\end{figure}
+
+The user assumed that those attributes may be Gaussian distributed with possible different distributions and therefor chose the EM clustering algorithm. He sampled the range of $2$ to $5$ for $k$ and calculated $10$ results for each value, to also analyze solutions for different choices of $k$. Next, he changed the threshold in the reachability plot of the meta-view such that visually pleasing solution clusters can be seen. This choice can be seen in Figure \ref{fig:user_iris_optics}.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=.4]{user_iris_optics}
+	\caption{OPTICS Plot with user-defined Threshold}
+	\label{fig:user_iris_optics}
+\end{figure}
+
+With this definition he computed consensus results for all groups, which resulted in 3 solutions. As he was told that there are 3 types of flowers the consensus result for the blue meta-cluster was his choice for the final answer, which was also the best overall result. Still, he noted that without this knowledge the choice of two clusters would have been more intuitive for him as the meta-cluster included more results and seemed more robust. The NMI score of his chosen solution was 0.8997 and this clustering solutions is exactly the same as the best single clustering run, this best solution is selected in Figure \ref{fig:user_iris_optics}.
+
+
+%%
 
 \part{Concluding Thoughts}
 
