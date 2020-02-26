@@ -269,7 +269,7 @@ Also, the relationship between $\epsilon$ and $\mu$ is interesting to observe in
 
 
 \subsection{OPTICS}\label{sec:opticstheory}
-Ordering Points To Identify the Clustering Structure or OPTICS \cite{10.1145/304181.304187} is an extension of DBSCAN whereby DBSCAN's Epsilon $\epsilon$ parameter is used in a different manner. It also has a parameter MinPts which has a similar meaning as the $\mu$ parameter of DBSCAN. The idea is that different distance parameters are used in each step such that density-based clusters with different densities can be found simultaneously. To achieve this the  $\epsilon$ parameter only defines the maximum distance for which points can be considered reachable and the actual reachability distance for two objects is computed as:
+Ordering Points To Identify the Clustering Structure or OPTICS \cite{10.1145/304181.304187} is an extension of DBSCAN whereby DBSCAN's Epsilon $\epsilon$ parameter is used in a different manner. It also has a parameter MinPts which has a similar meaning as the $\mu$ parameter of DBSCAN. The idea is that different distance parameters are used in each step such that density-based clusters with different densities can be found simultaneously. To achieve this, the  $\epsilon$ parameter only defines the maximum distance for which points can be considered reachable and the actual reachability distance for two objects is computed as:
 $$reachability\text{-}distance_{\epsilon,MinPts}(p,o)=$$
 $$
 \begin{cases}
