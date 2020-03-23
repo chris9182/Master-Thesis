@@ -31,6 +31,15 @@
 \setcounter{tocdepth}{3}
 \pgfplotsset{compat=newest}
 
+\setlength{\unitlength}{1cm}
+\setlength{\oddsidemargin}{0.3cm}
+\setlength{\evensidemargin}{0.3cm}
+\setlength{\textwidth}{15.5cm}
+\setlength{\topmargin}{-1.2cm}
+\setlength{\textheight}{23cm}
+\columnsep 0.5cm
+
+
 \begin{document}
 \input{titlepage/titlepage}
 \input{start/acknowledgements}
@@ -342,7 +351,7 @@ To get started with the tool, the user needs to import or create a data-set on w
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=.45]{data-view}
+	\includegraphics[scale=.5]{data-view}
 	\caption{Data-View, the starting window of the application}
 	\label{fig:data-view}
 \end{figure}
@@ -353,18 +362,18 @@ The scatter plot in the center-left shows data that was imported or created and 
 
 Firstly, to import a data-set for visualization and later use, the import button in the bottom-right can be pressed, opening a file dialog which can load either CSV or ARFF files. These formats are supported as they are most commonly used to store such data. This file dialog can be seen in Figure \ref{fig:data-import}. 
 
-\begin{figure}[h]
+\begin{figure}[H]
 	\centering 
-	\includegraphics[scale=.45]{data-import}%[width=.5\textwidth]
+	\includegraphics[scale=.5]{data-import}%[width=.5\textwidth]
 	\caption{Import Dialog}
 	\label{fig:data-import}
 \end{figure}
 
-After selecting a file, the index of cluster labels can be defined, in case labels should be loaded from the file. Otherwise, the value can be left at $-1$, indicating that no columns should be used for label information. ``$-2$'' may be also be specified, it is used as a shortcut for selecting the last column as cluster label information, removing the need to count columns if it is the last one. The chosen column is not inserted as a dimension in the data space but used only for the cluster labels, the color of the loaded points will be reflected in the scatter plot of the data-view. In Figure \ref{fig:loaded-data}, one can see how the data-view looks when data with cluster labels is shown. The data-set used for this example is the same as in Section \ref{sec:unob}.
+After selecting a file, the index of cluster labels can be defined, in case labels should be loaded from the file. Otherwise, the value can be left at ``$-1$'', indicating that no columns should be used for label information. ``$-2$'' may be also be specified, it is used as a shortcut for selecting the last column as cluster label information, removing the need to count columns if it is the last one. The chosen column is not inserted as a dimension in the data space but used only for the cluster labels, the color of the loaded points will be reflected in the scatter plot of the data-view. In Figure \ref{fig:loaded-data}, one can see how the data-view looks when data with cluster labels is shown. The data-set used for this example is the same as in Section \ref{sec:unob}.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=.45]{unob}
+	\includegraphics[scale=.5]{unob}
 	\caption{Data-View with example data-set (including cluster labels)}
 	\label{fig:loaded-data}
 \end{figure}
@@ -379,7 +388,7 @@ An example for this view can be seen in Figure \ref{fig:scatter_matrix} with the
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=.25]{scatter_matrix}
+	\includegraphics[scale=.3]{scatter_matrix}
 	\caption{Scatter Plot Matrix for data-set from Figure \ref{fig:loaded-data}}
 	\label{fig:scatter_matrix}
 \end{figure}
@@ -397,7 +406,7 @@ By clicking the ``Clustering'' button in the data-view, the window for managing 
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=.43]{workflow-view}
+	\includegraphics[scale=.5]{workflow-view}
 	\caption{Workflow-View with no tasks and default values}
 	\label{fig:workflow-view}
 \end{figure}
@@ -406,7 +415,7 @@ In the top-left, the selector allows for choosing clustering algorithms to add t
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=.43]{workflow-view-tasks}
+	\includegraphics[scale=.5]{workflow-view-tasks}
 	\caption{Workflow-View with tasks defined}
 	\label{fig:workflow-view-tasks}
 \end{figure}
@@ -415,7 +424,7 @@ For ease of use, workflows can be saved and loaded in the workflow-view, using t
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=.75]{workflow-options}
+	\includegraphics[scale=.8]{workflow-options}
 	\caption{Options for setting Seed and OPTICS parameters}
 	\label{fig:workflow-options}
 \end{figure}
@@ -435,14 +444,15 @@ With either a clustering result loaded in or clustering algorithms run and the m
 
 This view allows the user to comparatively explore the clustering results and thereby analyze their robustness. This should empower him in making educated choices on which clustering to pick as the final result or deciding on which ones should be combined into a consensus result. The meta-view can be seen in Figure \ref{fig:meta-view}, where example data is loaded and the ground truth is currently shown.
 
+The meta-view consists of five main visual elements and some UI-elements at the top. Having these five elements, the left four visualizations give an overview of the data on an individual clustering and meta-level and the right part can be used to filter the base clusterings and look at area charts for different parameters. 
+
 \begin{figure}[H]
 	\centering
-	\includegraphics[angle=-90,origin=c,scale=.42]{meta-view}
+	\includegraphics[angle=-90,origin=c,scale=.47]{meta-view}
 	\caption{Meta-View with data and ground truth selected}
 	\label{fig:meta-view}
 \end{figure}
 
-The meta-view consists of five main visual elements and some UI-elements at the top. Having these five elements, the left four visualizations give an overview of the data on an individual clustering and meta-level and the right part can be used to filter the base clusterings and look at area charts for different parameters. 
 
 In the top-left visualization, the data can be seen with the points colored according to their cluster labels found in the result of the currently selected clustering run. The selected clustering can be changed by either selecting another one in the selector above or by clicking on a result in one of the other three views that show them on a meta-level. When changing between selected clustering solutions, the colors for the labels are adapted such that the change of labels is minimal. This is computed solving the mathematical assignment problem with Kuhn’s Hungarian method \cite{Kuhn2010} and helps the user more easily seeing differences between solutions. If the user wishes to reset the colors for the labels of the currently selected coloring, for example when the recoloring leads to similar colors, he can press the ``C'' button in the top-right of the view, setting the colors back to their default values.
 
@@ -450,7 +460,7 @@ Above this scatter plot, the ``Show in Main'' button allows the user to load the
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=.45]{heat-map}
+	\includegraphics[scale=.6]{heat-map}
 	\caption{Heat Map of the clusterings in Meta-View}
 	\label{fig:heatmap}
 \end{figure}
@@ -459,7 +469,7 @@ The bottom-left of the four visualizations shows a heat map representing the dis
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=.45]{reach-plot}
+	\includegraphics[scale=.6]{reach-plot}
 	\caption{OPTICS Reachability Plot in Meta-View }
 	\label{fig:opticsplot}
 \end{figure}
@@ -470,12 +480,14 @@ In the top-right of the reachability plot, the button ``Clusters to Histogram'' 
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=.45]{mds-plot}
+	\includegraphics[scale=.6]{mds-plot}
 	\caption{MDS Plot in Meta-View}
 	\label{fig:mdsplot}
 \end{figure}
 
-Above the reachability plot in the top-right the MDS plot, which can be seen in Figure \ref{fig:mdsplot}, is visible. This visualization shows an approximate representation of the clusterings as points in a finite-dimensional space, aiming to stay as true as possible to the distance between them. The computation of this representation uses Multi-Dimensional Scaling (MDS) \cite{mds} which also gives this plot its name. When ground truth is available, it is shown as a star and the other clusterings are colored according to the threshold set in the OPTICS plot. This visualization is useful as the user can, similarly to the heat map, explore which clusterings are close to each other and where the ground truth lies in this representation space. An ideal sampling of the solution space could be claimed if the ground truth is central, as the represented space approximates the solution space. With many clusterings surrounding the ground truth, consensus clustering is also more likely to find a result close to the ground truth, as its goal of combining clusterings aims to find a result in the center of the solution space spanned by the clusterings. In the MDS plot, the user can also once again select points by clicking. Additionally, dragging and selecting multiple points at once is possible here as well. Besides this, all functionality available in simple scatter plots can be used here, e.g. editing the range of shown values.
+Above the reachability plot in the top-right the MDS plot, which can be seen in Figure \ref{fig:mdsplot}, is visible. This visualization shows an approximate representation of the clusterings as points in a finite-dimensional space, aiming to stay as true as possible to the distance between them. The computation of this representation uses Multi-Dimensional Scaling (MDS) \cite{mds} which also gives this plot its name. When ground truth is available, it is shown as a star and the other clusterings are colored according to the threshold set in the OPTICS plot. 
+
+This visualization is useful as the user can, similarly to the heat map, explore which clusterings are close to each other and where the ground truth lies in this representation space. An ideal sampling of the solution space could be claimed if the ground truth is central, as the represented space approximates the solution space. With many clusterings surrounding the ground truth, consensus clustering is also more likely to find a result close to the ground truth, as its goal of combining clusterings aims to find a result in the center of the solution space spanned by the clusterings. In the MDS plot, the user can also once again select points by clicking. Additionally, dragging and selecting multiple points at once is possible here as well. Besides this, all functionality available in simple scatter plots can be used here, e.g. editing the range of shown values.
 
 \begin{figure}[h]
 	\centering
@@ -497,9 +509,9 @@ With the ``Save'' button in the top row, a consensus function can be chosen in t
 
 When this button is pressed, a dialog window opens if the consensus function supports defining the number of clusters in the result. With this, the user can define this parameter to force this number of clusters or leave the field empty when the function should try to estimate this parameter itself (Figure \ref{fig:choosek_window}).
 
-\begin{figure}[h]
+\begin{figure}[H]
 	\centering
-	\includegraphics[scale=.6]{choosek_window}
+	\includegraphics[scale=.7]{choosek_window}
 	\caption{Input for Number of target Clusters for Consensus}
 	\label{fig:choosek_window}
 \end{figure}
@@ -665,38 +677,42 @@ To show that the tool is able to find better solutions than just the ones produc
 Creating base clusterings and applying consensus functions are well-known methods, but there was previously no tool allowing to perform these steps as easily with a visual interface. Using this tool, a user is able to find better results than the individual ones created by sampling the parameters for the different clustering algorithms. This is the case as the combined knowledge through consensus clustering can be more powerful than an individual algorithm due to information from other results being ignored when deciding on a sampled solution.
 
 \subsubsection{k-Means}
+
+To illustrate this, a synthetic data-set with three Gaussian distributed clusters with different standard deviations is used in this example, it can be seen in Figure \ref{fig:better_base}.
+
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=.4]{better_base}
+	\includegraphics[scale=.5]{better_base}
 	\caption{Synthetic Data with Ground Truth}
 	\label{fig:better_base}
 \end{figure}
+
+Now as this data-set is quite simple, let us create the base clusterings using Lloyd's k-Means algorithm. To increase the knowledge that can be extracted from the results, $k$ can simply be sampled in a large range. In this example, it is sampled in the range of $2$ to $20$ computing $6$ results for each $k$, see Figure \ref{fig:better_base_wf}. Using such a larger range, even if an approximate $k$ is known is often useful as the additional information of possible smaller local clusters can be integrated. Also, as a poor value for $k$ leads to less robust results, the clusterings should differ more strongly and the randomness of the result should not make the information from small clusters to dominant.
+
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=.75]{better_base_wf}
 	\caption{Workflow for example Data-Set in Figure \ref{fig:better_base}}
 	\label{fig:better_base_wf}
 \end{figure}
-\begin{figure}[h]
-	\centering
-	\includegraphics[scale=.4]{better_base_best}
-	\caption{Result of best k-Means run for example Data-Set in Figure \ref{fig:better_base}}
-	\label{fig:better_base_best}
-\end{figure}
-\begin{figure}[h]
-	\centering
-	\includegraphics[scale=.4]{better_base_consensus}
-	\caption{Consensus Result for example Data-Set in Figure \ref{fig:better_base}}
-	\label{fig:better_base_consensus}
-\end{figure}
-
-To illustrate this, a synthetic data-set with three Gaussian distributed clusters with different standard deviations is used in this example, it can be seen in Figure \ref{fig:better_base}.
-
-Now as this data-set is quite simple, let us create the base clusterings using Lloyd's k-Means algorithm. To increase the knowledge that can be extracted from the results, $k$ can simply be sampled in a large range. In this example, it is sampled in the range of $2$ to $20$ computing $6$ results for each $k$, see Figure \ref{fig:better_base_wf}. Using such a larger range, even if an approximate $k$ is known is often useful as the additional information of possible smaller local clusters can be integrated. Also, as a poor value for $k$ leads to less robust results, the clusterings should differ more strongly and the randomness of the result should not make the information from small clusters to dominant.
 
 The best result resulting from a single clustering run is for k-Means with $k=3$ with a Normalized Mutual Information (NMI) score of around $0.886$. This result can be seen in Figure \ref{fig:better_base_best} 
 
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=.5]{better_base_best}
+	\caption{Result of best k-Means run for example Data-Set in Figure \ref{fig:better_base}}
+	\label{fig:better_base_best}
+\end{figure}
+
 One can see that the simple k-Means algorithm has difficulties with clusters with strongly differing spread and assigns points belonging to the green cluster to the red one. One way to fix this problem could be to use a better fitting algorithm like EM clustering, though such a choice may not be obvious with higher-dimensional data. To still find a good result, the information gathered from the other runs can be included through consensus clustering. Using the Co-Association Matrix with Average Link strategy and trusting the Lifetime criterion for the choice of $k$ we obtain exactly the same cluster assignments as in the ground truth, see Figure \ref{fig:better_base_consensus}. Here, all clusterings were included for consensus by dragging the threshold bar in the OPTICS plot to the very top.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=.5]{better_base_consensus}
+	\caption{Consensus Result for example Data-Set in Figure \ref{fig:better_base}}
+	\label{fig:better_base_consensus}
+\end{figure}
 
 With the information of all clusterings taken into account through consensus clustering, the consensus result has an NMI of $1$ when compared with the ground truth, showing that this combined result is better than any individual run, as it is not only similar but equal to the ground truth. Still, it is important to note that the Lifetime criterion may fail to find an ideal choice for $k$ automatically. To overcome this, DICLENS can alternatively be used as it is better at defining $k$, although it has a much higher computational cost. It is also always possible to define $k$ by hand whenever this information is available.
 
@@ -705,7 +721,7 @@ Another example data-set is Zahn's Compound \cite{1671676} which combines multip
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=.4]{zahn}
+	\includegraphics[scale=.5]{zahn}
 	\caption{Zahn's Compound Data-Set with Labels \ref{fig:better_base}}
 	\label{fig:zahn}
 \end{figure}
@@ -714,13 +730,13 @@ Sampling 200 runs of DBSCAN by fixing minPTS to $5$ and randomly picking $\epsil
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=.4]{zahn_best}
+	\includegraphics[scale=.5]{zahn_best}
 	\caption{Best single Clustering Result for Zahn's Compound Data-Set}
 	\label{fig:zahn_best}
 \end{figure}
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=.4]{zahn_consensus}
+	\includegraphics[scale=.5]{zahn_consensus}
 	\caption{Consensus Result for Zahn's Compound Data-Set}
 	\label{fig:zahn_consensus}
 \end{figure}
@@ -738,7 +754,7 @@ Single clustering algorithms may not be able to find the structure of a data-set
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=.4]{unob}
+	\includegraphics[scale=.5]{unob}
 	\caption{Example Data-Set with different Cluster-Structures and Labels}
 	\label{fig:unob}
 \end{figure}
@@ -752,9 +768,9 @@ To produce base clusterings k-Means was run choosing $k$ between $2$ and $20$ cr
 	\label{fig:unob_wf}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[H]
 	\centering
-	\includegraphics[scale=.4]{unob_optics_stable}
+	\includegraphics[scale=.6]{unob_optics_stable}
 	\caption{OPTICS reachability plot for Workflow in Figure \ref{fig:unob_wf}}
 	\label{fig:unob_optics_stable}
 \end{figure}
@@ -767,35 +783,35 @@ Looking at the results of the different algorithms exactly this behavior can be 
 \centering
 \begin{subfigure}[t]{.49\textwidth}
   \centering
-  \includegraphics[width=.95\linewidth]{unob_k3}
+  \includegraphics[width=.98\linewidth]{unob_k3}
   \caption{K-Means with $k=3$}
   \label{fig:unob_k3}
 \end{subfigure}
 \hfill
 \begin{subfigure}[t]{.49\textwidth}
   \centering
-  \includegraphics[width=.95\linewidth]{unob_k4ex}
+  \includegraphics[width=.98\linewidth]{unob_k4ex}
   \caption{K-Means with $k=4$}
   \label{fig:unob_k4ex}
 \end{subfigure}
 \medskip
 \begin{subfigure}[t]{.49\textwidth}
   \centering
-  \includegraphics[width=.95\linewidth]{unob_k5ex}
+  \includegraphics[width=.98\linewidth]{unob_k5ex}
   \caption{K-Means with $k=5$}
   \label{fig:unob_k5ex}
 \end{subfigure}
 \hfill
 \begin{subfigure}[t]{.49\textwidth}
   \centering
-  \includegraphics[width=.95\linewidth]{unob_best}
+  \includegraphics[width=.98\linewidth]{unob_best}
   \caption{DBSCAN, the best single Clustering Result}
   \label{fig:unob_best}
 \end{subfigure}
 \medskip
 \begin{subfigure}[t]{.49\textwidth}
 	\centering
-	\includegraphics[width=.95\linewidth]{unob_stable}
+	\includegraphics[width=.98\linewidth]{unob_stable}
 	\caption{Selected robust Clustering from Figure \ref{fig:unob_optics_stable}}
 	\label{fig:unob_stable}
 \end{subfigure}
@@ -808,7 +824,7 @@ Here, the red cluster can not be found with partitioning methods such as k-Means
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=.4]{unob_consensus}
+	\includegraphics[scale=.5]{unob_consensus}
 	\caption{Consensus Result for Data-Set in Figure \ref{fig:unob}}
 	\label{fig:unob_consensus}
 \end{figure}
@@ -821,7 +837,7 @@ Finding which clustering solution is best for an unexplored data-set can be non-
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=.4]{multi}
+	\includegraphics[scale=.5]{multi}
 	\caption{Example Data-Set with unknown Labels}
 	\label{fig:multi}
 \end{figure}
@@ -830,9 +846,9 @@ Visually, it is already difficult to decide how many clusters can be seen. The p
 
 To generate base clusterings k-Means was used, varying the value for $k$ between $2$ and $10$ and computing $10$ samples for each value. Trivial solutions were omitted and no ground truth was added as none is available. With the workflow defined, it is executed also performing OPTICS for meta-clustering using the default MinPTS and $\epsilon$. With the ordering resulting from the OPTICS algorithm, the heat map for the resulting clusterings is created and can be seen in Figure \ref{fig:multi_heatmap}.
 
-\begin{figure}[h]
+\begin{figure}[H]
 	\centering
-	\includegraphics[scale=.4]{multi_heatmap}
+	\includegraphics[scale=.6]{multi_heatmap}
 	\caption{Heat Map of Meta-Clustering for Data-Set in Figure \ref{fig:multi}}
 	\label{fig:multi_heatmap}
 \end{figure}
@@ -841,7 +857,7 @@ In this heat map, hierarchical structures of similar clustering results can alre
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=.4]{multi_optics}
+	\includegraphics[scale=.6]{multi_optics}
 	\caption{OPTICS Plot of Meta-Clustering for Data-Set in Figure \ref{fig:multi}}
 	\label{fig:multi_optics}
 \end{figure}
@@ -852,28 +868,28 @@ To create result candidates, the consensus is computed with the Co-Association M
 \centering
 \begin{subfigure}[t]{.49\textwidth}
   \centering
-  \includegraphics[width=.95\linewidth]{multi_c6}
+  \includegraphics[width=.98\linewidth]{multi_c6}
   \caption{Consensus Result for blue Cluster\\(19 base clu.)}
   \label{fig:multi_c6}
 \end{subfigure}
 \hfill
 \begin{subfigure}[t]{.49\textwidth}
   \centering
-  \includegraphics[width=.95\linewidth]{multi_c5_2}
+  \includegraphics[width=.98\linewidth]{multi_c5_2}
   \caption{Consensus Result for light-blue Cluster (14 base clu.)}
   \label{fig:multi_c5_2}
 \end{subfigure}
 \medskip
 \begin{subfigure}[t]{.49\textwidth}
   \centering
-  \includegraphics[width=.95\linewidth]{multi_c4}
+  \includegraphics[width=.98\linewidth]{multi_c4}
   \caption{Consensus Result for pink Cluster\\(9 base clu.)}
   \label{fig:multi_c4}
 \end{subfigure}
 \hfill
 \begin{subfigure}[t]{.49\textwidth}
   \centering
-  \includegraphics[width=.95\linewidth]{multi_c5_1}
+  \includegraphics[width=.98\linewidth]{multi_c5_1}
   \caption{Consensus Result for yellow Cluster\\(8 base clu.)}
   \label{fig:multi_c5_1}
 \end{subfigure}
@@ -898,16 +914,16 @@ At first, the user tried sampling k-Means with $k$ in the range $2$ to $20$ crea
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=.5]{user_qcm_optics}
+	\includegraphics[scale=.6]{user_qcm_optics}
 	\caption{OPTICS Plot with applied Filter}
 	\label{fig:user_qcm_optics}
 \end{figure}
 
 With this knowledge, the clusterings were re-computed only using $k$ in the range $2$ to $10$. The resulting reachability plot now more clearly shows robust groups of solutions, the threshold choice of the user can be seen in Figure \ref{fig:user_qcm_optics2}.
 
-\begin{figure}[h]
+\begin{figure}[H]
 	\centering
-	\includegraphics[scale=.5]{user_qcm_optics2}
+	\includegraphics[scale=.6]{user_qcm_optics2}
 	\caption{OPTICS Plot after improved Sampling}
 	\label{fig:user_qcm_optics2}
 \end{figure}
@@ -918,7 +934,7 @@ The second data-set \cite{wireless} contains signal strength data from smartphon
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=.4]{user_wifi_gt}
+	\includegraphics[scale=.5]{user_wifi_gt}
 	\caption{WiFi Localization Data-Set with first two Dimensions shown}
 	\label{fig:user_wifi_gt}
 \end{figure}
@@ -927,7 +943,7 @@ To start off, the user tried creating clustering solutions using DBSCAN, but in 
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=.5]{user_wifi_optics}
+	\includegraphics[scale=.6]{user_wifi_optics}
 	\caption{OPTICS Plot for WiFi Localization Data-Set}
 	\label{fig:user_wifi_optics}
 \end{figure}
@@ -960,7 +976,7 @@ Lastly, the user was tasked to find the best clustering result he can for the Ir
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=.4]{iris2}
+	\includegraphics[scale=.5]{iris2}
 	\caption{First two dimensions of Iris Data-Set}
 	\label{fig:iris}
 \end{figure}
@@ -969,7 +985,7 @@ The user assumed that those attributes may be Gaussian distributed with possibly
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=.4]{user_iris_optics}
+	\includegraphics[scale=.6]{user_iris_optics}
 	\caption{OPTICS Plot with user-defined Threshold}
 	\label{fig:user_iris_optics}
 \end{figure}
@@ -978,7 +994,7 @@ With this definition, he computed consensus results for all groups, which result
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=.4]{user_iris_best}
+	\includegraphics[scale=.5]{user_iris_best}
 	\caption{First two dimensions of Clustering Solution for Iris Data-Set}
 	\label{fig:user_iris_best}
 \end{figure}
