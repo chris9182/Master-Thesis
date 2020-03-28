@@ -258,7 +258,7 @@ The Expectation Maximization (EM) algorithm \cite{10.2307/2984875} aims to itera
 This can be applied for clustering by defining the model as a Gaussian mixture and running this EM algorithm such that the best model, given the parameter $k$, is found. A benefit of this can be that Gaussian clusters with different distribution parameters can more easily be found than with k-Means.
 
 \subsection{DBSCAN}
-Density-Based Spatial Clustering of Application with Noise (DBSCAN) \cite{10.5555/3001460.3001507} is an algorithm, that unlike k-Means, is not based on partitioning the data directly but on searching for dense regions in the data. For the calculation, two parameters are needed, namely epsilon ($\epsilon$) and a minimum number of objects ($\mu$ or MinPts). The parameter $\epsilon$ defines how large a region may be considered for neighborhood search and $\mu$ defines how many objects must be within that region for it to be considered dense. The following explanations are needed for a full understanding of the algorithm:
+Density-Based Spatial Clustering of Application with Noise (DBSCAN) \cite{10.5555/3001460.3001507} is an algorithm, that unlike k-Means, is not based on partitioning the data directly but on searching for dense regions in the data. For the calculation, two parameters are needed, namely epsilon ($\epsilon$) and a minimum number of objects ($\mu$ or $minPts$). The parameter $\epsilon$ defines how large a region may be considered for neighborhood search and $\mu$ defines how many objects must be within that region for it to be considered dense. The following explanations are needed for a full understanding of the algorithm:
 \newline
 
 When defining the neighborhood within the epsilon range for an object $p$ as $N_\epsilon(p)$, the algorithm considers an object $p$ as a core-object if $|N_\epsilon(p)|\geq \mu$.
@@ -278,20 +278,20 @@ Also, the relationship between $\epsilon$ and $\mu$ is interesting to observe in
 
 
 \subsection{OPTICS}\label{sec:opticstheory}
-Ordering Points To Identify the Clustering Structure or OPTICS \cite{10.1145/304181.304187} is an extension of DBSCAN whereby DBSCAN's Epsilon $\epsilon$ parameter is used in a different manner. It also has a parameter MinPts which has a similar meaning as the $\mu$ parameter of DBSCAN. The idea is that different distance parameters are used in each step such that density-based clusters with different densities can be found simultaneously. To achieve this, the  $\epsilon$ parameter only defines the maximum distance for which points can be considered reachable and the actual reachability distance for two objects is computed as:
-$$reachability\text{-}distance_{\epsilon,MinPts}(p,o)=$$
+Ordering Points To Identify the Clustering Structure or OPTICS \cite{10.1145/304181.304187} is an extension of DBSCAN whereby DBSCAN's Epsilon $\epsilon$ parameter is used in a different manner. It also has a parameter $minPts$ which has a similar meaning as the $\mu$ parameter of DBSCAN. The idea is that different distance parameters are used in each step such that density-based clusters with different densities can be found simultaneously. To achieve this, the  $\epsilon$ parameter only defines the maximum distance for which points can be considered reachable and the actual reachability distance for two objects is computed as:
+$$reachability\text{-}distance_{\epsilon,minPts}(p,o)=$$
 $$
 \begin{cases}
-    \text{UNDEFINED},& \text{if } |N_\epsilon(p)|< \text{MinPts}\\
+    \text{UNDEFINED},& \text{if } |N_\epsilon(p)|< minPts\\
     max(core\text{-}distance(o),distance(o,p)),              & \text{otherwise}
 \end{cases}
 $$
 whereby:
-$$core\text{-}distance_{\epsilon,MinPts}(p)=$$
+$$core\text{-}distance_{\epsilon,minPts}(p)=$$
 $$
 \begin{cases}
-    \text{UNDEFINED},& \text{if } |N_\epsilon(p)|< \text{MinPts}\\
-    MinPts\text{-}distance(p),              & \text{otherwise}
+    \text{UNDEFINED},& \text{if } |N_\epsilon(p)|< minPts\\
+    minPts\text{-}distance(p),              & \text{otherwise}
 \end{cases}
 $$
 
@@ -726,7 +726,7 @@ Another example data-set is Zahn's Compound \cite{1671676} which combines multip
 	\label{fig:zahn}
 \end{figure}
 
-Sampling 200 runs of DBSCAN by fixing minPTS to $5$ and randomly picking $\epsilon$ between $0.01$ and $0.5$ (which is roughly the range where non-trivial clusterings can result) gives us a best result with an NMI of $0.896$. It can be seen in Figure \ref{fig:zahn_best}. The points colored in white in Figure \ref{fig:zahn_best} indicate points that DBSCAN considered noise, for the calculation of the NMI and in all other parts of the tool they are considered to belong to a common cluster.
+Sampling 200 runs of DBSCAN by fixing $minPTS$ to $5$ and randomly picking $\epsilon$ between $0.01$ and $0.5$ (which is roughly the range where non-trivial clusterings can result) gives us a best result with an NMI of $0.896$. It can be seen in Figure \ref{fig:zahn_best}. The points colored in white in Figure \ref{fig:zahn_best} indicate points that DBSCAN considered noise, for the calculation of the NMI and in all other parts of the tool they are considered to belong to a common cluster.
 
 \begin{figure}[h]
 	\centering
@@ -844,7 +844,7 @@ Finding which clustering solution is best for an unexplored data-set can be non-
 
 Visually, it is already difficult to decide how many clusters can be seen. The points on the left and right can be seen as one or two clusters each, but one could even claim that one side consists of one and the other two clusters. For this small data-set such claims can still easily be made but with more dimensions, such thoughts become more complex. For this reason, we will show how different results can be found using our tool, by regarding indicators of robustness for the results.
 
-To generate base clusterings k-Means was used, varying the value for $k$ between $2$ and $10$ and computing $10$ samples for each value. Trivial solutions were omitted and no ground truth was added as none is available. With the workflow defined, it is executed also performing OPTICS for meta-clustering using the default MinPTS and $\epsilon$. With the ordering resulting from the OPTICS algorithm, the heat map for the resulting clusterings is created and can be seen in Figure \ref{fig:multi_heatmap}.
+To generate base clusterings k-Means was used, varying the value for $k$ between $2$ and $10$ and computing $10$ samples for each value. Trivial solutions were omitted and no ground truth was added as none is available. With the workflow defined, it is executed also performing OPTICS for meta-clustering using the default $minPTS$ and $\epsilon$. With the ordering resulting from the OPTICS algorithm, the heat map for the resulting clusterings is created and can be seen in Figure \ref{fig:multi_heatmap}.
 
 \begin{figure}[H]
 	\centering
