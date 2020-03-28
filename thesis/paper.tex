@@ -157,8 +157,6 @@ In addition to visual frameworks for clustering, visual parameter space analysis
 
 There are also a few tools that implement additional visualizations for consensus clustering. An example is ConsensusClusterPlus \cite{10.1093/bioinformatics/btq170}, which visualizes the co-association matrix created from the base clusterings. This matrix represents how often two points occur in a common cluster relative to the number of base clusterings. When looking at this as a heat map, a clear block structure is supposed to indicate a good choice for the parameter $k$ which defines the number of clusters in the base results. It also implements Consensus Cumulative Distribution Function (CDF) Plots and Delta Area Plots, showing the CDF of the consensus matrix for each parameter $k$ and relative change for consecutive values of $k$. The Delta Area Plot is supposed to allow the user to determine a value $k$ at which the relative increase is negligible, similar to the elbow-method. Additional plots are also available, further enabling the user to compare the quality of consensus results regarding the parameter $k$.
 
-%%gram
-
 \section{Consensus Clustering}\label{sec:consensus}
 Consensus (or Ensemble) clustering aims to combine multiple clustering solutions for the same data-set into one result. This result should be representative for the combined knowledge acquired by all base clusterings and therefore be more robust and accurate than the average result at least. As the consensus result should lie in the center of the solution space spanned by the base clusterings, if there are sufficiently many good clusterings, it should be able to overcome problems arising from outliers. In literature, the problem of consensus clustering is often found under different names, those being cluster ensemble \cite{BOONGOEN20181}, clustering aggregation \cite{Gionis2005ClusteringA} and ensemble of partitions \cite{ensemblepartitions}. For the evaluation of the quality of a result, five main factors can be defined \cite{Ghaemi2009ASC,survey1}:\newline
 
@@ -206,7 +204,6 @@ Finite Mixture Model based methods define the consensus clustering problem simil
 
 \subsection{Median Partitioning}
 The main difference of Median Partitioning in comparison to Object Co-occurrence is that methods in this group tackle consensus clustering as an optimization problem. With the distance between clusterings defined, the task of finding a median partition is to look for a solution that would be in the center of the solution space spanned by the base clusterings. In other words, the resulting clustering should have a minimal sum of distances to all base clusterings. As this problem has been shown to be NP-hard \cite{np_median_partition}, heuristics must be used. The different groups of median partitioning methods can be roughly described through the methods that they are based on:
-%https://languagetool.org/
 
 \begin{itemize}
   \item Genetic Algorithms
@@ -315,8 +312,6 @@ Mimaroglu and Aksehirli \cite{DICLENS} also provide a Java implementation of the
 
 \subsection{Kuhn’s Hungarian method}\label{sec_kuhn}
 Kuhn’s Hungarian method \cite{Kuhn2010} can be used to solve the mathematical assignment problem for the two-dimensional case. A simple example of the assignment problem is to think of $n$ jobs and $n$ workers in a factory who demand a different payment for each specific job. Now the task is to find the optimal assignment whereby all jobs are performed, all workers are assigned a job and the total cost for all workers is minimal. The assignment problem also allows for reformulation such that the target value is maximized instead of minimized, whenever this fits the problem better and it can be extended to more than two dimensions. In the aforementioned example, an additional dimension could be the tools used, i.e. a worker demands a different payment depending on which task he has to perform with which tool being provided. Also, as an extension to make this more general each dimension may not necessarily need to have the same number of elements. If there are, for example, more workers than jobs, some workers will not be assigned a job.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%image?
 
 \subsection{Kernel Density Estimation}
 Kernel Density Estimation aims to estimate the probability density function for a random variable \cite{parzen1962estimation}. Given a sample of points, one is interested in the shape of the unknown density function of the distribution from which the points are drawn. To estimate this function a kernel density estimator is used, requiring a kernel function and a bandwidth parameter. For the kernel function, many different choices are possible, typical ones are Gaussian, multivariate Student and Laplacian kernels \cite{kim2011robust}. The bandwidth parameter defines the smoothness of the resulting function and can be difficult to manually set. For this reason, estimates based on the standard deviation of the samples are available for this parameter \cite{rulethumbdens}.
@@ -556,14 +551,11 @@ Data manipulation can be performed as a first step in the data-view to create da
   \item Normalizers: INormalizer
 \end{itemize}
 
-%maybe show interface definitions?
 \subsubsection{Generators}
 Generators allow the user to add or replace data points, two initial implementations for generators are available. Firstly, there is the SinglePointGenerator, which allows adding points to the data by clicking the scatter plot. When a point is added this way its coordinates are set to where the user clicked on the screen translated into the coordinates of the data space, such that the point appears below the cursor. Secondly, the ELKIGenerator is available which uses an XML-style input, defining how the clusters should be generated. This class uses the GeneratorXMLDatabaseConnection of ELKI \cite{10.1007/978-3-540-69497-7_41} and is able to create data points according to different random distributions. The definitions file for this input can be found in ELKI's JAR file, their GIT repository \cite{elkixml} or in the /lib folder of our implementation.
 
-%implement SamplingReducer?
 \subsubsection{Reducers}
 Reducers allow the user to manipulate the data such that the dimensionality or potentially (in the future) the number of points can be reduced. Per default three dimensionality reduction techniques are available. The simplest one, DimensionRemover, enables the user to just define a dimension by its index and delete it. This can be useful if the data is not well cleaned beforehand and irrelevant or possibly disrupting columns are present in the data. For more advanced dimensionality reduction, the PCAReducer and tSNEReducer are available. The PCAReducer, which is adapted from the implementation from Smile \cite{javasmile} uses Principal Component Analysis \cite{pca} to reduce the dimensionality of the data to what the user-defined. In contrast, the tSNEReducer adapted from Jonsson \cite{javatsne} uses t-Distributed Stochastic Neighbor Embedding \cite{Maaten2008VisualizingDU} and also requires a perplexity parameter.
-%perplexity???????
 
 \subsubsection{Normalizers}
 Normalizers provide functionality for normalizing the data points. This may be useful whenever different dimensions contain values in strongly differing ranges, while their concrete values do not have any direct relation to the other dimensions \cite{normalization}. Here, two default implementations are available, Normalize and Standardize. The Normalize class adapts the values such that in each dimension the range is set to the interval $[0,1]$ while preserving relative distances. The Standardize class adapts these ranges such that the average is $0$ and the standard deviation is $1$.
@@ -908,7 +900,6 @@ This way of finding multiple solutions may also prove useful when a data-set may
 To experimentally test how easy it is to find good clustering solutions, three test-scenarios where created and a fellow computer science student was tasked to find solutions and explain his findings. To again make the results reproducible, the random seed was fixed at $1$ and the ground truth was not shown to the user.
 
 The first data-set (QCM3) \cite{qcm} includes QCM sensor data where different types of alcohol were passed through the sensor in different concentrations. The task was to find how many types of alcohol were tested and to find the clusters representing each type.
-%%img?
 
 At first, the user tried sampling k-Means with $k$ in the range $2$ to $20$ creating $10$ solutions each. Doing this, he looked at which values for $k$ resulted in outlying/non-robust results. When filtering for solutions with $\leq10$ clusters, it was easy to see that the results with more than $10$ clusters produce poor solutions. The effect of which clusterings are filtered out this way can be seen in Figure \ref{fig:user_qcm_optics}.
 
