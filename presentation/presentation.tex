@@ -24,6 +24,7 @@
 \usepackage[absolute,overlay]{textpos}
 \usepackage{graphicx}
 \usepackage{hyperref}
+\usepackage{subcaption}
 \usepackage{animate}
 \graphicspath{ {../thesis/img/} }
 
@@ -171,6 +172,8 @@ Idea:
 		\end{itemize}
 	\end{itemize}
 
+Aim: Facilitating use through clear separation
+
 \end{frame}
 
 \begin{frame}{The Tool: Data-View}
@@ -238,19 +241,219 @@ Ease of extension:
 \end{frame}
 
 
-\begin{frame}{Tests}
-	
+\begin{frame}{Tests: Introduction}
+We want to show that with our tool we can:
+
 	\begin{itemize}
-		\item bla
+		\item Produce solutions better than any individual clustering result
+		\item Obtain solutions unobtainable by single methods
+		\item Find multiple alternative solutions which can be analyzed to find a fitting choice
+		\item[]
 	\end{itemize}
 
+And do so in a straightforward and useful way:
+	\begin{itemize}
+		\item Letting a user test our tool
+		\item Also showing real world test data-sets
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Tests: Better than individual Solutions}
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=.64\textwidth]{better_base}
+		\caption{Synthetic Data with Ground Truth}
+		\label{fig:better_base}
+	\end{figure}
+\end{frame}
+
+\begin{frame}{Tests: Better than individual Solutions}
+Best individual result when sampling Lloyd's k-Means algorithm with \newline $k=2...20$ and $6$ samples per $k$:
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=.64\textwidth]{better_base_best}
+		\caption{Result of best k-Means run for example Data-Set}
+		\label{fig:better_base_best}
+	\end{figure}
+Combining all solutions finds the ground truth exactly (without defining $k$)
+\end{frame}
+
+\begin{frame}{Tests: Unobtainable Solutions}
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=.64\textwidth]{unob}
+		\caption{Synthetic Data with Ground Truth}
+		\label{fig:better_base}
+	\end{figure}
+\end{frame}
+
+\begin{frame}{Tests: Unobtainable Solutions}
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=.4\textwidth]{unob_wf}
+		\label{fig:unob_wf}
+	\end{figure}
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=.64\textwidth]{unob_optics_stable}
+		\caption{OPTICS reachability plot}
+		\label{fig:unob_optics_stable}
+	\end{figure}
+\end{frame}
+
+
+\begin{frame}{Tests: Unobtainable Solutions}
+	\begin{figure}[h]
+	\centering
+	\begin{subfigure}[t]{.32\textwidth}
+		  \centering
+		  \includegraphics[width=.99\linewidth]{unob_k3}
+		  \caption{K-Means with $k=3$}
+		  \label{fig:unob_k3}
+	\end{subfigure}
+	\begin{subfigure}[t]{.32\textwidth}
+		  \centering
+		  \includegraphics[width=.99\linewidth]{unob_k4ex}
+		  \caption{K-Means with $k=4$}
+		  \label{fig:unob_k4ex}
+	\end{subfigure}
+	\begin{subfigure}[t]{.32\textwidth}
+		  \centering
+		  \includegraphics[width=.99\linewidth]{unob_k5ex}
+		  \caption{K-Means with $k=5$}
+		  \label{fig:unob_k5ex}
+	\end{subfigure}
+	\begin{subfigure}[t]{.32\textwidth}
+		  \centering
+		  \includegraphics[width=.99\linewidth]{unob_best}
+		  \caption{DBSCAN, best single Result}
+		  \label{fig:unob_best}
+	\end{subfigure}
+	\begin{subfigure}[t]{.32\textwidth}
+		\centering
+		\includegraphics[width=.99\linewidth]{unob_stable}
+		\caption{Selected robust Clustering}
+		\label{fig:unob_stable}
+	\end{subfigure}
+	\begin{subfigure}[t]{.32\textwidth}
+		\centering
+		\includegraphics[width=.99\linewidth]{unob_consensus}
+		\caption{Consensus Result}
+		\label{fig:unob_consensus}
+	\end{subfigure}	
+	\caption{Single Clustering results for Data-Set}
+	\label{fig:single}
+	\end{figure}
+\end{frame}
+
+\begin{frame}{Tests: Multiple Solutions}
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=.64\textwidth]{multi}
+		\caption{Example Data-Set with unknown Labels}
+		\label{fig:multi}
+	\end{figure}
+\end{frame}
+
+
+\begin{frame}{Tests: Multiple Solutions}
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=.64\textwidth]{multi_optics}
+		\caption{OPTICS Plot}
+		\label{fig:multi_optics}
+	\end{figure}
+\end{frame}
+
+
+\begin{frame}{Tests: Multiple Solutions}
+	\begin{figure}[h]
+	\centering
+	\begin{subfigure}[t]{.35\textwidth}
+		  \centering
+		  \includegraphics[width=.99\linewidth]{multi_c6}
+		  \caption{Blue Cluster (19 base clu.)}
+		  \label{fig:multi_c6}
+	\end{subfigure}
+	\begin{subfigure}[t]{.35\textwidth}
+		  \centering
+		  \includegraphics[width=.99\linewidth]{multi_c5_2}
+		  \caption{Light-blue Cluster (14 base clu.)}
+		  \label{fig:multi_c5_2}
+	\end{subfigure}
+	\begin{subfigure}[t]{.35\textwidth}
+		  \centering
+		  \includegraphics[width=.99\linewidth]{multi_c4}
+		  \caption{Pink Cluster (9 base clu.)}
+		  \label{fig:multi_c4}
+	\end{subfigure}
+	\begin{subfigure}[t]{.35\textwidth}
+		  \centering
+		  \includegraphics[width=.99\linewidth]{multi_c5_1}
+		  \caption{Yellow Cluster (8 base clu.)}
+		  \label{fig:multi_c5_1}
+	\end{subfigure}
+	
+	\caption{Consensus Clustering results}
+	\label{fig:multi_consres}
+	\end{figure}
+\end{frame}
+
+\begin{frame}{Tests: User \& Real world data}
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=.64\textwidth]{user_wifi_gt}
+		\caption{WiFi Localization Data-Set with first two Dimensions shown}
+		\label{fig:user_wifi_gt}
+	\end{figure}
+\end{frame}
+
+\begin{frame}{Tests: User \& Real world data}
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=.64\textwidth]{user_wifi_optics}
+		\caption{OPTICS Plot for WiFi Localization Data-Set}
+		\label{fig:user_wifi_optics}
+	\end{figure}
+\end{frame}
+
+\begin{frame}{Tests: User \& Real world data}
+
+	\begin{figure}[h]
+		\centering
+		\begin{subfigure}[t]{.49\textwidth}
+			  \centering
+			  \includegraphics[width=.99\linewidth]{user_wifi_consensus}
+			  \caption{User Consensus Result:\\NMI: 0.9142\\ blue (largest) Meta-Cluster}
+			  \label{fig:user_wifi_consensus}
+		\end{subfigure}
+		\hfill
+		\begin{subfigure}[t]{.49\textwidth}
+			  \centering
+			  \includegraphics[width=.99\linewidth]{user_wifi_best}
+			  \caption{Best Result of single Clustering Run\\NMI: 0.8904}
+			  \label{fig:user_wifi_best}
+		\end{subfigure}
+		
+		\caption{Clustering results for WiFi Localization Data-Set}
+		\label{fig:user_wifi}
+	\end{figure}
 \end{frame}
 
 
 \begin{frame}{Future Work}
-
+Further evaluating usability:
 	\begin{itemize}
-	 	\item bla
+	 	\item Additional study on usability
+		\item Gathering information on which parts are especially useful
+		\item Evaluating alternative views and functionality
+		\item[]
+	\end{itemize}
+
+Research on consensus clustering:
+	\begin{itemize}
+	 	\item Analysis of generation/selection mechanisms
+		\item Evaluation of selection criteria (is there a better choice than robustness)
 	\end{itemize}
 
 \end{frame}
@@ -259,7 +462,17 @@ Ease of extension:
 \begin{frame}{Conclusion}
 
 	\begin{itemize}
-		\item bla
+		\item We created a new visual tool for cluster analysis:
+		\begin{itemize}
+		 	\item Visualizing clusterings on a meta-level
+			\item Showing groups of robust clusterings
+			\item Allowing to find solutions using consensus clustering
+		\end{itemize}
+		\item We showed:
+		\begin{itemize}
+		 	\item Robust groups indicate good results
+		 	\item Combined results facilitate choice and can be better than any individual result
+		\end{itemize}
 		\item[]
 		\item Link to the tool:
 		\begin{itemize}
