@@ -23,6 +23,7 @@
 \usepackage[font=small]{caption}
 \usepackage[absolute,overlay]{textpos}
 \usepackage{graphicx}
+\usepackage{hyperref}
 \usepackage{animate}
 \graphicspath{ {../thesis/img/} }
 
@@ -146,16 +147,7 @@ Idea:
 	\begin{itemize}
 		\item Combine group of robust solutions into one
 	\end{itemize}
-
 \end{frame}
-
-\begin{frame}{Idea of our Tool: Ease of Use}
-	\begin{itemize}
-		\item bla
-	\end{itemize}
-
-\end{frame}
-
 
 \begin{frame}{The Tool}
 	
@@ -185,9 +177,20 @@ Idea:
 	
 	\begin{figure}
 	  \centering
-	    \includegraphics[width=.6\textwidth]{unob}
-	  \caption{Data-View of the Tool}
+	    \includegraphics[width=.64\textwidth]{unob}
+	  \caption{Data-View}
 	  \label{fig:data-view}
+	\end{figure}
+
+\end{frame}
+
+\begin{frame}{The Tool: Data-View - Scatter Plot Matrix}
+	
+	\begin{figure}
+	  \centering
+	    \includegraphics[width=.97\textwidth]{scatter_matrix}
+	  \caption{Scatter Plot Matrix}
+	  \label{fig:scatter_matrix}
 	\end{figure}
 
 \end{frame}
@@ -197,7 +200,7 @@ Idea:
 	\begin{figure}
 	  \centering
 	    \includegraphics[width=.7\textwidth]{workflow-view-tasks}
-	  \caption{Workflow-View of the Tool}
+	  \caption{Workflow-View}
 	  \label{fig:workflow-view}
 	\end{figure}
 
@@ -205,22 +208,33 @@ Idea:
 
 \begin{frame}{The Tool: Meta-View}
 	
-\begin{figure}
-  \centering
-    \includegraphics[width=.8\textwidth]{meta-view}
-  \caption{Meta-View of the Tool}
-  \label{fig:meta-view}
-\end{figure}
+	\begin{figure}
+	  \centering
+	    \includegraphics[width=.9\textwidth]{meta-view}
+	  \caption{Meta-View}
+	  \label{fig:meta-view}
+	\end{figure}
 
 \end{frame}
 
 
 \begin{frame}{Implementation}
-
+Used tools:
 	\begin{itemize}
-		\item bla
+		\item Java 1.8, utilizing Streams for parallelization
+		\item Libraries:
+		\begin{itemize}
+			\item  ELKI \cite{10.1007/978-3-540-69497-7_41} - Clustering
+			\item WEKA \cite{10.1145/1656274.1656278} - IO
+			\item Java Smile \cite{javasmile} - Additional Methods
+		\end{itemize}
+		\item Swing's JComponents and overriding the \emph{draw()} method
+		\item[]
 	\end{itemize}
-
+Ease of extension:
+	\begin{itemize}
+		\item All selectable methods provide simple interfaces
+	\end{itemize}
 \end{frame}
 
 
@@ -235,22 +249,27 @@ Idea:
 
 \begin{frame}{Future Work}
 
-\begin{itemize}
-  \item bla
-\end{itemize}
+	\begin{itemize}
+	 	\item bla
+	\end{itemize}
 
 \end{frame}
 
 
 \begin{frame}{Conclusion}
 
-\begin{itemize}
-  \item bla
-\end{itemize}
+	\begin{itemize}
+		\item bla
+		\item[]
+		\item Link to the tool:
+		\begin{itemize}
+			\item \url{https://github.com/chris9182/Visual_Cluster_Exploration}
+		\end{itemize}
+	\end{itemize}
 
 \end{frame}
 
-\begin{frame}{References}
+\begin{frame}[allowframebreaks]{References}
 \printbibliography
 \end{frame}
 
