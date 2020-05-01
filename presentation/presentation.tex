@@ -31,7 +31,7 @@
 \title[Consensus Clustering]{Tool for Visual Cluster Analysis and Consensus Clustering}
 \author{Christian Permann}
 \institute{Faculty of Computer Science, University of Vienna,\newline W\"ahringer Stra{\ss}e 29, 1090 Vienna}
-\date{TBD.04.2020}
+\date{12.05.2020}
 
 \begin{document}
 
@@ -75,6 +75,7 @@
 		\item Partition-based methods (KMeans-like algorithms)
 		\item Hierarchy-based methods (e.g. Joining of Sets/Linking)
 		\item Density-based methods (e.g. DBSCAN/OPTICS)
+		\item[]
 		\begin{itemize}
 			\item Many more...
 		\end{itemize}
@@ -216,6 +217,17 @@ Aim: Facilitating use through clear separation
 	    \includegraphics[width=.9\textwidth]{meta-view}
 	  \caption{Meta-View}
 	  \label{fig:meta-view}
+	\end{figure}
+
+\end{frame}
+
+\begin{frame}{Recoloring Clusterings for Comparison}
+	
+	\begin{figure}
+	  \centering
+	    \includegraphics[width=.51\textwidth]{my-hungarian}
+	  \caption{Depiction of Hungarian's Method }
+	  \label{fig:hungarian}
 	\end{figure}
 
 \end{frame}
@@ -436,6 +448,33 @@ Combining all solutions finds the ground truth exactly (without defining $k$)
 		\end{subfigure}
 		
 		\caption{Clustering results for WiFi Localization Data-Set}
+		\label{fig:user_wifi}
+	\end{figure}
+\end{frame}
+
+\begin{frame}{Tests: Finding a good Sampling Range}
+
+	\begin{itemize}
+	 	\item User testing on QCM3 data-set (different alcohols passed through sensors)
+		\item Sampling with K-Means Algorithm, 10 samples per $k$
+	\end{itemize}
+	\begin{figure}[h]
+		\centering
+		\begin{subfigure}[t]{.49\textwidth}
+			  \centering
+			  \includegraphics[width=.99\linewidth]{user_qcm_optics}
+			  \caption{K-Means results with: $k= 2..20$ \\ ($k>10$ grayed out)}
+			  \label{fig:user_wifi_consensus}
+		\end{subfigure}
+		\hfill
+		\begin{subfigure}[t]{.49\textwidth}
+			  \centering
+			  \includegraphics[width=.99\linewidth]{user_qcm_optics2}
+			  \caption{K-Means results with: $k= 2..10$}
+			  \label{fig:user_wifi_best}
+		\end{subfigure}
+		
+		\caption{OPTICS Plots for different Sampling Ranges}
 		\label{fig:user_wifi}
 	\end{figure}
 \end{frame}
