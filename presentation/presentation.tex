@@ -1,6 +1,6 @@
 \documentclass[aspectratio=169]{beamer}
-
 \usepackage[backend=bibtex]{biblatex}
+
 \bibliography{../thesis/references}
 %\bibliographystyle{ieeetr}
 %
@@ -16,6 +16,7 @@
   \usefonttheme{default}  % or try serif, structurebold, ...
   \setbeamertemplate{navigation symbols}{}
   \setbeamertemplate{caption}[numbered]
+  \setbeamertemplate{footline}[frame number]
 } 
 
 \usepackage[english]{babel}
@@ -33,7 +34,16 @@
 \institute{Faculty of Computer Science, University of Vienna,\newline W\"ahringer Stra{\ss}e 29, 1090 Vienna}
 \date{12.05.2020}
 
+\newcommand{\backupbegin}{
+   \newcounter{finalframe}
+   \setcounter{finalframe}{\value{framenumber}}
+}
+\newcommand{\backupend}{
+   \setcounter{framenumber}{\value{finalframe}}
+}
+
 \begin{document}
+
 
 \begin{frame}
   \titlepage
@@ -521,8 +531,12 @@ Research on consensus clustering:
 
 \end{frame}
 
+\appendix
+\backupbegin
+
 \begin{frame}[allowframebreaks]{References}
 \printbibliography
 \end{frame}
+\backupend
 
 \end{document}
